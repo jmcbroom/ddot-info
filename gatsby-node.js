@@ -19,24 +19,16 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
       }
     });
   }
-  actions.setWebpackConfig({
-    resolve: {
-      alias: {
-        "../../theme.config$": path.join(__dirname, "src/semantic/theme.config")
-      }
-    }
-  });
 };
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
-  const agencies = ["ddot", "smart", "the-ride", "transit-windsor"];
   const result = await graphql(`
     {
       postgres {
         routes: allRoutesList(condition: { feedIndex: 1 }) {
           agencyId
-          routeShortName
-          routeLongName
+          short: routeShortName
+          long: routeLongName
         }
         stops: allStopsList(condition: { feedIndex: 1 }) {
           feedIndex
@@ -48,21 +40,21 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   result.data.postgres.routes.forEach(r => {
     createPage({
-      path: `/route/${r.routeShortName}`,
+      path: `/route/${r.short}`,
       component: path.resolve("./src/templates/route-page.js"),
       context: {
-        routeNo: r.routeShortName
+        routeNo: r.short
       }
     });
   });
 
-  result.data.postgres.stops.forEach(stop => {
-    createPage({
-      path: `/stop/${stop.stopId}`,
-      component: path.resolve("./src/templates/stop-page.js"),
-      context: {
-        stopId: stop.stopId
-      }
-    });
-  });
+  // result.data.postgres.stops.forEach(stop => {
+  //   createPage({
+  //     path: `/stop/${stop.stopId}`,
+  //     component: path.resolve("./src/templates/stop-page.js"),
+  //     context: {
+  //       stopId: stop.stopId
+  //     }
+  //   });
+  // });
 };
