@@ -7,7 +7,7 @@ import routeDetails from "../data/routeDetails.js";
 import _ from "lodash";
 
 /** Linked route number and name with optional icons for RoutesList, NearbyList, StopTransfers and Stop */
-const RouteLink = ({ id, routeId, icons, direction = "North" }) => {
+const RouteLink = ({ id, routeId, icons, direction }) => {
   const route = _.find(routeDetails, a => {
     return a.number === parseInt(id, 10);
   });
