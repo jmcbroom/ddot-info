@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "gatsby";
 import PropTypes from "prop-types";
 import { Schedule } from "@material-ui/icons";
@@ -77,12 +77,12 @@ const RouteLink = ({ id, routeId, icons, direction }) => {
       </div>
       {icons ? (
         <div style={styles.icons}>
-          {/* <Link to={`/route/${id}/stops`}>
+          <Link to={`/route/${id}/stops`}>
             <Schedule style={styles.svg} />
           </Link>
           <Link to={`/route/${id}/schedule`}>
             <Schedule style={styles.svg} />
-          </Link> */}
+          </Link>
         </div>
       ) : (
         ``

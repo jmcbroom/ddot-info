@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import _ from "lodash";
+import { graphql } from 'gatsby'
 
 import Layout from "../components/Layout";
 import RouteHeader from "../components/RouteHeader";
@@ -8,30 +8,11 @@ import RouteStopList from "../components/RouteStopList";
 
 import Toolbar from "@material-ui/core/Toolbar";
 import { AppBar } from "@material-ui/core";
-import { Radio, RadioGroup } from "@material-ui/core";
-import { FormControl, FormControlLabel } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 
 import routeDetails from "../data/routeDetails";
-
-const DirectionPicker = ({ directions, direction, handleChange, endpoints }) => {
-  return (
-    <FormControl component="fieldset" required>
-      <RadioGroup name="directions" value={direction}>
-        {directions.map((s, i) => (
-          <FormControlLabel
-            key={s}
-            value={s}
-            control={<Radio />}
-            onChange={() => handleChange(s)}
-            label={window.innerWidth > 650 ? `${s} to ${endpoints[i]}` : `${direction}`}
-          />
-        ))}
-      </RadioGroup>
-    </FormControl>
-  );
-};
+import DirectionPicker from "../components/DirectionPicker";
 
 /** Search input for StopSearch */
 const StopInput = ({ input, handleChange }) => {
