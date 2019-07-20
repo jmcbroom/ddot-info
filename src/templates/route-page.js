@@ -11,7 +11,6 @@ export default ({ data, pageContext }) => {
 
   return (
     <Layout className="BusRoute">
-      {data.postgres.route.routeLongName}
       <RouteHeader number={r.routeShortName} page='Overview' />
       <RouteMap shapes={r.shapes} longTrips={r.longTrips} color={r.routeColor} shortName={r.routeShortName} />
       <RouteDetails id={r.routeShortName} />
