@@ -6,8 +6,6 @@ import { DirectionsBus, Schedule, PinDrop } from "@material-ui/icons";
 /** Navigation tabs for /route/{#} page */
 const RouteHeader = ({ number, page }) => {
 
-  console.log('page', page)
-
   const tabs = [
     { label: "Overview", path: `/route/${number}`, icon: <DirectionsBus style={{ color: "#fff" }} /> },
     { label: "Bus stops", path: `/route/${number}/stops`, icon: <PinDrop style={{ color: "#fff" }} /> },
