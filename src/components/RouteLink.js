@@ -77,12 +77,12 @@ const RouteLink = ({ id, routeId, icons, direction }) => {
       </div>
       {icons ? (
         <div style={styles.icons}>
-          <Link to={`/route/${id}/stops`}>
+          {/* <Link to={`/route/${id}/stops`}>
             <Schedule style={styles.svg} />
           </Link>
           <Link to={`/route/${id}/schedule`}>
             <Schedule style={styles.svg} />
-          </Link>
+          </Link> */}
         </div>
       ) : (
         ``

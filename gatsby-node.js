@@ -39,6 +39,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   `);
 
   result.data.postgres.routes.forEach(r => {
+    
     createPage({
       path: `/route/${r.short}`,
       component: path.resolve("./src/templates/route-page.js"),
@@ -46,6 +47,23 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         routeNo: r.short
       }
     });
+
+    createPage({
+      path: `/route/${r.short}/stops`,
+      component: path.resolve("./src/templates/route-stops-page.js"),
+      context: {
+        routeNo: r.short
+      }
+    });
+
+    createPage({
+      path: `/route/${r.short}/schedule`,
+      component: path.resolve("./src/templates/route-schedule-page.js"),
+      context: {
+        routeNo: r.short
+      }
+    });
+
   });
 
   // result.data.postgres.stops.forEach(stop => {
