@@ -2,12 +2,12 @@ import React from "react";
 
 import TopNav from "./TopNav";
 
-const Layout = ({ children }) => {
+const Layout = ({ className, children }) => {
   return (
-    <>
+    <div className={className}>
       <TopNav />
       {children}
-    </>
+    </div>
   );
 };
 

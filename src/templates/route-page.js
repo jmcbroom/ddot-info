@@ -2,17 +2,19 @@ import React from 'react';
 import Layout from '../components/Layout'
 import RouteHeader from '../components/RouteHeader'
 import RouteMap from '../components/RouteMap'
+import RouteDetails from '../components/RouteDetails'
+import RouteBadge from '../components/RouteBadge'
 
 export default ({ data, pageContext }) => {
 
   let r = data.postgres.route[0]
 
   return (
-    <Layout>
+    <Layout className="BusRoute">
       {data.postgres.route.routeLongName}
       <RouteHeader number={r.routeShortName} page='Overview' />
-      <RouteMap shapes={r.shapes} longTrips={r.longTrips}/>
-      {/* <RouteDetails id={r.routeShortName} /> */}
+      <RouteMap shapes={r.shapes} longTrips={r.longTrips} color={r.routeColor} shortName={r.routeShortName} />
+      <RouteDetails id={r.routeShortName} />
     </Layout>
   )
 }
