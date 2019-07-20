@@ -64,7 +64,7 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
             </div>
           </div>
       </div>
-      <div id="map" style={{height: 200, width: 200}} />
+      <div id="map" style={{height: '60vh', width: '100%'}} />
     </CardContent>
   </Card>
   )
