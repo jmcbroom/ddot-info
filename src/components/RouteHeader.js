@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "gatsby";
 import { Tabs, Tab } from "@material-ui/core";
 import { DirectionsBus, Schedule, PinDrop } from "@material-ui/icons";
-import Logo from "../data/logoc.png";
-import NavLinks from "./NavLinks.js";
 
 /** Navigation tabs for /route/{#} page */
 const RouteHeader = ({ number, page }) => {
-  let [tab, setTab] = useState(0);
 
-  
-  let pages = ['overview', 'stops', 'schedule']
+  console.log('page', page)
 
   const tabs = [
     { label: "Overview", path: `/route/${number}`, icon: <DirectionsBus style={{ color: "#fff" }} /> },
@@ -21,7 +17,7 @@ const RouteHeader = ({ number, page }) => {
   return (
     <div className="nav header" style={{ background: "#004445" }}>
       <div>
-        <Tabs value={pages.indexOf(page)} onChange={() => console.log()} indicatorColor="primary" style={{ fontSize: "1.2em" }}>
+        <Tabs value={tabs.map(t => t.label).indexOf(page)} indicatorColor="primary" style={{ fontSize: "1.2em" }}>
           {tabs.map(({ label, path, icon }, i) => (
             <Tab
               key={label}

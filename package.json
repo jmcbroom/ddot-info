@@ -9,6 +9,7 @@
     "gatsby-plugin-material-ui": "latest",
     "gatsby-plugin-react-helmet": "latest",
     "gatsby-source-pg": "^0.1.4",
+    "mapbox-gl": "^1.1.1",
     "react": "latest",
     "react-dom": "latest",
     "react-helmet": "latest"

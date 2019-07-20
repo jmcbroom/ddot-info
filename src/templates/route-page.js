@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout'
 import RouteHeader from '../components/RouteHeader'
+import RouteMap from '../components/RouteMap'
 
 export default ({ data, pageContext }) => {
 
@@ -9,7 +10,9 @@ export default ({ data, pageContext }) => {
   return (
     <Layout>
       {data.postgres.route.routeLongName}
-      <RouteHeader number={r.routeShortName} page='overview' />
+      <RouteHeader number={r.routeShortName} page='Overview' />
+      <RouteMap shapes={r.shapes} longTrips={r.longTrips}/>
+      {/* <RouteDetails id={r.routeShortName} /> */}
     </Layout>
   )
 }

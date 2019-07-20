@@ -9,7 +9,7 @@ export default ({ data, pageContext }) => {
   return (
     <Layout>
       {data.postgres.route.routeLongName}
-      <RouteHeader number={r.routeShortName} page='stops' />
+      <RouteHeader number={r.routeShortName} page='Bus stops' />
     </Layout>
   )
 }
