@@ -11,7 +11,7 @@ import { AppBar } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 
-import routeDetails from "../data/routeDetails";
+import routes from "../data/routes";
 import DirectionPicker from "../components/DirectionPicker";
 
 /** Search input for StopSearch */
@@ -43,7 +43,7 @@ const StopInput = ({ input, handleChange }) => {
 export default ({ data, pageContext }) => {
 
   let r = data.postgres.route[0];
-  let rd = routeDetails.filter(rd => rd.number === parseInt(r.routeShortName))[0];
+  let rd = routes.filter(rd => rd.number === parseInt(r.routeShortName))[0];
 
   let [stopSearch, setStopSearch] = useState(``);
 

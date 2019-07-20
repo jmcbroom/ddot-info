@@ -1,12 +1,12 @@
 import React from 'react'
-import routeDetails from '../data/routeDetails.js'
+import routes from '../data/routes'
 import _ from 'lodash'
 
 /** Non-linked route number and name for RouteDetails, RouteMap, RouteSchedule, RouteStops and Stop */
 const RouteBadge = ({ id, showName }) => {
   // lookup route number in routeDetails
 
-  const route = _.filter(routeDetails, r => { return id === r.number.toString() })[0];
+  const route = _.filter(routes, r => { return id === r.number.toString() })[0];
 
   return (
     <div>  

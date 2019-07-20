@@ -3,12 +3,12 @@ import { Link } from "gatsby";
 import PropTypes from "prop-types";
 import { Schedule } from "@material-ui/icons";
 
-import routeDetails from "../data/routeDetails.js";
+import routes from "../data/routes";
 import _ from "lodash";
 
 /** Linked route number and name with optional icons for RoutesList, NearbyList, StopTransfers and Stop */
 const RouteLink = ({ id, routeId, icons, direction }) => {
-  const route = _.find(routeDetails, a => {
+  const route = _.find(routes, a => {
     return a.number === parseInt(id, 10);
   });
 

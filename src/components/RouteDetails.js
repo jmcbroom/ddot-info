@@ -2,12 +2,12 @@ import React from 'react';
 import _ from 'lodash';
 import { Card, CardContent, CardHeader } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import routeDetails from '../data/routeDetails.js';
+import routes from '../data/routes';
 import RouteBadge from './RouteBadge';
 
 /** General service info about a route within BusRoute */
 const RouteDetails = ({ id }) => {
-  const obj = _.filter(routeDetails, r => { return id === r.number.toString() })[0];
+  const obj = _.filter(routes, r => { return id === r.number.toString() })[0];
 
   return (
     <div className="details" style={{ overflowX: 'scroll' }}>

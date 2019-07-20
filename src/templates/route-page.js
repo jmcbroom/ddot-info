@@ -1,4 +1,6 @@
 import React from 'react';
+import { graphql } from 'gatsby';
+
 import Layout from '../components/Layout'
 import RouteHeader from '../components/RouteHeader'
 import RouteMap from '../components/RouteMap'

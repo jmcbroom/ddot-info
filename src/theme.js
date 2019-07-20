@@ -4,9 +4,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 // A custom theme for this app
 const theme = createMuiTheme({
   typography: {
-    fontFamily:
-      'Gibson Detroit Regular' +
-      '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+    fontFamily:['Gibson Detroit Regular','Gibson Detroit Light',"Segoe UI"]
   },
   palette: {
     primary: {

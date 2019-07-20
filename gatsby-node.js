@@ -30,7 +30,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           short: routeShortName
           long: routeLongName
         }
-        stops: allStopsList(condition: { feedIndex: 1 }) {
+        stops: allStopsList(condition: { feedIndex: 1, stopId: "7919" }) {
           feedIndex
           stopId
         }
@@ -64,6 +64,16 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     });
 
+  });
+
+  result.data.postgres.stops.forEach(stop => {
+    createPage({
+      path: `/stop/${stop.stopId}`,
+      component: path.resolve("./src/templates/stop-page.js"),
+      context: {
+        stopId: stop.stopId
+      }
+    });
   });
 
   // result.data.postgres.stops.forEach(stop => {

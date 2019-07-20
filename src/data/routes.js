@@ -1,4 +1,4 @@
-const routeDetails = [{
+const routes = [{
         number: 67,
         name: 'Cadillac/Harper',
         orientation: 'EW',
@@ -1648,4 +1648,4 @@ const routeDetails = [{
     }
 ]
 
-export default routeDetails;
+export default routes;

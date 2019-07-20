@@ -6,10 +6,10 @@ import { Info, Home } from '@material-ui/icons';
 const NavLinks = () => (
   <div style={{ display: 'flex', alignContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
     <Link to={`/about` }>
-      <Info style={{ color: '#fff', paddingRight: '.5em', fontSize: '1.75em' }} />
+      <Info style={{ color: '#fff', paddingRight: 10, fontSize: '40px'}} />
     </Link>
     <Link to={`/`}>
-      <Home style={{ color: '#fff', paddingRight: '.5em', fontSize: '1.75em' }} />
+      <Home style={{ color: '#fff', paddingRight: 10, fontSize: '40px' }} />
     </Link>
   </div>
 );

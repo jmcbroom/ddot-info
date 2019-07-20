@@ -10,7 +10,7 @@ import DirectionPicker from "../components/DirectionPicker";
 import ServicePicker from "../components/ServicePicker";
 import ScheduleTable from "../components/ScheduleTable";
 
-import routeDetails from "../data/routeDetails";
+import routes from "../data/routes";
 
 import { AppBar } from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
@@ -18,7 +18,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 export default ({ data, pageContext }) => {
   let r = data.postgres.route[0];
-  let rd = routeDetails.filter(rd => rd.number === parseInt(r.routeShortName))[0];
+  let rd = routes.filter(rd => rd.number === parseInt(r.routeShortName))[0];
 
   let availableDirections = r.shapes.map(s => s.direction);
   let [currentDirection, setCurrentDirection] = useState(availableDirections[0]);
