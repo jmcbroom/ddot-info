@@ -2,8 +2,9 @@ import React from "react";
 import { Card, CardContent } from "@material-ui/core";
 import { SwapHoriz } from "@material-ui/icons";
 
+import StopLink from './StopLink'
+
 const RouteStopList = ({ route, longTrip }) => {
-  console.log(longTrip);
 
   const cardStyle = {
     display: "flex",
@@ -32,26 +33,14 @@ const RouteStopList = ({ route, longTrip }) => {
         <div style={{ height: "60vh", overflowY: "scroll" }}>
           {longTrip.stopTimes.map(st => (
             <div style={{ display: "flex", alignItems: "center", zIndex: 0 }} key={st.stop.stopId}>
-              {st.stop.stopDesc}
+              <StopLink
+                stop={st.stop}
+                color={route.color}
+                isTimepoint={st.timepoint ? true : false}
+                showTransfers
+                showBorder />
             </div>
           ))}
-
-          {/* {filteredStops.length === 0
-            ? `Loading...`
-            : filteredStops.length > 0
-            ? filteredStops.map((stop, i) => (
-                <div style={{ display: "flex", alignItems: "center", zIndex: 0 }} key={i}>
-                  <StopLink
-                    id={stop.slice(5)}
-                    exclude={this.props.routeNumber}
-                    color={color}
-                    isTimepoint={this.props.timepoints.indexOf(stop.slice(5)) > -1}
-                    showTransfers
-                    showBorder
-                  />
-                </div>
-              ))
-            : `Loading stops...`} */}
         </div>
       </CardContent>
     </Card>
