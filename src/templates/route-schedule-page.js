@@ -117,18 +117,13 @@ export default ({ data, pageContext }) => {
             </div>
           </Toolbar>
         </AppBar>
-        <AppBar position="static" color="default" elevation={0} style={{ display: "flex", flexWrap: "wrap", padding: ".5em 0em", marginBottom: "1em" }}>
+        <AppBar position="static" color="default" elevation={0} style={{ display: "flex", flexWrap: "wrap", padding: ".5em 0em" }}>
           <Toolbar elevation={0} style={{ justifyContent: "flex-start", alignItems: "start", marginLeft: ".5em" }}>
             <DirectionPicker directions={availableDirections} direction={currentDirection} handleChange={setCurrentDirection} endpoints={rd.between} />
             <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} />
           </Toolbar>
         </AppBar>
         <ScheduleTable trips={sorted} color={r.routeColor} />
-        {/* <ScheduleTable 
-            schedule={this.state[this.state.currentSvc]} 
-            direction={this.state.currentDirection} 
-            liveTrips={_.map(this.state.realtimeTrips, 'properties.tripId')} 
-            color={this.state.color} /> */}
         <Card style={{ marginTop: "1em", backgroundColor: "#fff" }}>
           <CardContent>{/* <PrintSchedule routePdf={rd.pdf} /> */}</CardContent>
         </Card>

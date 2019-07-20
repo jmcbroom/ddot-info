@@ -21,7 +21,7 @@ const StopLink = ({ stop, color, isTimepoint, showBorder, showTransfers }) => {
         <Link 
           style={{ color: '#000', display: 'block', marginBottom: '.25rem', fontSize: '1em', fontWeight: !isTimepoint ? 'normal' : 'bold' }} 
           to={`/stop/${stop.stopId }/`}>
-          <span>{stop.stopDesc}</span>
+          <span>{stop.stopDesc || stop.stopName}</span>
         </Link>
         <span style={{ padding: '.25rem', fontSize: '.75rem', background: '#eee' }}>#{stop.stopId }</span>
       </div>

@@ -23,12 +23,12 @@ const arrivalTimeDisplay = (time, showAp) => {
   if (time.hours < 12 && time.hours > 0) {
     hour = time.hours;
     ap = "am";
-  } else if (time.hours > 12 && time.hours < 24) {
+  }  else if (time.hours > 12 && time.hours < 24) {
     hour = time.hours - 12;
     ap = "pm";
-  } else if (time.hours === 24) {
+  } else if (time.hours % 12 === 0) {
     hour = 12;
-    ap = "am";
+    ap = time.hours === 12 ? 'pm' : 'am';
   } else if (time.hours >= 24) {
     hour = time.hours - 24;
     ap = "am";
@@ -46,7 +46,7 @@ const ScheduleTable = ({ trips, color, classes }) => {
   const timepoints = mostTimepointsTrip.stopTimes;
 
   return (
-    <div style={{ overflow: "auto", maxHeight: 500, backgroundColor: "white" }}>
+    <div style={{ overflow: "auto", backgroundColor: "white", maxHeight: 700 }}>
       <Table>
         <TableHead>
           <TableRow>
