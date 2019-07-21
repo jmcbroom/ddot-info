@@ -6,7 +6,6 @@ require("dotenv").config({
 
 module.exports = {
   plugins: [
-    'gatsby-plugin-top-layout',
     {
       resolve: 'gatsby-plugin-material-ui',
       // If you want to use styled components you should change the injection order.
@@ -28,6 +27,6 @@ module.exports = {
     'gatsby-plugin-react-helmet',
   ],
   siteMetadata: {
-    title: 'My page',
+    title: 'ddot.info',
   },
 };
