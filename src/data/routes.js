@@ -4,7 +4,7 @@ const routes = [{
         orientation: 'EW',
         color: "#44aa42",
         radius: 0,
-        rt_id: 6802,
+        rt_id: 7031,
         downtown: true,
         directions: ["eastbound", "westbound"],
         timepoints: {
@@ -45,7 +45,7 @@ const routes = [{
         orientation: 'NS',
         color: "#9b5ba5",
         radius: 0,
-        rt_id: 6803,
+        rt_id: 7032,
         timepoints: {
             northbound: [10178, 74, 75, 76, 77],
             southbound: [77, 79, 80, 83, 10178]
@@ -91,7 +91,7 @@ const routes = [{
             northbound: [8892, 87, 118, 89, 90, 91, 92],
             southbound: [95, 96, 97, 98, 99, 100, 503, 8892]
         },
-        rt_id: 6804,
+        rt_id: 7028,
         directions: ["northbound", "southbound"],
         days_per_week: ['Monday', 'Sunday'],
         between: ['Varjo & Van Dyke', 'Rosa Parks TC'],
@@ -127,7 +127,7 @@ const routes = [{
         orientation: 'EW',
         color: "#0079c2",
         radius: 0,
-        rt_id: 6805,
+        rt_id: 7006,
         timepoints: {
             eastbound: [103, 2491, 107, 800, 111, 112, 115],
             westbound: [115, 1236, 118, 8248, 122, 2492, 103]
@@ -155,7 +155,7 @@ const routes = [{
         orientation: 'NS',
         color: "#9b5ba5",
         radius: 0,
-        rt_id: 6806,
+        rt_id: 7007,
         downtown: false,
         timepoints: {
             southbound: [127, 7864, 129, 130, 9034, 5525, 132, 10176, 10167],
@@ -195,7 +195,7 @@ const routes = [{
         orientation: 'NS',
         color: "#9b5ba5",
         radius: 0,
-        rt_id: 6807,
+        rt_id: 7008,
         downtown: false,
         timepoints: {
             southbound: [93, 8552, 144, 145, 9033, 147, 148, 149, 150],
@@ -237,7 +237,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: false,
-        rt_id: 6808, 
+        rt_id: 7003, 
         timepoints: {
             eastbound: [10187, 7141, 161, 162, 163, 164, 165, 169, 171, 172, 41],
             westbound: [41, 175, 48, 177, 181, 182, 183, 184, 185, 7140, 10192]
@@ -281,7 +281,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 6809,
+        rt_id: 7009,
         timepoints: {
             eastbound: [10414, 190, 191, 192, 193, 194, 195, 196, 197, 198],
             westbound: [198, 200, 201, 202, 203, 204, 205, 206, 207, 10414]
@@ -322,7 +322,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 6810,
+        rt_id: 7010,
         timepoints: {
             southbound: [10340, 10325, 212, 213, 214, 215, 216, 218, 220, 221, 8913, 223],
             northbound: [223, 8913, 224, 225, 227, 229, 230, 231, 6056, 233, 10326, 10340]
@@ -366,7 +366,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 6811,
+        rt_id: 7011,
         timepoints: {
             eastbound: [236, 238, 10325, 240, 242, 243, 144, 62, 245, 40],
             westbound: [41, 245, 63, 247, 248, 249, 251, 10326, 253, 236]
@@ -415,7 +415,7 @@ const routes = [{
             eastbound: [256, 258, 260, 262, 263, 265, 266, 267, 8928],
             westbound: [8928, 272, 273, 274, 3377, 276, 277, 279, 286, 288]
         },
-        rt_id: 6812,
+        rt_id: 7012,
         days_per_week: ['Monday', 'Sunday'],
         between: ['Rosa Parks TC', 'Telegraph & Fenkell'],
         via: ['12th (northbound)/14th (southbound)', 'Fenkell'],
@@ -454,7 +454,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 6813,
+        rt_id: 7013,
         directions: ["westbound", "eastbound"],
         timepoints: {
             westbound: [8891, 290, 291, 2558, 294, 295],
@@ -497,7 +497,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6814,
+        rt_id: 6998,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [324, 325, 328, 330, 331, 332, 334, 335, 337, 394],
@@ -545,10 +545,10 @@ const routes = [{
             southbound: [210, 10325, 358, 359, 361, 363, 600, 368],
             northbound: [368, 372, 374, 376, 378, 379, 10326, 210]
         },
-        rt_id: 6815,
+        rt_id: 7005,
         directions: ["southbound", "northbound"],
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Northland Mall', 'Fairlane Mall'],
+        between: ['Fairlane Mall', 'Northland Mall'],
         via: ["Greenfield"],
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2018/10GreenfieldMF.pdf", "http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2018/10GreenfieldSS.pdf"],
         description: "Offers 24/7 service and improved frequency as part of the ConnectTen network. Connects Southfield, Detroit and Dearborn between Providence Hospital and Fairlane Town Center. The main street served in Greenfield.",
@@ -584,14 +584,14 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 6816,
+        rt_id: 7014,
         timepoints: {
             northbound: [8933, 9474, 401, 402, 403, 9658, 10145],
             southbound: [1045, 9690, 386, 387, 10339, 9475, 8933]
         },
         directions: ["northbound", "southbound"],
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Rosa Parks TC', '8 Mile Meijer'],
+        between: ['8 Mile Meijer', 'Rosa Parks TC'],
         via: ['2nd', 'Hamilton', 'McNichols', 'John R'],
         description: "A west side route that connects Detroit from Downtown Rosa Parks Transit Center to 8 Mile & Woodward (Gateway Shopping Plaza & Meijer). The main streets used are McNichols, John R, Hamilton and 3rd.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/September2017Schedules/23Hamilton.pdf"],
@@ -625,14 +625,14 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6817,
+        rt_id: 7004,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [9970, 9021, 420, 421, 422, 10178],
             westbound: [10178, 425, 426, 427, 341, 9970]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Rosa Parks TC', 'Jefferson & Maryland'],
+        between: ['Jefferson & Maryland', 'Rosa Parks TC'],
         via: ['Jefferson'],
         description: "An east side route that offers 24/7 service and improved frequency as part of the ConnectTen network. Connects Detroit from Downtown Rosa Parks Transit Center to Maryland & Jefferson. The main street used is Jefferson.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2018/9JeffersonMF.pdf", "http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2018/9JeffersonSS.pdf"],
@@ -668,14 +668,14 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 6818,
+        rt_id: 7015,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [429, 432, 434, 435, 437, 438, 439, 441, 443, 8910],
             westbound: [8910, 444, 446, 737, 448, 449, 451, 452, 454, 429]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Redford Plaza', 'Rosa Parks TC'],
+        between: ['Rosa Parks TC', 'Redford Plaza'],
         via: ['Lafayette', 'W. Grand Blvd.', 'Joy Rd.'],
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/September2017Schedules/27Joy.pdf"],
         description: "A west side route that connects Detroit from Telegraph & W Chicago (Redford Plaza) to Downtown Rosa Parks Transit Center. The main streets served are Joy Rd, W Lafayette and W Grand Blvd.",
@@ -710,7 +710,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 6819,
+        rt_id: 7016,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [2781, 465, 467, 469, 470, 8912],
@@ -751,7 +751,7 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 6820,
+        rt_id: 7017,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [127, 481, 8987, 482, 483, 484, 486, 487, 488],
@@ -792,7 +792,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 6821,
+        rt_id: 7018,
         directions: ["westbound", "eastbound"],
         timepoints: {
             westbound: [41, 497, 498, 499, 6334, 502, 1616, 8918],
@@ -835,7 +835,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 6822,
+        rt_id: 7019,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [9860, 7230, 514, 515, 517, 519, 524, 510, 41],
@@ -877,7 +877,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6823,
+        rt_id: 7001,
         directions: ["northbound", "southbound"],
         timepoints: {
             northbound: [9963, 167, 547, 549, 550, 552, 62],
@@ -918,7 +918,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6824,
+        rt_id: 6997,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [368, 590, 6578, 591, 1489, 8945],
@@ -962,7 +962,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 6825,
+        rt_id: 7020,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [9776, 9572, 8874, 603, 607, 608, 54, 55, 1804, 59, 60, 61, 613, 1927],
@@ -1003,7 +1003,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 6826,
+        rt_id: 7021,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [627, 628, 629, 630, 3032, 196],
@@ -1043,7 +1043,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 6827,
+        rt_id: 7022,
         directions: ["northbound", "southbound"],
         timepoints: {
             northbound: [8944, 8777, 7414, 641, 644, 645, 646, 647, 648],
@@ -1071,7 +1071,7 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 6828,
+        rt_id: 7023,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [656, 657, 659, 660, 6627, 661, 662, 663, 664],
@@ -1111,7 +1111,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: false,
-        rt_id: 6829,
+        rt_id: 7024,
         directions: ["clockwise"],
         timepoints: {
             clockwise: [571, 584, 568, 7831, 4388, 8263, 3381]
@@ -1152,7 +1152,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 6830,
+        rt_id: 7025,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [429, 674, 676, 677, 678, 679, 680, 196, 570, 572, 574, 9609, 576],
@@ -1193,7 +1193,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: false,
-        rt_id: 6831,
+        rt_id: 7002,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [10157, 689, 6074, 384, 9635, 695, 520, 79, 42, 41],
@@ -1236,7 +1236,7 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 6832,
+        rt_id: 7026,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [7282, 707, 708, 709, 710, 712, 843, 368],
@@ -1265,7 +1265,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 6833,
+        rt_id: 7027,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [159, 721, 722, 724, 439, 727, 729, 1616],
@@ -1299,7 +1299,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6834,
+        rt_id: 7000,
         days_per_week: ['Monday', 'Sunday'],
         between: ['Bel Air Center', 'Rosa Parks TC'],
         via: ['Lafayette', 'Van Dyke'],
@@ -1343,7 +1343,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6835,
+        rt_id: 6996,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [6578, 10264, 765, 766, 767, 768, 8915],
@@ -1546,7 +1546,7 @@ const routes = [{
             northbound: [295, 10261, 766, 1489, 3411, 8263]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['W. Outer Dr. & Fort', 'Trumbull & W. Grand Blvd.'],
+        between: ['W. Outer Dr. & Fort', 'Trumbull & W Grand Blvd.'],
         via: ['Bassett', 'Vernor', 'Cass', 'W. Grand Blvd.'],
         description: "Connects Lincoln Park and Detroit with express service on I-75 freeway (Fisher) between Fort & W Outer Dr and Henry Ford Hospital. The main streets served are Fort, Outer Dr, Bassett, Schaefer, Vernor, Michigan, Trumbull and Cass. Service is available during morning and evening peak hours Monday through Friday.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/April2017schedules/89SouthwestDirectMF.pdf?ver=2017-04-21-171512-467"],

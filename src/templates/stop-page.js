@@ -6,6 +6,7 @@ import Layout from "../components/layout";
 import StopMap from '../components/StopMap';
 import RouteLink from '../components/RouteLink';
 import StopRouteSchedule from '../components/StopRouteSchedule';
+import RoutePredictionsList from '../components/RoutePredictionsList';
 
 import routes from '../data/routes';
 
@@ -25,8 +26,9 @@ export default ({ data, pageContext }) => {
     let uniqRouteNums = uniqRoutes.map(u => parseInt(u.routeShortName))
 
     let [route, setRoute] = useState(uniqRouteNums[0])
-
     let rd = routes.filter(rd => rd.number === route)[0];
+
+    let [currentTrip, setCurrentTrip] = useState(null);
 
     return (
       <Layout className="App">
@@ -59,7 +61,13 @@ export default ({ data, pageContext }) => {
             </Toolbar>
           </AppBar>
           <div style={{ display: 'block', padding: '0em 0em', width: '100%' }}>
-            {/* <RoutePredictionsList /> */}
+            <RoutePredictionsList
+              stop={s.stopId} 
+              trips={s.times.map(ti => ti.trip)}
+              route={rd}
+              currentTrip={currentTrip}
+              handleChange={setCurrentTrip}
+            />
             <StopRouteSchedule 
               times={s.times.filter(t => t.trip.route.routeShortName === route.toString())}
               shapes={s.routeShapes.filter(rs => rs.routeByFeedIndexAndRouteId.routeShortName === route.toString())}
