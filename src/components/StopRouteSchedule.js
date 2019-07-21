@@ -1,28 +1,10 @@
 import React, { useState } from "react";
 import _ from "lodash";
 
-import { Card, CardHeader, CardContent, GridList, GridListTile } from "@material-ui/core";
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { Schedule } from "@material-ui/icons";
 
-import { makeStyles } from "@material-ui/core/styles";
 import ServicePicker from "./ServicePicker";
-
-const useStyles = makeStyles(theme => ({
-  gridList: {
-    flexFlow: "column wrap",
-    maxHeight: 500,
-    width: "100%"
-  },
-  gridListTile: {
-    maxWidth: 60,
-    fontFeatureSettings: "'tnum' 1",
-    textAlign: "center",
-    verticalAlign: "center",
-    letterSpacing: "-0.25px",
-    borderRight: "1px solid #ccc",
-    paddingTop: ".25em"
-  }
-}));
 
 const arrivalTimeDisplay = (time, showAp) => {
   let hour = time.hours;
@@ -48,39 +30,46 @@ const arrivalTimeDisplay = (time, showAp) => {
   return `${hour}:${minutes} ${showAp ? ap : ``}`;
 };
 
+const gridStyle = {
+  display: "grid",
+  gridTemplateColumns: `repeat(auto-fit, minmax(20px, 1fr))`,
+  gridAutoFlow: "column"
+};
+
+const cellStyle = {
+  fontFeatureSettings: "'tnum' 1",
+  textAlign: "center",
+  verticalAlign: "center",
+  letterSpacing: "-0.25px",
+  borderRight: "1px solid #ccc",
+  paddingTop: ".25em"
+};
+
 const StopRouteSchedule = ({ times, shapes, route }) => {
-  const classes = useStyles();
   let availableServices = _.uniq(times.map(t => t.trip).map(tr => tr.serviceId));
   let [currentService, setCurrentService] = useState(availableServices[0]);
   let serviceTimes = times.filter(t => t.trip.serviceId === currentService);
 
   return (
     <>
-      <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
-      {shapes.map(s => (
-        <Card style={{ padding: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", padding: 0 }}>
-            <Schedule style={{ marginLeft: ".5em", color: "#aaa", borderRadius: 999, height: "1.25em", width: "1.25em" }} />
-            <CardHeader title={_.capitalize(s.direction)} subheader={`to ${route.between[s.dir]}`} style={{ padding: 10, marginLeft: 10 }} />
-          </div>
-          <CardContent>
-            <GridList
-              className={classes.gridList}
-              cellHeight={18}
-            >
-              {serviceTimes.filter(st => st.trip.directionId.toString() === s.dir).map((t, i) => (
-                <GridListTile
-                  key={t.tripId}
-                  cols={1}
-                  className={classes.gridListTile}
-                >
-                  <span>{arrivalTimeDisplay(t.arrivalTime, true)}</span>
-                </GridListTile>
-              ))}
-            </GridList>
-          </CardContent>
-        </Card>
-      ))}
+      <Card style={{ padding: 10 }}>
+        <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
+        {shapes.map(s => (
+          <>
+            <div style={{ display: "flex", alignItems: "center", padding: 0 }}>
+              <Schedule style={{ marginLeft: ".5em", color: "#aaa", borderRadius: 999, height: "1.25em", width: "1.25em" }} />
+              <CardHeader title={_.capitalize(s.direction)} subheader={`to ${route.between[s.dir]}`} style={{ padding: 10, marginLeft: 10 }} />
+            </div>
+            <CardContent>
+              <div style={{ gridTemplateRows: `repeat(${Math.ceil(serviceTimes.length / 8)}, 30px)`, ...gridStyle }}>
+                {serviceTimes.map(st => (
+                  <div style={cellStyle}>{arrivalTimeDisplay(st.arrivalTime, false)}</div>
+                ))}
+              </div>
+            </CardContent>
+          </>
+        ))}
+      </Card>
     </>
   );
 };
