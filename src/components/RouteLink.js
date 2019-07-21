@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "gatsby";
 import { Schedule } from "@material-ui/icons";
+import BusStop from '../components/BusStop'
 
 import routes from "../data/routes";
 import _ from "lodash";
@@ -85,7 +86,7 @@ const RouteLink = ({ id, icons, direction, small = false }) => {
       {icons ? (
         <div style={styles.icons}>
           <Link to={`/route/${id}/stops`}>
-            <Schedule style={styles.svg} />
+            <BusStop style={styles.svg} />
           </Link>
           <Link to={`/route/${id}/schedule`}>
             <Schedule style={styles.svg} />

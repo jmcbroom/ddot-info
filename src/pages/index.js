@@ -4,7 +4,8 @@ import { graphql } from "gatsby";
 
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
-import { AccessAlarm, DirectionsBus } from "@material-ui/icons";
+import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
+import BusStop from '../components/BusStop'
 import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
 import Helpers from "../helpers";
@@ -39,7 +40,7 @@ const IndexPage = ({ data }) => {
             <DirectionsBus style={{ color: "#000" }} />
           </ListItemIcon>
           <ListItemText inset primary="Choose your bus route" />
-          {open === "routes" ? <AccessAlarm /> : <AccessAlarm />}
+          {open === "routes" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
         <ListItem
           key="stops"
@@ -50,10 +51,10 @@ const IndexPage = ({ data }) => {
           }}
         >
           <ListItemIcon style={{ fontSize: 30 }}>
-            <AccessAlarm style={{ color: "#000" }} />
+            <BusStop style={{ color: "#000" }} />
           </ListItemIcon>
           <ListItemText inset primary="Find your bus stop" />
-          {open === "stops" ? <AccessAlarm /> : <AccessAlarm />}
+          {open === "stops" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
         <ListItem
           key="nearby"
@@ -67,7 +68,7 @@ const IndexPage = ({ data }) => {
             <AccessAlarm style={{ color: "#000" }} />
           </ListItemIcon>
           <ListItemText inset primary="See what's nearby" />
-          {open === "nearby" ? <AccessAlarm /> : <AccessAlarm />}
+          {open === "nearby" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
         <Divider />
         <Collapse in={true} timeout="auto" unmountOnExit>
