@@ -18,10 +18,12 @@ const Layout = ({ className, children }) => {
         rel="stylesheet"
       /> */}
     </Helmet>
+    <ThemeProvider theme={theme}> 
     <div className={className}>
       <TopNav />
       {children}
     </div>
+    </ThemeProvider>
   </React.Fragment>
   );
 };
