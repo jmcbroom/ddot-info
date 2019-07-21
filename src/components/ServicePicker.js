@@ -2,13 +2,13 @@ import React from "react";
 import { Radio, RadioGroup } from "@material-ui/core";
 import { FormControl, FormControlLabel } from "@material-ui/core";
 
-const ServicePicker = ({ services, service, handleChange }) => {
+const ServicePicker = ({ services, service, handleChange, asRow=false }) => {
 
   let svcLookup = ['Weekday', 'Saturday', 'Sunday']
 
   return (
     <FormControl component="fieldset" required>
-      <RadioGroup name="services" value={service}>
+      <RadioGroup name="services" value={service} row={asRow}>
         {services.map((s, i) => (
           <FormControlLabel
             key={s}

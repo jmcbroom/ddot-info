@@ -4,61 +4,69 @@ import _ from "lodash";
 
 import Layout from "../components/layout";
 import StopMap from '../components/StopMap';
+import RouteLink from '../components/RouteLink';
+import StopRouteSchedule from '../components/StopRouteSchedule';
 
-// const StopRoutes = ({ stop, list }) => {
-//   let uniqRoutes = _.uniqBy(stop.times, t => {
-//     return t.trip.route.routeLongName;
-//   }).map(ur => ur.trip.route);
+import routes from '../data/routes';
 
-//   let dropdownOptions = uniqRoutes.map(u => {
-//     return {
-//       key: u.routeShortName.toString(),
-//       text: u.routeLongName,
-//       value: u.routeShortName.toString(),
-//       content: <RouteDisplay key={u.routeShortName} route={u} size="big" />
-//     };
-//   });
-
-//   return (
-//     <div>
-//       StopRoutes
-//       <Dropdown placeholder="select Friends" fluid selection options={dropdownOptions} />
-//       <StopTimeList list={list} />
-//     </div>
-//   );
-// };
+import { Card, CardHeader, AppBar, Toolbar} from '@material-ui/core';
+import { Radio, RadioGroup } from "@material-ui/core";
+import { FormControl, FormControlLabel } from "@material-ui/core";
 
 export default ({ data, pageContext }) => {
 
     const s = data.postgres.stop;
 
-    // const times = s.times.filter(t => {
-    //   return feeds[pageContext.feedIndex - 1].services[t.trip.serviceId] === "weekday";
-    // });
-    // // sort by arrivalTime
-    // let sorted = times.sort((a, b) => {
-    //   let times = [a, b].map(x => x.arrivalTime.hours * 3600 + x.arrivalTime.minutes * 60 + x.arrivalTime.seconds);
-    //   return times[0] - times[1];
-    // });
-    // dedupe on arrivalTime: transit-windsor has a service for every day of the week
-    // TODO: this will need more tweaks for t-w
-    // let uniq = _.uniqBy(sorted, x => {
-    //   return x.arrivalTime.hours * 3600 + x.arrivalTime.minutes * 60 + x.arrivalTime.seconds;
-    // });
+    console.log(s)
+
+    let uniqRoutes = _.uniqBy(s.times, t => {
+      return t.trip.route.routeLongName;
+    }).map(ur => ur.trip.route);
+    let uniqRouteNums = uniqRoutes.map(u => parseInt(u.routeShortName))
+
+    let [route, setRoute] = useState(uniqRouteNums[0])
+
+    let rd = routes.filter(rd => rd.number === route)[0];
 
     return (
       <Layout className="App">
         <StopMap name={s.stopDesc || s.stopName} id={s.stopId} coords={[s.stopLon, s.stopLat]}/>
-        {/* <Grid stackable padded>
-          <Grid.Row>
-            <Grid.Column width={10}>
-              <StopMap lat={s.stopLat} lon={s.stopLon} routes={s.routeShapes} />
-            </Grid.Column>
-            <Grid.Column width={6}>
-              <StopRoutes stop={s} list={uniq} />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid> */}
+        <div className='routes'>
+          <Card>
+              <CardHeader title="Bus routes that stop here" subheader="Showing next arrivals and today's schedule. Transfers tab shows nearby routes" style={{ fontSize: '1.1em' }}/>
+          </Card>
+          <AppBar position="static" color="red" style={{ display: 'flex' }} elevation={0}>
+            <Toolbar>
+              <FormControl component='fieldset' required  style={{width: '100%'}}>
+                <RadioGroup name='routes' value={route}>
+                  {uniqRouteNums.map(n => (
+                    <FormControlLabel
+                      key={n}
+                      value={n}
+                      control={<Radio />}
+                      onChange={() => setRoute(n)}
+                      label={<RouteLink id={n} small />}
+                      style={{width: '100%'}}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </Toolbar>
+          </AppBar>
+          <AppBar position="static" color="default" elevation={0} style={{ display: 'flex' }}>
+            <Toolbar style={{ justifyContent: 'space-between' }} elevation={0}>
+              <RouteLink id={route} />
+            </Toolbar>
+          </AppBar>
+          <div style={{ display: 'block', padding: '0em 0em', width: '100%' }}>
+            {/* <RoutePredictionsList /> */}
+            <StopRouteSchedule 
+              times={s.times.filter(t => t.trip.route.routeShortName === route.toString())}
+              shapes={s.routeShapes.filter(rs => rs.routeByFeedIndexAndRouteId.routeShortName === route.toString())}
+              route={rd}
+              />
+          </div>
+        </div>
       </Layout>
     );
   };
@@ -86,7 +94,7 @@ export const query = graphql`
           dir
           geojson: simpleGeojson
         }
-        times: stopTimesByFeedIndexAndStopIdList {
+        times: stopTimesByFeedIndexAndStopIdList(orderBy: ARRIVAL_TIME_ASC) {
           trip: tripByFeedIndexAndTripId {
             tripId
             route: routeByFeedIndexAndRouteId {

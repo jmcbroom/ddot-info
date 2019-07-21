@@ -1546,7 +1546,7 @@ const routes = [{
             northbound: [295, 10261, 766, 1489, 3411, 8263]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Trumbull & W. Grand Blvd.', 'W. Outer Dr. & Fort'],
+        between: ['W. Outer Dr. & Fort', 'Trumbull & W. Grand Blvd.'],
         via: ['Bassett', 'Vernor', 'Cass', 'W. Grand Blvd.'],
         description: "Connects Lincoln Park and Detroit with express service on I-75 freeway (Fisher) between Fort & W Outer Dr and Henry Ford Hospital. The main streets served are Fort, Outer Dr, Bassett, Schaefer, Vernor, Michigan, Trumbull and Cass. Service is available during morning and evening peak hours Monday through Friday.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/April2017schedules/89SouthwestDirectMF.pdf?ver=2017-04-21-171512-467"],
