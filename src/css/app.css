@@ -1,43 +1,20 @@
-@font-face{
+@font-face {
   font-family: "Gibson Detroit Regular";
   src: url("./fonts/GibsonDetroit-Reg.eot");
   src: url("./fonts/GibsonDetroit-Reg.woff") format("woff"),
-       url("./fonts/GibsonDetroit-Reg.svg#filename") format("svg")
+    url("./fonts/GibsonDetroit-Reg.svg#filename") format("svg");
 }
-@font-face{
+@font-face {
   font-family: "Gibson Detroit Light";
   src: url("./fonts/GibsonDetroit-Light.eot");
   src: url("./fonts/GibsonDetroit-Light.woff") format("woff"),
-       url("./fonts/GibsonDetroit-Light.svg#filename") format("svg")
+    url("./fonts/GibsonDetroit-Light.svg#filename") format("svg");
 }
 
 body {
   font-family: "Gibson Detroit Regular", "Gibson Detroit Light", sans-serif;
   margin: 0;
   padding: 0;
-}
-
-/* BETA tag */
-body:after{
-  content: "beta";
-  position: fixed;
-  width: 70px;
-  height: 20px;
-  background: #B0D27B;
-  top: 5px;
-  left: -20px;
-  text-align: center;
-  font-size: 13px;
-  font-family: "Gibson Detroit Regular", sans-serif;
-  text-transform: uppercase;
-  font-weight: normal;
-  color: #000;
-  line-height: 19px;
-  -ms-transform:rotate(-45deg);
-  -webkit-transform:rotate(-45deg);
-  transform:rotate(-45deg);
-  z-index: 2500;
-  box-shadow: 1px 3px 10px #aaa;
 }
 
 @media screen and (max-width: 768px) {
@@ -47,7 +24,9 @@ body:after{
 }
 
 @media screen and (min-width: 768px) {
-  .App, .BusRoute, .nearby {
+  .App,
+  .BusRoute,
+  .nearby {
     display: grid;
     grid-template: auto auto repeat(7, 1fr) auto / repeat(8, 1fr);
     height: 100vh;
@@ -63,7 +42,7 @@ body:after{
     grid-column: 1/9;
     grid-row: 10/11;
   }
-  
+
   .header {
     grid-row: 2/3;
     grid-column: 1/9;

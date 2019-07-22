@@ -4,12 +4,7 @@ import { graphql } from "gatsby";
 
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
-import {
-  AccessAlarm,
-  DirectionsBus,
-  KeyboardArrowDown,
-  KeyboardArrowRight
-} from "@material-ui/icons";
+import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
 import BusStop from "../components/BusStop";
 import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
@@ -17,6 +12,8 @@ import Helpers from "../helpers";
 
 import Layout from "../components/Layout";
 import RouteSearch from "../components/RouteSearch";
+import StopSearch from "../components/StopSearch";
+import Nearby from "../components/Nearby";
 
 const IndexPage = ({ data }) => {
   let [open, setOpen] = useState("routes");
@@ -27,10 +24,7 @@ const IndexPage = ({ data }) => {
     <Layout>
       <Card>
         <CardHeader title="Welcome to DDOT's new bus schedule tool" />
-        <CardContent>
-          You can browse bus routes, look up a bus stop, or see service near
-          your current location
-        </CardContent>
+        <CardContent>You can browse bus routes, look up a bus stop, or see service near your current location</CardContent>
       </Card>
       <List style={{ background: "#fff" }}>
         <ListItem
@@ -44,11 +38,7 @@ const IndexPage = ({ data }) => {
           <ListItemIcon style={{ fontSize: 30 }}>
             <DirectionsBus style={{ color: "#000" }} />
           </ListItemIcon>
-          <ListItemText
-            inset
-            primary="Choose your bus route"
-            style={{ padding: 0 }}
-          />
+          <ListItemText inset primary="Choose your bus route" style={{ padding: 0 }} />
           {open === "routes" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
         <ListItem
@@ -62,7 +52,7 @@ const IndexPage = ({ data }) => {
           <ListItemIcon style={{ fontSize: 30 }}>
             <BusStop style={{ color: "#000" }} />
           </ListItemIcon>
-          <ListItemText inset primary="Find your bus stop" />
+          <ListItemText inset primary="Find your bus stop" style={{ padding: 0 }} />
           {open === "stops" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
         <ListItem
@@ -76,7 +66,7 @@ const IndexPage = ({ data }) => {
           <ListItemIcon style={{ fontSize: 30 }}>
             <AccessAlarm style={{ color: "#000" }} />
           </ListItemIcon>
-          <ListItemText inset primary="See what's nearby" />
+          <ListItemText inset primary="See what's nearby" style={{ padding: 0 }} />
           {open === "nearby" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
         <Divider />
@@ -84,9 +74,9 @@ const IndexPage = ({ data }) => {
           {open === "routes" ? (
             <RouteSearch routes={routes} />
           ) : open === "stops" ? (
-            <p>Yoooo</p>
+            <StopSearch stops={data.postgres.stops} />
           ) : open === "nearby" ? (
-            <p>Yooooo</p>
+            <Nearby />
           ) : null}
         </Collapse>
       </List>
@@ -97,11 +87,15 @@ const IndexPage = ({ data }) => {
 export const query = graphql`
   {
     postgres {
-      routes: allRoutesList(condition: { feedIndex: 1 }) {
+      routes: allRoutesList(condition: { feedIndex: 5 }) {
         short: routeShortName
         long: routeLongName
         color: routeColor
         routeId
+      }
+      stops: allStopsList(condition: { feedIndex: 5 }) {
+        stopId
+        stopDesc
       }
     }
   }

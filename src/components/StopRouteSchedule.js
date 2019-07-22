@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import _ from "lodash";
 
-import { Card, CardHeader, CardContent, GridList, GridListTile } from "@material-ui/core";
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { Schedule } from "@material-ui/icons";
 
 import ServicePicker from "./ServicePicker";
@@ -46,39 +46,62 @@ const cellStyle = {
 };
 
 const StopRouteSchedule = ({ times, shapes, route }) => {
-  let availableServices = _.uniq(times.map(t => t.trip).map(tr => tr.serviceId));
+  let availableServices = _.uniq(
+    times.map(t => t.trip).map(tr => tr.serviceId)
+  );
   let [currentService, setCurrentService] = useState(availableServices[0]);
   let serviceTimes = times.filter(t => t.trip.serviceId === currentService);
 
   return (
     <>
       <Card style={{ padding: 10 }}>
-        <div style={{marginLeft: '1em', textSize: '.5em'}}>
-
-        </div>
+        <div style={{ marginLeft: "1em", textSize: ".5em" }} />
         {shapes.map(s => (
           <>
             <div style={{ display: "flex", alignItems: "center", padding: 0 }}>
-              <Schedule style={{ marginLeft: ".5em", color: "#aaa", borderRadius: 999, height: "1.25em", width: "1.25em" }} />
-              <CardHeader title={_.capitalize(s.direction)} subheader={`to ${route.between[s.dir]}`} style={{ padding: 10, marginLeft: 10 }} />
+              <Schedule
+                style={{
+                  marginLeft: ".5em",
+                  color: "#aaa",
+                  borderRadius: 999,
+                  height: "1.25em",
+                  width: "1.25em"
+                }}
+              />
+              <CardHeader
+                title={_.capitalize(s.direction)}
+                subheader={`to ${route.between[s.dir]}`}
+                style={{ padding: 10, marginLeft: 10 }}
+              />
             </div>
             <CardContent>
               <div
                 style={{
-                  gridTemplateRows: `repeat(${Math.ceil(serviceTimes.filter(st => st.trip.directionId.toString() === s.dir).length / 6)}, 20px)`,
+                  gridTemplateRows: `repeat(${Math.ceil(
+                    serviceTimes.filter(
+                      st => st.trip.directionId.toString() === s.dir
+                    ).length / 6
+                  )}, 20px)`,
                   ...gridStyle
                 }}
               >
                 {serviceTimes
                   .filter(st => st.trip.directionId.toString() === s.dir)
                   .map(st => (
-                    <div style={cellStyle}>{arrivalTimeDisplay(st.arrivalTime, false)}</div>
+                    <div style={cellStyle}>
+                      {arrivalTimeDisplay(st.arrivalTime, false)}
+                    </div>
                   ))}
               </div>
             </CardContent>
           </>
         ))}
-        <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
+        <ServicePicker
+          services={availableServices}
+          service={currentService}
+          handleChange={setCurrentService}
+          asRow
+        />
       </Card>
     </>
   );

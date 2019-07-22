@@ -5,7 +5,6 @@ import Layout from "../components/Layout";
 import RouteHeader from "../components/RouteHeader";
 import RouteMap from "../components/RouteMap";
 import RouteDetails from "../components/RouteDetails";
-import RouteBadge from "../components/RouteBadge";
 
 export default ({ data, pageContext }) => {
   let r = data.postgres.route[0];
