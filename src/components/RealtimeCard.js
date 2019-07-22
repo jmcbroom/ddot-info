@@ -39,7 +39,12 @@ const computeTimeAway = (prediction) => {
 const RealtimeCard = ({ prediction, references }) => {
 
   let nextStopId = prediction.tripStatus.nextStop.slice(5,)
-  let nextStop = references.stops.filter(s => s.id === prediction.tripStatus.nextStop)[0]
+
+  let defaultStop = {
+    name: ``
+  }
+
+  let nextStop = references.stops.filter(s => s.id === prediction.tripStatus.nextStop)[0] || defaultStop
 
   return (
     <Card elevation={0} style={{ minWidth: 320, maxHeight: 500, display: 'flex', flexWrap: 'wrap' }}>

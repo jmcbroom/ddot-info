@@ -6,9 +6,16 @@ import Helpers from "../helpers";
 
 import RealtimeCard from "./RealtimeCard";
 
-const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange }) => {
-  let [predictions, setPredictions] = useState([]);
+const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, predictions, setPredictions }) => {
+  const [now, setNow] = useState(new Date());
   let [references, setReferences] = useState([]);
+
+  useEffect(() => {
+    let tick = setInterval(() => {
+      setNow(new Date());
+    }, 10000);
+    return () => clearInterval(tick);
+  }, []);
 
   useEffect(() => {
     const url = `${
@@ -28,7 +35,7 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange })
         setPredictions(tripAdded);
         setReferences(d.data.references);
       });
-  }, []);
+  }, [now]);
 
   let matchedPredictions = predictions.filter(pr => pr.routeId.indexOf(route.rt_id.toString()) > -1);
   return (

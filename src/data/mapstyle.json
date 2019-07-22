@@ -121,7 +121,7 @@
           "tileSize": 256
       }
   },
-  "sprite": "mapbox://sprites/cityofdetroit/cjhe6cx480zdc2sn0frdifb0w",
+  "sprite": "mapbox://sprites/cityofdetroit/cjdndtywb04ee2slc79udmzn8",
   "glyphs": "mapbox://fonts/cityofdetroit/{fontstack}/{range}.pbf",
   "layers": [{
           "id": "background",
@@ -8323,7 +8323,7 @@
               "text-max-angle": 30,
               "symbol-spacing": 250,
               "text-font": [
-                  "Barlow Semi Condensed Regular",
+                  "Inter Medium",
                   "Arial Unicode MS Regular"
               ],
               "symbol-placement": "line",
@@ -8335,9 +8335,9 @@
           },
           "paint": {
               "text-color": "hsl(0, 0%, 0%)",
-              "text-halo-color": "hsla(0, 0%, 100%, 0.75)",
-              "text-halo-width": 2,
-              "text-halo-blur": 1
+              "text-halo-color": "hsla(0, 0%, 100%, 1)",
+              "text-halo-width": 3,
+              "text-halo-blur": 0
           }
       },
       {

@@ -7,6 +7,7 @@ import StopMap from "../components/StopMap";
 import RouteLink from "../components/RouteLink";
 import StopRouteSchedule from "../components/StopRouteSchedule";
 import RoutePredictionsList from "../components/RoutePredictionsList";
+import BusStop from '../components/BusStop'
 
 import routes from "../data/routes";
 
@@ -16,8 +17,6 @@ import { FormControl, FormControlLabel } from "@material-ui/core";
 
 export default ({ data, pageContext }) => {
   const s = data.postgres.stop;
-
-  console.log(s);
 
   let uniqRoutes = _.uniqBy(s.times, t => {
     return t.trip.route.routeLongName;
@@ -29,12 +28,20 @@ export default ({ data, pageContext }) => {
 
   let [currentTrip, setCurrentTrip] = useState(null);
 
+  let [predictions, setPredictions] = useState([]);
+
+  console.log(predictions, currentTrip)
+
   return (
     <Layout className="App">
       <StopMap
         name={s.stopDesc || s.stopName}
         id={s.stopId}
         coords={[s.stopLon, s.stopLat]}
+        shapes={s.routeShapes}
+        stop={s.geojson}
+        currentRoute={route}
+        currentBus={predictions.filter(p => p.tripId === currentTrip)[0]}
       />
       <div className="routes">
         <Card>
@@ -88,6 +95,8 @@ export default ({ data, pageContext }) => {
             route={rd}
             currentTrip={currentTrip}
             handleChange={setCurrentTrip}
+            predictions={predictions}
+            setPredictions={setPredictions}
           />
           <StopRouteSchedule
             times={s.times.filter(
