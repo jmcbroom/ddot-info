@@ -21,13 +21,18 @@ export default ({ data, pageContext }) => {
   let rd = routes.filter(rd => rd.number === parseInt(r.routeShortName))[0];
 
   let availableDirections = r.shapes.map(s => s.direction);
-  let [currentDirection, setCurrentDirection] = useState(availableDirections[0]);
+  let [currentDirection, setCurrentDirection] = useState(
+    availableDirections[0]
+  );
   let currentDirectionId = rd.directions.indexOf(currentDirection);
 
   let availableServices = _.uniq(r.trips.map(t => t.service));
   let [currentService, setCurrentService] = useState(availableServices[0]);
 
-  let tripsToShow = r.trips.filter(trip => trip.direction === currentDirectionId && trip.service === currentService);
+  let tripsToShow = r.trips.filter(
+    trip =>
+      trip.direction === currentDirectionId && trip.service === currentService
+  );
 
   // const sorted = tripsToShow.sort((a, b) => {
   //   return (
@@ -40,64 +45,125 @@ export default ({ data, pageContext }) => {
 
   let timepointList = tripsToShow
     .sort((a, b) => {
-      return b.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val) - a.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val);
+      return (
+        b.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val) -
+        a.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val)
+      );
     })[0]
     .stopTimes.filter(st => {
       return st.timepoint === 1;
     });
 
-    let sorted = tripsToShow.sort((a, b) => {
-      let c = null;
-      let d = null;
-  
-      for (let t of timepointList) {
-        let aFilter = a.stopTimes.filter(st => st.stop.stopId === t.stop.stopId);
-        let bFilter = b.stopTimes.filter(st => st.stop.stopId === t.stop.stopId);
-        if (bFilter.length > 0 && aFilter.length > 0) {
-          c = aFilter[0];
-          d = bFilter[0];
-          break;
-        }
+  let sorted = tripsToShow.sort((a, b) => {
+    let c = null;
+    let d = null;
+
+    for (let t of timepointList) {
+      let aFilter = a.stopTimes.filter(st => st.stop.stopId === t.stop.stopId);
+      let bFilter = b.stopTimes.filter(st => st.stop.stopId === t.stop.stopId);
+      if (bFilter.length > 0 && aFilter.length > 0) {
+        c = aFilter[0];
+        d = bFilter[0];
+        break;
       }
-      return (
-        c.arrivalTime.hours * 60 +
-        c.arrivalTime.minutes -
-        (d.arrivalTime.hours * 60 + d.arrivalTime.minutes)
-      );
-    });
-  
+    }
+    return (
+      c.arrivalTime.hours * 60 +
+      c.arrivalTime.minutes -
+      (d.arrivalTime.hours * 60 + d.arrivalTime.minutes)
+    );
+  });
+
   return (
     <Layout>
       <RouteHeader number={r.routeShortName} page="Schedule" />
       <div className="schedule">
-        <AppBar position="static" color="default" elevation={0} style={{ display: "flex", background: "white" }}>
-          <Toolbar elevation={0} style={{ flexDirection: "column", alignItems: "flex-start" }}>
-            <span style={{ margin: 0, padding: ".5em 0em", fontSize: "1.5em", display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <AppBar
+          position="static"
+          color="default"
+          elevation={0}
+          style={{ display: "flex", background: "white" }}
+        >
+          <Toolbar
+            elevation={0}
+            style={{ flexDirection: "column", alignItems: "flex-start" }}
+          >
+            <span
+              style={{
+                margin: 0,
+                padding: ".5em 0em",
+                fontSize: "1.5em",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center"
+              }}
+            >
               <span style={{ marginLeft: ".25em" }}>
                 <RouteBadge id={r.routeShortName} showName />
               </span>
-              : <span style={{ fontWeight: 700, paddingLeft: ".2em" }}>Schedule</span>
+              :{" "}
+              <span style={{ fontWeight: 700, paddingLeft: ".2em" }}>
+                Schedule
+              </span>
             </span>
-            <div style={{ display: "flex", flexWrap: "wrap", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", marginBottom: ".5em" }}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                marginBottom: ".5em"
+              }}
+            >
               <span style={{ fontSize: ".9em" }}>
                 <b>Major stops</b>{" "}
               </span>
-              <span style={{ height: "15px", width: "15px", backgroundColor: "#000", border: "1px solid #000", borderRadius: "3em", margin: ".25em" }} />
+              <span
+                style={{
+                  height: "15px",
+                  width: "15px",
+                  backgroundColor: "#000",
+                  border: "1px solid #000",
+                  borderRadius: "3em",
+                  margin: ".25em"
+                }}
+              />
               <span style={{ fontSize: ".9em" }}>
                 {" "}
-                are shown in order in the top row; look down the column to see scheduled departure times from that bus stop.
+                are shown in order in the top row; look down the column to see
+                scheduled departure times from that bus stop.
               </span>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", marginBottom: ".5em" }}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                marginBottom: ".5em"
+              }}
+            >
               <span style={{ fontSize: ".9em" }}>
-                Buses make additional stops between major stops; see a list of all stops on the{" "}
-                <Link to={`/route/${r.routeShortName}/stops`} style={{ color: "black" }}>
+                Buses make additional stops between major stops; see a list of
+                all stops on the{" "}
+                <Link
+                  to={`/route/${r.routeShortName}/stops`}
+                  style={{ color: "black" }}
+                >
                   BUS STOPS
                 </Link>{" "}
                 tab.
               </span>
             </div>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: ".5em" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: ".5em"
+              }}
+            >
               <span style={{ fontSize: ".9em" }}>
                 Displaying AM times, <b>PM times</b>, and{" "}
               </span>
@@ -117,10 +183,31 @@ export default ({ data, pageContext }) => {
             </div>
           </Toolbar>
         </AppBar>
-        <AppBar position="static" color="default" elevation={0} style={{ display: "flex", flexWrap: "wrap", padding: ".5em 0em" }}>
-          <Toolbar elevation={0} style={{ justifyContent: "flex-start", alignItems: "start", marginLeft: ".5em" }}>
-            <DirectionPicker directions={availableDirections} direction={currentDirection} handleChange={setCurrentDirection} endpoints={rd.between} />
-            <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} />
+        <AppBar
+          position="static"
+          color="default"
+          elevation={0}
+          style={{ display: "flex", flexWrap: "wrap", padding: ".5em 0em" }}
+        >
+          <Toolbar
+            elevation={0}
+            style={{
+              justifyContent: "flex-start",
+              alignItems: "start",
+              marginLeft: ".5em"
+            }}
+          >
+            <DirectionPicker
+              directions={availableDirections}
+              direction={currentDirection}
+              handleChange={setCurrentDirection}
+              endpoints={rd.between}
+            />
+            <ServicePicker
+              services={availableServices}
+              service={currentService}
+              handleChange={setCurrentService}
+            />
           </Toolbar>
         </AppBar>
         <ScheduleTable trips={sorted} color={r.routeColor} />
@@ -135,7 +222,9 @@ export default ({ data, pageContext }) => {
 export const query = graphql`
   query($routeNo: String!) {
     postgres {
-      route: allRoutesList(condition: { routeShortName: $routeNo, feedIndex: 1 }) {
+      route: allRoutesList(
+        condition: { routeShortName: $routeNo, feedIndex: 5 }
+      ) {
         agencyId
         routeShortName
         routeLongName
@@ -153,7 +242,9 @@ export const query = graphql`
         longTrips: longestTripsList {
           tripHeadsign
           directionId
-          stopTimes: stopTimesByFeedIndexAndTripIdList(orderBy: STOP_SEQUENCE_ASC) {
+          stopTimes: stopTimesByFeedIndexAndTripIdList(
+            orderBy: STOP_SEQUENCE_ASC
+          ) {
             stopSequence
             timepoint
             arrivalTime {
@@ -176,7 +267,9 @@ export const query = graphql`
           headsign: tripHeadsign
           direction: directionId
           service: serviceId
-          stopTimes: stopTimesByFeedIndexAndTripIdList(condition: { timepoint: 1 }) {
+          stopTimes: stopTimesByFeedIndexAndTripIdList(
+            condition: { timepoint: 1 }
+          ) {
             timepoint
             arrivalTime {
               hours

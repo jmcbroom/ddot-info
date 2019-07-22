@@ -4,8 +4,13 @@ import { graphql } from "gatsby";
 
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
-import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
-import BusStop from '../components/BusStop'
+import {
+  AccessAlarm,
+  DirectionsBus,
+  KeyboardArrowDown,
+  KeyboardArrowRight
+} from "@material-ui/icons";
+import BusStop from "../components/BusStop";
 import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
 import Helpers from "../helpers";
@@ -39,7 +44,11 @@ const IndexPage = ({ data }) => {
           <ListItemIcon style={{ fontSize: 30 }}>
             <DirectionsBus style={{ color: "#000" }} />
           </ListItemIcon>
-          <ListItemText inset primary="Choose your bus route" />
+          <ListItemText
+            inset
+            primary="Choose your bus route"
+            style={{ padding: 0 }}
+          />
           {open === "routes" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
         <ListItem
