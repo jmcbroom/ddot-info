@@ -2414,7 +2414,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 90%)",
+              "line-color": "hsl(0, 0%, 72%)",
               "line-opacity": 1,
               "line-dasharray": [
                   1,
@@ -3765,7 +3765,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 70%)",
+              "line-color": "hsl(0, 0%, 82%)",
               "line-gap-width": {
                   "base": 1.5,
                   "stops": [
@@ -4019,7 +4019,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 70%)",
+              "line-color": "hsl(0, 0%, 82%)",
               "line-gap-width": {
                   "base": 1.5,
                   "stops": [
@@ -4254,7 +4254,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 100%)",
+              "line-color": "hsl(0, 0%, 82%)",
               "line-opacity": 1
           }
       },
@@ -4817,7 +4817,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 100%)",
+              "line-color": "hsl(0, 0%, 82%)",
               "line-opacity": {
                   "base": 1,
                   "stops": [
@@ -6288,7 +6288,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 100%)"
+              "line-color": "hsl(0, 0%, 82%)"
           }
       },
       {
@@ -6725,7 +6725,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 100%)",
+              "line-color": "hsl(0, 0%, 82%)",
               "line-opacity": 1
           }
       },
@@ -7257,7 +7257,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 100%)"
+              "line-color": "hsl(0, 0%, 82%)"
           }
       },
       {
@@ -7367,7 +7367,7 @@
                       ]
                   ]
               },
-              "line-color": "hsl(0, 0%, 100%)",
+              "line-color": "hsl(0, 0%, 82%)",
               "line-opacity": 0.1
           }
       },
@@ -8323,7 +8323,7 @@
               "text-max-angle": 30,
               "symbol-spacing": 250,
               "text-font": [
-                  "Inter Medium",
+                  "Barlow Semi Condensed Regular",
                   "Arial Unicode MS Regular"
               ],
               "symbol-placement": "line",
