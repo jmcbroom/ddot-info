@@ -13,7 +13,7 @@ const DirectionPicker = ({ directions, direction, handleChange, endpoints }) => 
             value={s}
             control={<Radio />}
             onChange={() => handleChange(s)}
-            label={window.innerWidth > 650 ? `${s} to ${endpoints[i]}` : `${direction}`}
+            label={`${s} to ${endpoints[i]}`}
           />
         ))}
       </RadioGroup>

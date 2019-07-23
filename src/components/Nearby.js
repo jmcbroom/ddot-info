@@ -61,7 +61,7 @@ const FeaturesNearLocation = ({ coords, radius }) => {
   }, []);
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: window.innerWidth > 768 ? "1fr 1fr" : "1fr", gridGap: 10 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 10 }}>
       {refs ? (
         <>
           <NearbyMap refs={refs} coords={coords} radius={250} />

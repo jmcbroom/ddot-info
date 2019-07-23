@@ -30,7 +30,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           short: routeShortName
           long: routeLongName
         }
-        stops: allStopsList(condition: { feedIndex: 5 }, first: 50) {
+        stops: allStopsList(condition: { feedIndex: 5 }) {
           feedIndex
           stopId
         }
