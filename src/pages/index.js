@@ -96,6 +96,9 @@ export const query = graphql`
       stops: allStopsList(condition: { feedIndex: 5 }) {
         stopId
         stopDesc
+        routes: routesList {
+          routeShortName
+        }
       }
     }
   }

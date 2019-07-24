@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { graphql } from "gatsby";
 import _ from "lodash";
 
-import Layout from "../components/layout";
+import Layout from "../components/Layout";
 import StopMap from "../components/StopMap";
 import RouteLink from "../components/RouteLink";
 import StopRouteSchedule from "../components/StopRouteSchedule";
