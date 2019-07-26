@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { DirectionsBus } from "@material-ui/icons";
-import bbox from '@turf/bbox';
+import bbox from "@turf/bbox";
 import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";
 
@@ -18,8 +18,6 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
     .sort((a, b) => {
       return parseInt(b.properties.routeShortName) - parseInt(a.properties.routeShortName);
     });
-
-  console.log(shapesFeatures);
 
   let [theMap, setMap] = useState(null);
 
@@ -169,9 +167,8 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
   }, []);
 
   // effect fires when the live bus ticks
-  useEffect(() => {    
+  useEffect(() => {
     if (theMap && currentBus && parseInt(currentBus.routeShortName) === currentRoute) {
-      
       let liveBusFeature = {
         type: "Feature",
         geometry: {
@@ -188,8 +185,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
         features: [liveBusFeature]
       });
 
-      theMap.fitBounds(bbox({'type': 'FeatureCollection', features: [liveBusFeature, stop]}), {padding: 30})
-
+      theMap.fitBounds(bbox({ type: "FeatureCollection", features: [liveBusFeature, stop] }), { padding: 30 });
     } else if ((theMap && !currentBus) || (currentBus && parseInt(currentBus.routeShortName) !== currentRoute)) {
       theMap.getSource("live-bus").setData({
         type: "FeatureCollection",

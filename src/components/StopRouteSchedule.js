@@ -5,6 +5,7 @@ import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { Schedule } from "@material-ui/icons";
 
 import ServicePicker from "./ServicePicker";
+import routes from "../data/routes";
 
 const arrivalTimeDisplay = (time, showAp) => {
   let hour = time.hours;
@@ -46,11 +47,10 @@ const cellStyle = {
 };
 
 const StopRouteSchedule = ({ times, shapes, route }) => {
-  let availableServices = _.uniq(
-    times.map(t => t.trip).map(tr => tr.serviceId)
-  );
+  let availableServices = _.uniq(times.map(t => t.trip).map(tr => tr.serviceId));
   let [currentService, setCurrentService] = useState(availableServices[0]);
   let serviceTimes = times.filter(t => t.trip.serviceId === currentService);
+  let rd = routes.filter(rd => rd.number === parseInt(route))[0];
 
   return (
     <>
@@ -68,40 +68,25 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
                   width: "1.25em"
                 }}
               />
-              <CardHeader
-                title={_.capitalize(s.direction)}
-                subheader={`to ${route.between[s.dir]}`}
-                style={{ padding: 10, marginLeft: 10 }}
-              />
+              <CardHeader title={_.capitalize(s.direction)} subheader={`to ${rd.between[s.dir]}`} style={{ padding: 10, marginLeft: 10 }} />
             </div>
             <CardContent>
               <div
                 style={{
-                  gridTemplateRows: `repeat(${Math.ceil(
-                    serviceTimes.filter(
-                      st => st.trip.directionId.toString() === s.dir
-                    ).length / 6
-                  )}, 20px)`,
+                  gridTemplateRows: `repeat(${Math.ceil(serviceTimes.filter(st => st.trip.directionId.toString() === s.dir).length / 6)}, 20px)`,
                   ...gridStyle
                 }}
               >
                 {serviceTimes
                   .filter(st => st.trip.directionId.toString() === s.dir)
                   .map(st => (
-                    <div style={cellStyle}>
-                      {arrivalTimeDisplay(st.arrivalTime, false)}
-                    </div>
+                    <div style={cellStyle}>{arrivalTimeDisplay(st.arrivalTime, false)}</div>
                   ))}
               </div>
             </CardContent>
           </>
         ))}
-        <ServicePicker
-          services={availableServices}
-          service={currentService}
-          handleChange={setCurrentService}
-          asRow
-        />
+        <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
       </Card>
     </>
   );

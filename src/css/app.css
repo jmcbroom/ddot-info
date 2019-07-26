@@ -1,20 +1,19 @@
 @font-face {
   font-family: "Gibson Detroit Regular";
   src: url("./fonts/GibsonDetroit-Reg.eot");
-  src: url("./fonts/GibsonDetroit-Reg.woff") format("woff"),
-    url("./fonts/GibsonDetroit-Reg.svg#filename") format("svg");
+  src: url("./fonts/GibsonDetroit-Reg.woff") format("woff"), url("./fonts/GibsonDetroit-Reg.svg#filename") format("svg");
 }
 @font-face {
   font-family: "Gibson Detroit Light";
   src: url("./fonts/GibsonDetroit-Light.eot");
-  src: url("./fonts/GibsonDetroit-Light.woff") format("woff"),
-    url("./fonts/GibsonDetroit-Light.svg#filename") format("svg");
+  src: url("./fonts/GibsonDetroit-Light.woff") format("woff"), url("./fonts/GibsonDetroit-Light.svg#filename") format("svg");
 }
 
 body {
   font-family: "Gibson Detroit Regular", "Gibson Detroit Light", sans-serif;
   margin: 0;
   padding: 0;
+  font-size: 1rem;
 }
 
 @media screen and (max-width: 768px) {

@@ -3,6 +3,7 @@ import moment from "moment";
 import { Card, CardContent, List, ListItem, ListItemIcon, ListItemText, Collapse } from "@material-ui/core";
 import { Schedule, SpeakerPhone, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
 import Helpers from "../helpers";
+import routes from "../data/routes";
 
 import RealtimeCard from "./RealtimeCard";
 
@@ -10,17 +11,19 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
   const [now, setNow] = useState(new Date());
   let [references, setReferences] = useState([]);
 
+  let rd = routes.filter(rd => rd.number === parseInt(route))[0];
+
+  console.log(rd);
+
   useEffect(() => {
     let tick = setInterval(() => {
       setNow(new Date());
-    }, 10000);
+    }, 15000);
     return () => clearInterval(tick);
   }, []);
 
   useEffect(() => {
-    const url = `${
-      Helpers.endpoint
-    }/arrivals-and-departures-for-stop/DDOT_${stop}.json?key=BETA&includePolylines=false`;
+    const url = `${Helpers.endpoint}/arrivals-and-departures-for-stop/DDOT_${stop}.json?key=BETA&includePolylines=false`;
     fetch(url)
       .then(r => r.json())
       .then(d => {
@@ -37,7 +40,7 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
       });
   }, [now]);
 
-  let matchedPredictions = predictions.filter(pr => pr.routeId.indexOf(route.rt_id.toString()) > -1);
+  let matchedPredictions = predictions.filter(pr => pr.routeId.indexOf(rd.rt_id.toString()) > -1);
   return (
     <Card style={{ margin: "0px 0px 10px 0px" }}>
       <List style={{ paddingTop: 0 }}>
@@ -51,9 +54,17 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
                   primary={`${p.predicted ? moment(p.predictedArrivalTime).format("h:mma") : moment(p.scheduledArrivalTime).format("h:mma")}`}
                 />
                 <ListItemIcon>
-                  {currentTrip === p.tripId ? 
-                    <span style={{ display: 'flex', alignItems: 'center', fontSize: '.9em' }}>Showing live map<KeyboardArrowDown /></span> 
-                    : <span style={{ display: 'flex', alignItems: 'center', fontSize: '.9em' }}>{ i === 0 && currentTrip !== p.tripId ? `Where is this bus?` : null}<KeyboardArrowRight /></span>}
+                  {currentTrip === p.tripId ? (
+                    <span style={{ display: "flex", alignItems: "center", fontSize: ".9em" }}>
+                      Showing live map
+                      <KeyboardArrowDown />
+                    </span>
+                  ) : (
+                    <span style={{ display: "flex", alignItems: "center", fontSize: ".9em" }}>
+                      {i === 0 && currentTrip !== p.tripId ? `Where is this bus?` : null}
+                      <KeyboardArrowRight />
+                    </span>
+                  )}
                 </ListItemIcon>
               </ListItem>
               <Collapse in={currentTrip === p.tripId} timeout="auto" unmountOnExit>

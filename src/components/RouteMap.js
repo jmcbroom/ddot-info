@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
-import _ from 'lodash';
+import _ from "lodash";
 import { navigate } from "@reach/router";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
-import bbox from '@turf/bbox';
+import bbox from "@turf/bbox";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import style from "../data/mapstyle.json";
 import RouteBadge from "./RouteBadge";
 import { DirectionsBus } from "@material-ui/icons";
-import routes from '../data/routes'
+import routes from "../data/routes";
 
-const RouteMap = ({ shapes, longTrips, color, shortName }) => {
-  
+const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips }) => {
+  // do a route detail lookup
   let rd = routes.filter(rd => rd.number === parseInt(shortName))[0];
-  
+
+  // we're going to store the mapbox gl map object here.
+  let [theMap, setMap] = useState(null);
+
   // make some GeoJSON features for the map
+  // route shapes
   let shapesFeatures = shapes.map(sh => {
     return {
       ...sh.geojson,
@@ -25,27 +29,26 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
       }
     };
   });
-  
-  let bounds = bbox({'type': "FeatureCollection", features: shapesFeatures})
 
+  // we'll fitBounds using this on map load
+  let bounds = bbox({ type: "FeatureCollection", features: shapesFeatures });
+
+  // we iterate through the longTrips to get all stops.
   let stopsFeatures = [];
-
   longTrips.forEach(lt => {
     lt.stopTimes.forEach(st => {
       let stopFeature = st.stop.geojson;
       stopFeature.properties.timepoint = st.timepoint ? `1` : `0`;
       stopFeature.properties.directionId = lt.directionId;
-      stopFeature.properties.direction = rd['directions'][lt.directionId]
+      stopFeature.properties.direction = rd["directions"][lt.directionId];
       stopsFeatures.push(stopFeature);
     });
   });
 
-  let randomTimepoint = _.sample(stopsFeatures.filter(sf => sf.properties.timepoint === '1'))
+  // just for kicks, let's start on a random timepoint and zoom out to the whole route
+  let randomTimepoint = _.sample(stopsFeatures.filter(sf => sf.properties.timepoint === "1"));
 
-  console.log(randomTimepoint)
-
-  let [theMap, setMap] = useState(null);
-
+  // here's the initial map setup useEffect; we'll store the map in state
   useEffect(() => {
     mapboxgl.accessToken = "pk.eyJ1IjoiY2l0eW9mZGV0cm9pdCIsImEiOiJjaXZvOWhnM3QwMTQzMnRtdWhyYnk5dTFyIn0.FZMFi0-hvA60KYnI-KivWg";
 
@@ -58,10 +61,9 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
     });
 
     map.on("load", e => {
-
       map.fitBounds(bounds, {
         padding: 30
-      })
+      });
 
       map.addSource("routes", {
         type: "geojson",
@@ -73,6 +75,14 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
         data: { type: "FeatureCollection", features: stopsFeatures }
       });
 
+      map.addSource("realtime", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: []
+        }
+      });
+
       map.addLayer({
         id: "stop-points",
         type: "circle",
@@ -82,14 +92,14 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
         layout: {},
         paint: {
           "circle-color": {
-            type: 'categorical',
-            property: 'timepoint',
-            stops: [['0', 'white'], ['1', '#222']]
+            type: "categorical",
+            property: "timepoint",
+            stops: [["0", "white"], ["1", "#222"]]
           },
           "circle-stroke-color": {
-            type: 'categorical',
-            property: 'timepoint',
-            stops: [['0', '#222'], ['1', 'black']]
+            type: "categorical",
+            property: "timepoint",
+            stops: [["0", "#222"], ["1", "black"]]
           },
           "circle-stroke-width": {
             stops: [[13, 1], [19, 3]]
@@ -120,7 +130,7 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
           "text-allow-overlap": true,
           "text-ignore-placement": true,
           "text-font": ["Gibson Detroit SemiBold", "Arial Unicode MS Regular"],
-          "text-justify": 'center',
+          "text-justify": "center",
           "text-padding": 0,
           "text-offset": {
             base: 1,
@@ -135,7 +145,7 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
             stops: [["southbound", "top-right"], ["northbound", "bottom-left"], ["eastbound", "top-left"], ["westbound", "bottom-right"]],
             default: "center"
           },
-          "text-field": ['get', 'stop_desc'],
+          "text-field": ["get", "stop_desc"],
           "text-letter-spacing": -0.01,
           "text-max-width": 5
         },
@@ -170,6 +180,27 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
           "circle-radius": {
             stops: [[8, 0.5], [10.5, 2.5], [15, 4]]
           }
+        }
+      });
+
+      map.addLayer({
+        id: "realtime-circle",
+        type: "circle",
+        source: "realtime",
+        paint: {
+          "circle-radius": 11,
+          "circle-color": "rgba(255,255,255,0.5)",
+          "circle-stroke-width": 2
+        }
+      });
+
+      map.addLayer({
+        id: "realtime-icons",
+        type: "symbol",
+        source: "realtime",
+        layout: {
+          "icon-image": "bus-11",
+          "icon-allow-overlap": true
         }
       });
 
@@ -255,25 +286,55 @@ const RouteMap = ({ shapes, longTrips, color, shortName }) => {
         "road-label-small"
       );
 
-      map.on('click', 'stop-points', e => {
+      map.on("click", "stop-points", e => {
         let stop = map.queryRenderedFeatures(e.point, {
-          layers: ['stop-points']
-        })[0]
+          layers: ["stop-points"]
+        })[0];
 
-        navigate(`/stop/${stop.properties.stop_id}`)
-      })
+        navigate(`/stop/${stop.properties.stop_id}`);
+      });
 
-      map.on('mouseover', 'stop-points', e => {
-        map.getCanvas().style.cursor = 'pointer'
-      })
+      map.on("click", "realtime-circle", e => {
+        let activeTrip = map.queryRenderedFeatures(e.point, {
+          layers: ["realtime-circle"]
+        })[0];
+        console.log(activeTrip);
+      });
 
-      map.on('mouseleave', 'stop-points', e => {
-        map.getCanvas().style.cursor = ''
-      })
+      map.on("mouseover", "stop-points", e => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      map.on("mouseleave", "stop-points", e => {
+        map.getCanvas().style.cursor = "";
+      });
     });
 
     setMap(map);
   }, []);
+
+  // an effect for when the realtime data changes
+  useEffect(() => {
+    console.log(activeTrips);
+
+    // let's make some GeoJSON
+    let features = activeTrips.map(tr => {
+      return {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [tr.status.position.lon, tr.status.position.lat]
+        },
+        properties: {
+          ...tr.status
+        }
+      };
+    });
+
+    if (theMap && theMap.isSourceLoaded("realtime")) {
+      theMap.getSource("realtime").setData({ type: "FeatureCollection", features: features });
+    }
+  }, [activeTrips]);
 
   return (
     <Card className="routeMap" elevation={0}>
