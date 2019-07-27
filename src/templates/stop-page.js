@@ -24,6 +24,7 @@ export default ({ data, pageContext }) => {
 
   let uniqRouteNums = uniqRoutes.map(u => parseInt(u.routeShortName)).sort((a, b) => a - b);
 
+  // let [route, setRoute] = useState('');
   let [route, setRoute] = useState(uniqRouteNums[0]);
 
   let rd = routes.filter(rd => rd.number === route)[0];
@@ -56,7 +57,7 @@ export default ({ data, pageContext }) => {
         <AppBar position="static" color="red" style={{ display: "flex" }} elevation={0}>
           <Toolbar>
             <FormControl component="fieldset" required style={{ width: "100%" }}>
-              {uniqRouteNums.length < 2 ? (
+              {uniqRouteNums.length < 4 ? (
                 <RadioGroup name="routes" value={route}>
                   {uniqRouteNums.map(n => (
                     <FormControlLabel

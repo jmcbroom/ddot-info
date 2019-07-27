@@ -1,6 +1,6 @@
 import React from "react";
-import { Radio, RadioGroup } from "@material-ui/core";
-import { FormControl, FormControlLabel } from "@material-ui/core";
+import { Radio, RadioGroup, FormHelperText } from "@material-ui/core";
+import { FormControl, FormControlLabel, FormLabel } from "@material-ui/core";
 
 const ServicePicker = ({ services, service, handleChange, asRow=false }) => {
 
@@ -8,7 +8,8 @@ const ServicePicker = ({ services, service, handleChange, asRow=false }) => {
 
   return (
     <FormControl component="fieldset" required>
-      <RadioGroup name="services" value={service} row={asRow}>
+      <FormLabel component='legend' >Service</FormLabel>
+      <RadioGroup name="services" value={service} row={asRow} style={{marginLeft: `1rem`}}>
         {services.map((s, i) => (
           <FormControlLabel
             key={s}

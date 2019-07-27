@@ -38,7 +38,7 @@ const StopSearch = ({ stops }) => {
 
   let [input, setInput] = useState('')
 
-  let randomStops = _.sampleSize(stops, 3)
+  let randomStops = _.sampleSize(stops, 7)
 
   console.log(randomStops)
 
@@ -48,27 +48,27 @@ const StopSearch = ({ stops }) => {
         title="Find your bus stop"
         subheader="DDOT has more than 5,000 bus stops. Bus stop signs are placed every 2-3 blocks along each route"
       />
-      
-
       <CardContent>
         <StopInput input={input} handleChange={setInput} />
         { input === '' ? <div style={{color: '#333', fontSize: '1.2em', marginTop: '1em'}}>Here's a few random bus stops. Start typing in the box above to find your closest stop.</div> : ``}
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fit, minmax(350px, 1fr))`, height: 400, overflowY: 'scroll' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fit, minmax(200px, 1fr))`, height: 400, overflowY: 'scroll' }}>
           {randomStops.map(rs => (
-            <Card style={{ background: '#eee', margin: '.25em', minWidth: 300 }}>
+            <Card style={{ background: '#eee', margin: '.25em', height: 150, width: 200 }}>
             <CardHeader 
+              style={{paddingBottom: 0}}
               avatar={<BusStop style={{ height: '1em', width: '1em' }} />} 
               title={
+                <>
                   <Link to={`/stop/${rs.stopId}` } style={{ color: 'black', fontSize: '1.2em' }}>
                     <span>{rs.stopDesc}</span>
                   </Link> 
-                  } 
-              subheader={
                 <div>
                   <span style={{ background: '#ccc', padding: '4px 8px', fontSize: '1em', fontWeight: 700, color: 'black' }}>
                     #{rs.stopId}
                   </span>
-                </div>} />
+                </div>
+                </>
+                  }/>
             <CardContent>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Timeline style={{marginRight: '.65em'}} />

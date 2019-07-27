@@ -8,10 +8,13 @@ import style from "../data/mapstyle.json";
 import RouteBadge from "./RouteBadge";
 import { DirectionsBus } from "@material-ui/icons";
 import routes from "../data/routes";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips }) => {
   // do a route detail lookup
   let rd = routes.filter(rd => rd.number === parseInt(shortName))[0];
+
+  let largeScreen = useMediaQuery(`(min-width:748px)`);
 
   // we're going to store the mapbox gl map object here.
   let [theMap, setMap] = useState(null);
@@ -336,6 +339,7 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips }) => {
     }
   }, [activeTrips]);
 
+  console.log(largeScreen)
   return (
     <Card className="routeMap" elevation={0}>
       <CardContent style={{ padding: 0, margin: 0 }}>
@@ -364,7 +368,7 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips }) => {
             </div>
           </div>
         </div>
-        <div id="map" style={{ height: "60vh", width: "100%" }} />
+        <div id="map" style={{ height: largeScreen ? `75vh`: `30vh`, width: "100%" }} />
       </CardContent>
     </Card>
   );

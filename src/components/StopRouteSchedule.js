@@ -10,40 +10,40 @@ import routes from "../data/routes";
 const arrivalTimeDisplay = (time, showAp) => {
   let hour = time.hours;
   let minutes = time.minutes ? time.minutes.toString().padStart(2, "0") : "00";
-  let ap = "am";
+  let ap = "a";
 
   // vary hours & am/pm based on what hour it is
   // gtfs has hours that are greater than 24
   if (time.hours < 12 && time.hours > 0) {
     hour = time.hours;
-    ap = "am";
+    ap = "a";
   } else if (time.hours > 12 && time.hours < 24) {
     hour = time.hours - 12;
-    ap = "pm";
+    ap = "p";
   } else if (time.hours % 12 === 0) {
     hour = 12;
-    ap = time.hours === 12 ? "pm" : "am";
+    ap = time.hours === 12 ? "p" : "a";
   } else if (time.hours >= 24) {
     hour = time.hours - 24;
-    ap = "am";
+    ap = "a";
   }
 
-  return `${hour}:${minutes} ${showAp ? ap : ``}`;
+  return `${hour}:${minutes}${showAp ? ap : ``}`;
 };
 
 const gridStyle = {
   display: "grid",
-  gridTemplateColumns: `repeat(auto-fit, minmax(60px, 1fr))`,
-  gridAutoFlow: "column"
+  gridTemplateColumns: `repeat(auto-fit, minmax(50px, 1fr))`,
+  gridAutoFlow: "column",
+  maxWidth: 400
 };
 
 const cellStyle = {
-  // fontFeatureSettings: "'tnum' 1",
-  textAlign: "center",
+  textAlign: "right",
   verticalAlign: "center",
-  letterSpacing: "-0.25px",
-  borderRight: "1px solid #ccc",
-  paddingTop: ".25em"
+  letterSpacing: "-0.05rem",
+  borderLeft: "1px solid #ccc",
+  paddingRight: 8
 };
 
 const StopRouteSchedule = ({ times, shapes, route }) => {
@@ -70,17 +70,22 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
               />
               <CardHeader title={_.capitalize(s.direction)} subheader={`to ${rd.between[s.dir]}`} style={{ padding: 10, marginLeft: 10 }} />
             </div>
-            <CardContent>
+            <CardContent style={{ margin: 0, padding: 0, fontFamily: "Inter", fontFeatureSettings: "'tnum' 1" }}>
               <div
                 style={{
-                  gridTemplateRows: `repeat(${Math.ceil(serviceTimes.filter(st => st.trip.directionId.toString() === s.dir).length / 6)}, 20px)`,
+                  gridTemplateRows: `repeat(${Math.ceil(serviceTimes.filter(st => st.trip.directionId.toString() === s.dir).length / 5)}, 22px)`,
                   ...gridStyle
                 }}
               >
                 {serviceTimes
                   .filter(st => st.trip.directionId.toString() === s.dir)
-                  .map(st => (
-                    <div style={cellStyle}>{arrivalTimeDisplay(st.arrivalTime, false)}</div>
+                  .map((st, i) => (
+                    <div style={{ ...cellStyle, borderLeft: i/serviceTimes.length < 0.2 ? `0px solid #ccc` : `1.5px solid #ccc`, fontWeight: st.arrivalTime.hours >= 12 && st.arrivalTime.hours <= 23 ? 600 : 400 }}>
+                      {arrivalTimeDisplay(
+                        st.arrivalTime,
+                        i === 0 || i === serviceTimes.length - 1 || (st.arrivalTime.hours === 12 && serviceTimes[i - 1].arrivalTime.hours === 11) ? true : false
+                      )}
+                    </div>
                   ))}
               </div>
             </CardContent>

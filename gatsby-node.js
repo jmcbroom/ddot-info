@@ -39,6 +39,8 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   `);
 
   result.data.postgres.routes.forEach(r => {
+
+    // we'll make a route page
     createPage({
       path: `/route/${r.short}`,
       component: path.resolve("./src/templates/route-page.js"),
@@ -47,6 +49,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     });
 
+    // a page showing all the stops on the route
     createPage({
       path: `/route/${r.short}/stops`,
       component: path.resolve("./src/templates/route-stops-page.js"),
@@ -55,6 +58,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     });
 
+    // a page showing the route schedule
     createPage({
       path: `/route/${r.short}/schedule`,
       component: path.resolve("./src/templates/route-schedule-page.js"),
@@ -64,6 +68,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     });
   });
 
+  
   result.data.postgres.stops.forEach(stop => {
     createPage({
       path: `/stop/${stop.stopId}`,
@@ -73,14 +78,4 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     });
   });
-
-  // result.data.postgres.stops.forEach(stop => {
-  //   createPage({
-  //     path: `/stop/${stop.stopId}`,
-  //     component: path.resolve("./src/templates/stop-page.js"),
-  //     context: {
-  //       stopId: stop.stopId
-  //     }
-  //   });
-  // });
 };

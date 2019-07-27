@@ -9,6 +9,8 @@
   src: url("./fonts/GibsonDetroit-Light.woff") format("woff"), url("./fonts/GibsonDetroit-Light.svg#filename") format("svg");
 }
 
+@import url('https://rsms.me/inter/inter.css');
+
 body {
   font-family: "Gibson Detroit Regular", "Gibson Detroit Light", sans-serif;
   margin: 0;
