@@ -8,6 +8,7 @@ import RouteLink from "../components/RouteLink";
 import StopRouteSchedule from "../components/StopRouteSchedule";
 import RoutePredictionsList from "../components/RoutePredictionsList";
 import BusStop from "../components/BusStop";
+import TopNav from "../components/TopNav";
 
 import routes from "../data/routes";
 
@@ -36,7 +37,8 @@ export default ({ data, pageContext }) => {
   console.log(predictions, currentTrip);
 
   return (
-    <Layout className="App">
+    <Layout className="pageGrid">
+      <TopNav />
       <StopMap
         name={s.stopDesc || s.stopName}
         id={s.stopId}
@@ -46,7 +48,7 @@ export default ({ data, pageContext }) => {
         currentRoute={route}
         currentBus={predictions.filter(p => p.tripId === currentTrip)[0]}
       />
-      <div className="routes">
+      <div style={{ gridArea: "details" }}>
         <Card>
           <CardHeader
             title="Bus routes that stop here"

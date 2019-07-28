@@ -9,7 +9,6 @@ import Helpers from "../helpers";
 
 export default ({ data, pageContext }) => {
   let r = data.postgres.route[0];
-
   let [now, setNow] = useState(new Date());
   let [activeTrips, setActiveTrips] = useState([]);
 
@@ -35,7 +34,7 @@ export default ({ data, pageContext }) => {
   }, [now]);
 
   return (
-    <Layout className="BusRoute">
+    <Layout className="pageGrid">
       <RouteHeader number={r.routeShortName} page="Overview" />
       <RouteMap shapes={r.shapes} longTrips={r.longTrips} activeTrips={activeTrips} color={r.routeColor} shortName={r.routeShortName} />
       <RouteDetails id={r.routeShortName} />

@@ -14,6 +14,7 @@ import Layout from "../components/Layout";
 import RouteSearch from "../components/RouteSearch";
 import StopSearch from "../components/StopSearch";
 import Nearby from "../components/Nearby";
+import TopNav from "../components/TopNav";
 
 const IndexPage = ({ data }) => {
   let [open, setOpen] = useState("routes");
@@ -22,6 +23,7 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
+      <TopNav />
       <Card>
         <CardHeader title="Welcome to DDOT's new bus schedule tool" />
         <CardContent>You can browse bus routes, look up a bus stop, or see service near your current location</CardContent>

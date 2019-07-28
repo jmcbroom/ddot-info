@@ -194,7 +194,8 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
 
       theMap.easeTo({
         center: coords,
-        zoom: 15.75})
+        zoom: 15.75
+      });
     }
   }, [currentBus, currentRoute]);
 
@@ -208,15 +209,19 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
   }, [currentRoute]);
 
   return (
-    <Card className="map">
-      <CardContent style={{ padding: 0, margin: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", padding: 0 }}>
-          <BusStop style={{ marginLeft: "1em", backgroundColor: "rgba(0, 0, 0, .8)", color: "yellow", borderRadius: 999, height: "1.75em", width: "1.75em" }} />
-          <CardHeader title={name} subheader={`Stop ID: #${id}`} style={{ fontSize: "1.2em", position: "sticky" }} />
-        </div>
-        <div id="map" style={{ height: "35vh", width: "100%" }} />
-      </CardContent>
-    </Card>
+    <>
+      <Card style={{ gridArea: "title" }}>
+        <CardContent style={{ padding: 0, margin: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", padding: 0 }}>
+            <BusStop
+              style={{ marginLeft: "1em", backgroundColor: "rgba(0, 0, 0, .8)", color: "yellow", borderRadius: 999, height: "1.75em", width: "1.75em" }}
+            />
+            <CardHeader title={name} subheader={`Stop ID: #${id}`} style={{ fontSize: "1.2em", position: "sticky" }} />
+          </div>
+        </CardContent>
+      </Card>
+      <div id="map" />
+    </>
   );
 };
 
