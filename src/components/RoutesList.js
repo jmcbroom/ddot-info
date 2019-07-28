@@ -10,7 +10,8 @@ const RoutesList = ({ routes }) => {
     maxHeight: 370,
     overflowY: "scroll",
     boxSizing: "border-box",
-    padding: 10
+    padding: 10,
+    webkitOverflowScrolling: "touch"
   };
   return (
     <div style={gridStyle}>

@@ -4,6 +4,14 @@ import { Helmet } from "react-helmet";
 import theme from "../theme";
 import TopNav from "./TopNav";
 import "../css/app.css";
+import { Divider } from "@material-ui/core";
+
+const Footer = () => (
+  <div style={{ background: "red", width: "100vw" }}>
+    <Divider />
+    <p>pwoeimfwoeimfwoeimf wefoimwe wefimwoeifm qwemfwoeimf wofmiwe</p>
+  </div>
+);
 
 const Layout = ({ className, children }) => {
   return (
@@ -13,6 +21,7 @@ const Layout = ({ className, children }) => {
       </Helmet>
       <ThemeProvider theme={theme}>
         <div className={className}>{children}</div>
+        <Footer />
       </ThemeProvider>
     </React.Fragment>
   );
