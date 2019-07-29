@@ -21,18 +21,13 @@ export default ({ data, pageContext }) => {
   let rd = routes.filter(rd => rd.number === parseInt(r.routeShortName))[0];
 
   let availableDirections = r.shapes.map(s => s.direction);
-  let [currentDirection, setCurrentDirection] = useState(
-    availableDirections[0]
-  );
+  let [currentDirection, setCurrentDirection] = useState(availableDirections[0]);
   let currentDirectionId = rd.directions.indexOf(currentDirection);
 
   let availableServices = _.uniq(r.trips.map(t => t.service));
   let [currentService, setCurrentService] = useState(availableServices[0]);
 
-  let tripsToShow = r.trips.filter(
-    trip =>
-      trip.direction === currentDirectionId && trip.service === currentService
-  );
+  let tripsToShow = r.trips.filter(trip => trip.direction === currentDirectionId && trip.service === currentService);
 
   // const sorted = tripsToShow.sort((a, b) => {
   //   return (
@@ -45,10 +40,7 @@ export default ({ data, pageContext }) => {
 
   let timepointList = tripsToShow
     .sort((a, b) => {
-      return (
-        b.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val) -
-        a.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val)
-      );
+      return b.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val) - a.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val);
     })[0]
     .stopTimes.filter(st => {
       return st.timepoint === 1;
@@ -67,27 +59,15 @@ export default ({ data, pageContext }) => {
         break;
       }
     }
-    return (
-      c.arrivalTime.hours * 60 +
-      c.arrivalTime.minutes -
-      (d.arrivalTime.hours * 60 + d.arrivalTime.minutes)
-    );
+    return c.arrivalTime.hours * 60 + c.arrivalTime.minutes - (d.arrivalTime.hours * 60 + d.arrivalTime.minutes);
   });
 
   return (
     <Layout>
       <RouteHeader number={r.routeShortName} page="Schedule" />
       <div className="schedule">
-        <AppBar
-          position="static"
-          color="default"
-          elevation={0}
-          style={{ display: "flex", background: "white" }}
-        >
-          <Toolbar
-            elevation={0}
-            style={{ flexDirection: "column", alignItems: "flex-start" }}
-          >
+        <AppBar position="static" color="default" elevation={0} style={{ display: "flex", background: "white" }}>
+          <Toolbar elevation={0} style={{ flexDirection: "column", alignItems: "flex-start" }}>
             <span
               style={{
                 margin: 0,
@@ -101,10 +81,7 @@ export default ({ data, pageContext }) => {
               <span style={{ marginLeft: ".25em" }}>
                 <RouteBadge id={r.routeShortName} showName />
               </span>
-              :{" "}
-              <span style={{ fontWeight: 700, paddingLeft: ".2em" }}>
-                Schedule
-              </span>
+              : <span style={{ fontWeight: 700, paddingLeft: ".2em" }}>Schedule</span>
             </span>
             <div
               style={{
@@ -131,8 +108,7 @@ export default ({ data, pageContext }) => {
               />
               <span style={{ fontSize: ".9em" }}>
                 {" "}
-                are shown in order in the top row; look down the column to see
-                scheduled departure times from that bus stop.
+                are shown in order in the top row; look down the column to see scheduled departure times from that bus stop.
               </span>
             </div>
             <div
@@ -146,12 +122,8 @@ export default ({ data, pageContext }) => {
               }}
             >
               <span style={{ fontSize: ".9em" }}>
-                Buses make additional stops between major stops; see a list of
-                all stops on the{" "}
-                <Link
-                  to={`/route/${r.routeShortName}/stops`}
-                  style={{ color: "black" }}
-                >
+                Buses make additional stops between major stops; see a list of all stops on the{" "}
+                <Link to={`/route/${r.routeShortName}/stops`} style={{ color: "black" }}>
                   BUS STOPS
                 </Link>{" "}
                 tab.
@@ -183,31 +155,19 @@ export default ({ data, pageContext }) => {
             </div>
           </Toolbar>
         </AppBar>
-        <AppBar
-          position="static"
-          color="default"
-          elevation={0}
-          style={{ display: "flex", flexWrap: "wrap", padding: ".5em 0em" }}
-        >
+        <AppBar position="static" color="default" elevation={0} style={{ display: "flex", flexWrap: "wrap", padding: ".5em 0em" }}>
           <Toolbar
             elevation={0}
             style={{
               justifyContent: "flex-start",
               alignItems: "start",
-              marginLeft: ".5em"
+              marginLeft: ".5em",
+              fontSize: 10,
+              padding: 0
             }}
           >
-            <DirectionPicker
-              directions={availableDirections}
-              direction={currentDirection}
-              handleChange={setCurrentDirection}
-              endpoints={rd.between}
-            />
-            <ServicePicker
-              services={availableServices}
-              service={currentService}
-              handleChange={setCurrentService}
-            />
+            <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} />
+            <DirectionPicker directions={availableDirections} direction={currentDirection} handleChange={setCurrentDirection} endpoints={rd.between} />
           </Toolbar>
         </AppBar>
         <ScheduleTable trips={sorted} color={r.routeColor} />
@@ -222,9 +182,7 @@ export default ({ data, pageContext }) => {
 export const query = graphql`
   query($routeNo: String!) {
     postgres {
-      route: allRoutesList(
-        condition: { routeShortName: $routeNo, feedIndex: 5 }
-      ) {
+      route: allRoutesList(condition: { routeShortName: $routeNo, feedIndex: 5 }) {
         agencyId
         routeShortName
         routeLongName
@@ -242,9 +200,7 @@ export const query = graphql`
         longTrips: longestTripsList {
           tripHeadsign
           directionId
-          stopTimes: stopTimesByFeedIndexAndTripIdList(
-            orderBy: STOP_SEQUENCE_ASC
-          ) {
+          stopTimes: stopTimesByFeedIndexAndTripIdList(orderBy: STOP_SEQUENCE_ASC) {
             stopSequence
             timepoint
             arrivalTime {
@@ -267,9 +223,7 @@ export const query = graphql`
           headsign: tripHeadsign
           direction: directionId
           service: serviceId
-          stopTimes: stopTimesByFeedIndexAndTripIdList(
-            condition: { timepoint: 1 }
-          ) {
+          stopTimes: stopTimesByFeedIndexAndTripIdList(condition: { timepoint: 1 }) {
             timepoint
             arrivalTime {
               hours
