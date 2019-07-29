@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import style from "../data/mapstyle.json";
+import _ from 'lodash'
 
 import { Card, CardContent, CardHeader } from "@material-ui/core";
 import Helpers from "../helpers";
 import RouteLink from "./RouteLink.js";
+import StopCard from './StopCard';
+import routes from '../data/routes'
 
-const NearbyList = ({ refs }) => {
+const NearbyList = ({ refs, stops }) => {
   console.log(refs);
 
-  let routes = refs.routes.map(r => parseInt(r.shortName));
+  let nearbyRoutes = refs.routes.map(r => parseInt(r.shortName));
 
   return (
     <div>
-      {routes.map(r => (
+      {nearbyRoutes.map(r => (
         <RouteLink id={r} />
       ))}
+      {stops.map(s => {
+        let routeNumbers = s.routeIds.map(rid => parseInt(rid.slice(5))).map(rn => _.filter(routes, rd => rn === rd.rt_id)[0].number)
+        console.log(routeNumbers)
+        return (<StopCard stopId={s.id.slice(5)} stopDesc={s.name} stopRoutes={routeNumbers}/>)
+      })}
     </div>
   );
 };
@@ -42,6 +50,8 @@ const NearbyMap = ({ stops, coords, radius }) => {
       console.log(e);
     });
 
+    map.on("load")
+
     setMap(map);
   }, []);
 
@@ -50,13 +60,14 @@ const NearbyMap = ({ stops, coords, radius }) => {
 
 const FeaturesNearLocation = ({ coords, radius }) => {
   let [refs, setRefs] = useState(null);
+  let [stops, setStops] = useState([])
 
   useEffect(() => {
     fetch(`${Helpers.endpoint}/stops-for-location.json?key=BETA&radius=${radius}&lat=${coords[1]}&lon=${coords[0]}`)
       .then(r => r.json())
       .then(d => {
         setRefs(d.data.references);
-        console.log(d);
+        setStops(d.data.list)
       });
   }, []);
 
@@ -64,8 +75,8 @@ const FeaturesNearLocation = ({ coords, radius }) => {
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 10 }}>
       {refs ? (
         <>
-          <NearbyMap refs={refs} coords={coords} radius={250} />
-          <NearbyList refs={refs} />
+          <NearbyMap refs={refs} stops={stops} coords={coords} radius={250} />
+          <NearbyList refs={refs} stops={stops} />
         </>
       ) : (
         ``

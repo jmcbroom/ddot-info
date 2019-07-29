@@ -39,11 +39,10 @@ const gridStyle = {
 };
 
 const cellStyle = {
-  textAlign: "right",
+  textAlign: "center",
   verticalAlign: "center",
   letterSpacing: "-0.05rem",
-  borderLeft: "1px solid #ccc",
-  paddingRight: 8
+  borderLeft: "1px solid #eee",
 };
 
 const StopRouteSchedule = ({ times, shapes, route }) => {
@@ -64,11 +63,17 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
                   marginLeft: ".5em",
                   color: "#aaa",
                   borderRadius: 999,
-                  height: "1.25em",
-                  width: "1.25em"
+                  height: "1.5em",
+                  width: "1.5em"
                 }}
               />
-              <CardHeader title={_.capitalize(s.direction)} subheader={`to ${rd.between[s.dir]}`} style={{ padding: 10, marginLeft: 10 }} />
+              <CardHeader 
+                title={`${_.capitalize(s.direction)}`} 
+                titleTypographyProps={{variant: 'h5'}}
+                subheader={` to ${rd.between[s.dir]}`}
+                subheaderTypographyProps={{variant: 'subtitle2'}}
+                style={{padding: '10px 10px'}}
+                />
             </div>
             <CardContent style={{ margin: 0, padding: 0, fontFamily: "Inter", fontFeatureSettings: "'tnum' 1" }}>
               <div
@@ -80,7 +85,7 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
                 {serviceTimes
                   .filter(st => st.trip.directionId.toString() === s.dir)
                   .map((st, i) => (
-                    <div style={{ ...cellStyle, borderLeft: i/serviceTimes.length < 0.2 ? `0px solid #ccc` : `1.5px solid #ccc`, fontWeight: st.arrivalTime.hours >= 12 && st.arrivalTime.hours <= 23 ? 600 : 400 }}>
+                    <div style={{ ...cellStyle, borderLeft: i/serviceTimes.length < 0.2 ? `0px solid #eee` : `1.5px solid #eee`, fontWeight: st.arrivalTime.hours >= 12 && st.arrivalTime.hours <= 23 ? 600 : 400 }}>
                       {arrivalTimeDisplay(
                         st.arrivalTime,
                         i === 0 || i === serviceTimes.length - 1 || (st.arrivalTime.hours === 12 && serviceTimes[i - 1].arrivalTime.hours === 11) ? true : false

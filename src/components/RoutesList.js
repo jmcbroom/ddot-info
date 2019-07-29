@@ -5,12 +5,12 @@ import RouteLink from "./RouteLink";
 const RoutesList = ({ routes }) => {
   const gridStyle = {
     display: "grid",
-    gridTemplateColumns: `repeat(auto-fit, minmax(350px, 1fr))`,
+    gridTemplateColumns: `repeat(auto-fit, minmax(275px, 1fr))`,
     gridGap: `.5em`,
-    maxHeight: 370,
+    maxHeight: '50vh',
     overflowY: "scroll",
     boxSizing: "border-box",
-    padding: 10,
+    padding: 0,
     webkitOverflowScrolling: "touch"
   };
   return (

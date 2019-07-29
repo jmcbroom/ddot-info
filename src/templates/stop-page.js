@@ -7,16 +7,13 @@ import StopMap from "../components/StopMap";
 import RouteLink from "../components/RouteLink";
 import StopRouteSchedule from "../components/StopRouteSchedule";
 import RoutePredictionsList from "../components/RoutePredictionsList";
-import BusStop from "../components/BusStop";
 import TopNav from "../components/TopNav";
 
-import routes from "../data/routes";
-
-import { Card, CardHeader, AppBar, Toolbar, NativeSelect } from "@material-ui/core";
+import { Card, CardHeader, AppBar, Toolbar, NativeSelect, CardContent } from "@material-ui/core";
 import { Radio, RadioGroup } from "@material-ui/core";
-import { FormControl, FormControlLabel, InputLabel, Input, FormHelperText } from "@material-ui/core";
+import { FormControl, FormControlLabel, InputLabel, Input } from "@material-ui/core";
 
-export default ({ data, pageContext }) => {
+export default ({ data }) => {
   const s = data.postgres.stop;
 
   let uniqRoutes = _.uniqBy(s.times, t => {
@@ -28,7 +25,6 @@ export default ({ data, pageContext }) => {
   // let [route, setRoute] = useState('');
   let [route, setRoute] = useState(uniqRouteNums[0]);
 
-  let rd = routes.filter(rd => rd.number === route)[0];
 
   let [currentTrip, setCurrentTrip] = useState(null);
 
@@ -49,13 +45,13 @@ export default ({ data, pageContext }) => {
         currentBus={predictions.filter(p => p.tripId === currentTrip)[0]}
       />
       <div style={{ gridArea: "details" }}>
-        <Card>
+        <Card >
+          <CardContent style={{padding: 0, margin: 0}}> 
           <CardHeader
             title="Bus routes that stop here"
             subheader="Showing next arrivals and today's schedule. Transfers tab shows nearby routes"
             style={{ fontSize: "1.1em" }}
           />
-        </Card>
         <AppBar position="static" color="red" style={{ display: "flex" }} elevation={0}>
           <Toolbar>
             <FormControl component="fieldset" required style={{ width: "100%" }}>
@@ -85,6 +81,8 @@ export default ({ data, pageContext }) => {
             </FormControl>
           </Toolbar>
         </AppBar>
+        </CardContent>
+        </Card>
         <AppBar position="static" color="default" elevation={0} style={{ display: "flex" }}>
           <Toolbar style={{ justifyContent: "space-between" }} elevation={0}>
             <RouteLink id={route} />

@@ -16,36 +16,7 @@ const RouteSearch = ({ routes }) => {
   } else {
     filteredRoutes = routes;
   }
-
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     allLines: (Object.values(Schedules)),
-  //     filteredLines: (Object.values(Schedules)),
-  //     realTime: '',
-  //     input: ''
-  //   };
-
-  //   this.handleSearchChange = this.handleSearchChange.bind(this);
-  // }
-
-  // handleSearchChange(event) {
-  //   const val = event.target.value
-  //   const matched = []
-
-  //   this.state.allLines.forEach(ln => {
-  //     if ((ln.id.indexOf(val) > -1) || (ln.rt_name.toUpperCase().indexOf(val.toUpperCase()) > -1)) {
-  //       matched.push(ln);
-  //     }
-  //   })
-
-  //   this.setState({
-  //     input: event.target.value,
-  //     filteredLines: matched
-  //   });
-  // }
-
+  
   return (
     <Card>
       <CardHeader

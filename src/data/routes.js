@@ -1385,7 +1385,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6836,
+        rt_id: 6999,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [127, 4604, 785, 787, 788, 1064, 9694],
@@ -1428,7 +1428,7 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 6837,
+        rt_id: 7029,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [127, 250, 805, 807, 808, 809, 810, 811, 322, 323, 815],
@@ -1468,7 +1468,7 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 6838,
+        rt_id: 7030,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [10329, 380, 838, 839, 7154, 842, 843, 368],
@@ -1510,7 +1510,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: true,
-        rt_id: 6839,
+        rt_id: 7033,
         directions: ["westbound", "eastbound"],
         timepoints: {
             westbound: [10178, 8167, 8148, 4841, 10258, 8263],
@@ -1539,7 +1539,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: false,
-        rt_id: 6840,
+        rt_id: 7034,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [2507, 3412, 1490, 772, 10260, 295],
@@ -1568,7 +1568,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: true,
-        rt_id: 6841,
+        rt_id: 7035,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [10253, 327, 330, 10231, 8100],
@@ -1597,7 +1597,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: true,
-        rt_id: 6843,
+        rt_id: 7037,
         directions: ["northbound", "southbound"],
         timepoints: {
             northbound: [10204, 10205, 7328, 10207, 10208, 646],
@@ -1625,7 +1625,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: true,
-        rt_id: 6844,
+        rt_id: 7038,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [7158, 7214, 434, 437, 10231, 8100],

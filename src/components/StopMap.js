@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
-import { DirectionsBus } from "@material-ui/icons";
 import bbox from "@turf/bbox";
 import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";

@@ -18,7 +18,7 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
   useEffect(() => {
     let tick = setInterval(() => {
       setNow(new Date());
-    }, 15000);
+    }, 3000);
     return () => clearInterval(tick);
   }, []);
 
@@ -73,9 +73,7 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
             </>
           ))
         ) : (
-          <Card>
             <CardContent style={{ padding: "1em" }}>There are currently no real-time predictions available, see the schedule below.</CardContent>
-          </Card>
         )}
       </List>
     </Card>

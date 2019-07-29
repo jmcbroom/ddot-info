@@ -3,18 +3,18 @@ import _ from "lodash";
 import { navigate } from "@reach/router";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import bbox from "@turf/bbox";
-import { Card, CardHeader, CardContent, Box } from "@material-ui/core";
 import style from "../data/mapstyle.json";
-import RouteBadge from "./RouteBadge";
-import { DirectionsBus } from "@material-ui/icons";
 import routes from "../data/routes";
+import {Card, CardHeader, CardContent} from '@material-ui/core';
 
-const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, largeScreen }) => {
+const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) => {
+
   // do a route detail lookup
   let rd = routes.filter(rd => rd.number === parseInt(shortName))[0];
 
   // we're going to store the mapbox gl map object here.
   let [theMap, setMap] = useState(null);
+  let [tracked, setTracked] = useState(null)
 
   // make some GeoJSON features for the map
   // route shapes
@@ -296,10 +296,20 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, largeScree
       });
 
       map.on("click", "realtime-circle", e => {
-        let activeTrip = map.queryRenderedFeatures(e.point, {
+        let clickedTrip = map.queryRenderedFeatures(e.point, {
           layers: ["realtime-circle"]
         })[0];
-        console.log(activeTrip);
+
+        let matchedTrip = activeTrips.filter(at => at.status.vehicleId === clickedTrip.properties.vehicleId)[0]
+        console.log(activeTrips.map(at => at.status.vehicleId))
+        console.log(clickedTrip.properties.vehicleId)
+        console.log(matchedTrip)
+        setTracked(matchedTrip)
+      
+        map.easeTo({
+          center: [matchedTrip.status.position.lon, matchedTrip.status.position.lat],
+          zoom: 16
+        })
       });
 
       map.on("mouseover", "stop-points", e => {
@@ -316,8 +326,6 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, largeScree
 
   // an effect for when the realtime data changes
   useEffect(() => {
-    console.log(activeTrips);
-
     // let's make some GeoJSON
     let features = activeTrips.map(tr => {
       return {
@@ -327,6 +335,7 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, largeScree
           coordinates: [tr.status.position.lon, tr.status.position.lat]
         },
         properties: {
+          tripId: tr.tripId,
           ...tr.status
         }
       };
@@ -334,40 +343,30 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, largeScree
 
     if (theMap && theMap.isSourceLoaded("realtime")) {
       theMap.getSource("realtime").setData({ type: "FeatureCollection", features: features });
+      if(tracked) {
+
+        let matchedTrip = activeTrips.filter(at => at.status.vehicleId === tracked.status.vehicleId)[0]
+
+        setTracked(matchedTrip)
+
+        theMap.easeTo({
+          center: [matchedTrip.status.position.lon, matchedTrip.status.position.lat],
+          zoom: 16
+        })
+      }
     }
   }, [activeTrips]);
 
   return (
-    // <Card component="div" elevation={0}>
-    //   <CardContent style={{ padding: 0, margin: 0, height: "100%" }}>
-    //     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-    //       <CardHeader
-    //         title={<RouteBadge id={shortName} showName />}
-    //         subheader={<div style={{ display: "flex", alignItems: "center" }}>Zoom in for all stops and real-time bus info.</div>}
-    //       />
-    //       <div
-    //         style={{ display: "grid", gridTemplate: "repeat(2, 1fr) / 1fr 1fr", gridGap: 10, marginRight: ".5em", background: "rgba(0,0,0,0.05)", padding: 10 }}
-    //       >
-    //         <div style={{ display: "flex", alignItems: "center", alignContent: "center", fontWeight: 700 }}>
-    //           <span style={{ textAlign: "center", textSize: "1.5em" }} />
-    //         </div>
-    //         <div style={{ display: "flex", alignItems: "center", alignContent: "space-between" }}>
-    //           <DirectionsBus style={{ height: 17, width: 17, padding: 1, borderRadius: 9999, color: "white", background: "rgba(0,0,0,1)" }} />
-    //           <span style={{ marginLeft: ".5em" }}>Active buses</span>
-    //         </div>
-    //         <div style={{ display: "flex", alignItems: "center", alignContent: "space-between" }}>
-    //           <span style={{ borderRadius: 9999, border: "3px solid black", width: 13, height: 13, background: "#000" }} />
-    //           <span style={{ marginLeft: ".5em", textAlign: "center" }}>Major stops</span>
-    //         </div>
-    //         <div style={{ display: "flex", alignItems: "center", alignContent: "space-between" }}>
-    //           <span style={{ borderRadius: 9999, border: `3px solid ${color}`, width: 13, height: 13, background: "#fff" }} />
-    //           <span style={{ marginLeft: ".5em" }}>Local stops</span>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </CardContent>
-    // </Card>
-    <div id="map" />
+    <div id="map">
+      {tracked && (
+        <Card style={{position: "absolute", padding: 10, background: 'white', zIndex: 2}}>
+          <CardContent style={{padding: 0, margin: 0}}>
+          <CardHeader title={`${tracked.status.vehicleId}`} titleTypographyProps={{variant: 'subtitle1'}} style={{padding: 0}} />
+          {stopsFeatures.filter(sf => sf.properties.stop_id === tracked.status.nextStop.slice(5).toString())[0].properties.stop_desc}
+          </CardContent>
+        </Card>)}
+    </div>
   );
 };
 

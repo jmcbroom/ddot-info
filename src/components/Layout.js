@@ -7,7 +7,7 @@ import "../css/app.css";
 import { Divider } from "@material-ui/core";
 
 const Footer = () => (
-  <div style={{ background: "rgba(0, 68, 69, 0.2)", height: "5em", width: "100vw" }}>
+  <div style={{ gridArea: 'footer', background: "rgba(0, 68, 69, 0.2)", height: "5em", padding: '1em' }}>
     <Divider />
     <p>pwoeimfwoeimfwoeimf wefoimwe wefimwoeifm qwemfwoeimf wofmiwe</p>
   </div>
