@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
+import { Link } from "gatsby";
 import { navigate } from "@reach/router";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import bbox from "@turf/bbox";
 import style from "../data/mapstyle.json";
 import routes from "../data/routes";
-import {Card, CardHeader, CardContent} from '@material-ui/core';
+import { Card, CardHeader, CardContent, CardMedia, Button, IconButton, Box, Typography } from "@material-ui/core";
+import { SpeakerPhone, Schedule, Close, DirectionsBus} from "@material-ui/icons";
+import StopCard from "./StopCard.js";
 
-const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) => {
-
+const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, refs }) => {
   // do a route detail lookup
   let rd = routes.filter(rd => rd.number === parseInt(shortName))[0];
 
   // we're going to store the mapbox gl map object here.
   let [theMap, setMap] = useState(null);
-  let [tracked, setTracked] = useState(null)
+  let [tracked, setTracked] = useState(null);
 
   // make some GeoJSON features for the map
   // route shapes
@@ -69,12 +71,10 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) =>
         type: "geojson",
         data: { type: "FeatureCollection", features: shapesFeatures }
       });
-
       map.addSource("stops", {
         type: "geojson",
         data: { type: "FeatureCollection", features: stopsFeatures }
       });
-
       map.addSource("realtime", {
         type: "geojson",
         data: {
@@ -83,6 +83,7 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) =>
         }
       });
 
+      // stops
       map.addLayer({
         id: "stop-points",
         type: "circle",
@@ -116,7 +117,6 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) =>
           }
         }
       });
-
       map.addLayer({
         id: "stop-labels",
         type: "symbol",
@@ -162,6 +162,7 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) =>
         }
       });
 
+      // timepoints
       map.addLayer({
         id: "timepoint-points",
         type: "circle",
@@ -183,28 +184,6 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) =>
           }
         }
       });
-
-      map.addLayer({
-        id: "realtime-circle",
-        type: "circle",
-        source: "realtime",
-        paint: {
-          "circle-radius": 11,
-          "circle-color": "rgba(255,255,255,0.5)",
-          "circle-stroke-width": 2
-        }
-      });
-
-      map.addLayer({
-        id: "realtime-icons",
-        type: "symbol",
-        source: "realtime",
-        layout: {
-          "icon-image": "bus-11",
-          "icon-allow-overlap": true
-        }
-      });
-
       map.addLayer({
         id: "timepoint-labels",
         type: "symbol",
@@ -237,6 +216,28 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) =>
         }
       });
 
+      // realtime
+      map.addLayer({
+        id: "realtime-circle",
+        type: "circle",
+        source: "realtime",
+        paint: {
+          "circle-radius": 11,
+          "circle-color": "rgba(255,255,255,0.5)",
+          "circle-stroke-width": 2
+        }
+      });
+      map.addLayer({
+        id: "realtime-icons",
+        type: "symbol",
+        source: "realtime",
+        layout: {
+          "icon-image": "bus-11",
+          "icon-allow-overlap": true
+        }
+      });
+
+      // routes
       map.addLayer(
         {
           id: "ddot-routes-case",
@@ -300,16 +301,14 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) =>
           layers: ["realtime-circle"]
         })[0];
 
-        let matchedTrip = activeTrips.filter(at => at.status.vehicleId === clickedTrip.properties.vehicleId)[0]
-        console.log(activeTrips.map(at => at.status.vehicleId))
-        console.log(clickedTrip.properties.vehicleId)
-        console.log(matchedTrip)
-        setTracked(matchedTrip)
-      
+        console.log(clickedTrip.properties.tripId);
+        // let matchedTrip = activeTrips.filter(at => at.status.vehicleId === clickedTrip.properties.vehicleId)[0];
+        setTracked(clickedTrip.properties.tripId);
+
         map.easeTo({
-          center: [matchedTrip.status.position.lon, matchedTrip.status.position.lat],
+          center: clickedTrip.geometry.coordinates,
           zoom: 16
-        })
+        });
       });
 
       map.on("mouseover", "stop-points", e => {
@@ -343,30 +342,77 @@ const RouteMap = ({ shapes, longTrips, color, shortName, activeTrips, refs }) =>
 
     if (theMap && theMap.isSourceLoaded("realtime")) {
       theMap.getSource("realtime").setData({ type: "FeatureCollection", features: features });
-      if(tracked) {
+      if (tracked) {
+        let filtered = activeTrips.filter(trip => trip.tripId === tracked);
+        // console.log(allTrips)
+        let filteredTrip = allTrips.filter(trip => trip.id === tracked.slice(5));
 
-        let matchedTrip = activeTrips.filter(at => at.status.vehicleId === tracked.status.vehicleId)[0]
-
-        setTracked(matchedTrip)
-
-        theMap.easeTo({
-          center: [matchedTrip.status.position.lon, matchedTrip.status.position.lat],
-          zoom: 16
-        })
+        if (filtered.length === 0) {
+          return;
+        } else {
+          theMap.easeTo({
+            center: [filtered[0].status.position.lon, filtered[0].status.position.lat]
+          });
+        }
       }
     }
   }, [activeTrips]);
 
+  let realtimeTrip,
+    gtfsTrip,
+    nextStop = null;
+  if (tracked !== null) {
+    realtimeTrip = activeTrips.filter(trip => trip.tripId === tracked)[0];
+    gtfsTrip = allTrips.filter(trip => trip.id === tracked.slice(5))[0];
+    nextStop = stopsFeatures.filter(sf => sf.properties.stop_id === realtimeTrip.status.nextStop.slice(5).toString())[0];
+    console.log(realtimeTrip);
+  }
+
   return (
-    <div id="map">
-      {tracked && (
-        <Card style={{position: "absolute", padding: 10, background: 'white', zIndex: 2}}>
-          <CardContent style={{padding: 0, margin: 0}}>
-          <CardHeader title={`${tracked.status.vehicleId}`} titleTypographyProps={{variant: 'subtitle1'}} style={{padding: 0}} />
-          {stopsFeatures.filter(sf => sf.properties.stop_id === tracked.status.nextStop.slice(5).toString())[0].properties.stop_desc}
+    <>
+      <div id="map" />
+      {tracked && realtimeTrip && gtfsTrip && (
+        <Card style={{ background: "white", zIndex: 2, gridArea: "title" }}>
+          <CardHeader
+            avatar={realtimeTrip.status.predicted ? <SpeakerPhone /> : <Schedule />}
+            title={`${_.capitalize(rd.directions[gtfsTrip.direction])} to ${rd.between[gtfsTrip.direction]}`}
+            subheader={
+              Math.abs(realtimeTrip.status.scheduleDeviation / 60) === 0
+                ? `On time`
+                : `${Math.abs(realtimeTrip.status.scheduleDeviation / 60)} minute${Math.abs(realtimeTrip.status.scheduleDeviation / 60) === 1 ? `` : `s`} ${
+                    realtimeTrip.status.scheduleDeviation < 0 ? "early" : "late"
+                  }`
+            }
+            titleTypographyProps={{ variant: "h6" }}
+            action={
+              <IconButton onClick={() => setTracked(null)}>
+                <Close />
+              </IconButton>
+            }
+          />
+          <CardContent style={{ paddingTop: 0 }}>
+          <div style={{ marginTop: '.5em', display: 'flex', alignItems: 'center' }}>
+            <DirectionsBus style={{ height: 20, width: 20, borderRadius: 9999, background: 'rgba(0,0,0,.75)', padding: 2.5, color: 'white' }} />
+            <span style={{ marginLeft: '.5em' }}>Now near</span>
+            <Link 
+              style={{ fontSize: '1em', color: '#000', fontWeight: 300, padding: '0px 5px 0px 5px' }} 
+              to={`/stop/${nextStop.properties.stop_id}/`}>
+              <span style={{fontWeight: 700}}>{nextStop.properties.stop_desc}</span>
+            </Link>
+            <span style={{ background: '#eee', padding: '.25em', display: 'inline-block' }}>#{nextStop.properties.stop_id}</span>
+          </div>
           </CardContent>
-        </Card>)}
-    </div>
+            {/* <Typography variant="subtitle1" color="textPrimary" />
+            <Typography variant="subtitle2" color="textPrimary">
+              {`Next stop:`}
+            </Typography>
+            <Typography variant="h6" color="textPrimary">
+              <Link to={`/stop/${nextStop.properties.stopId}`}> {`${nextStop.properties.stop_desc} (#${nextStop.properties.stop_id})`} </Link>
+            </Typography>
+          </CardContent> */}
+        </Card>
+      )}
+    </>
   );
 };
 

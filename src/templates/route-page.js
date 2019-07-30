@@ -5,10 +5,12 @@ import Layout from "../components/Layout";
 import RouteHeader from "../components/RouteHeader";
 import RouteMap from "../components/RouteMap";
 import RouteDetails from "../components/RouteDetails";
+import routes from '../data/routes'
 import Helpers from "../helpers";
 
 export default ({ data, pageContext }) => {
   let r = data.postgres.route[0];
+  let rd = routes.filter(rd => rd.number === parseInt(pageContext.routeNo))
   let [now, setNow] = useState(new Date());
   let [activeTrips, setActiveTrips] = useState([]);
   let [refs, setRefs] = useState(null)
@@ -38,7 +40,7 @@ export default ({ data, pageContext }) => {
   return (
     <Layout className="pageGrid">
       <RouteHeader number={r.routeShortName} page="Overview" />
-      <RouteMap shapes={r.shapes} longTrips={r.longTrips} activeTrips={activeTrips} refs={refs} color={r.routeColor} shortName={r.routeShortName} />
+      <RouteMap shapes={r.shapes} longTrips={r.longTrips} activeTrips={activeTrips} allTrips={r.trips} refs={refs} color={r.routeColor} shortName={r.routeShortName} />
       <RouteDetails id={r.routeShortName} />
     </Layout>
   );

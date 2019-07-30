@@ -49,9 +49,9 @@ const StopSearch = ({ stops }) => {
         ) : (
           ``
         )}
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`, overflowY: "scroll" }}>
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`, gridGap: 20, overflowY: "scroll" }}>
           {randomStops.map(rs => (
-            <StopCard stopId={rs.stopId} stopDesc={rs.stopDesc} stopRoutes={rs.routes.map(r => r.routeShortName)} />
+            <StopCard stopId={rs.stopId} stopDesc={rs.stopDesc || rs.stopName} stopRoutes={rs.routes.map(r => r.routeShortName)} />
           ))}
         </div>
       </CardContent>

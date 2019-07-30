@@ -4,6 +4,7 @@ import moment from 'moment'
 import { Link } from 'gatsby'
 import { Card, CardContent} from '@material-ui/core';
 import { DirectionsBus, SpeakerPhone, Schedule, Warning } from '@material-ui/icons';
+import BusStop from './BusStop';
 
 const styles = {
   prediction: {
@@ -57,10 +58,10 @@ const RealtimeCard = ({ prediction, references }) => {
               <span style={{ fontWeight: 700, paddingLeft: '.25em' }}>{computeTimeAway(prediction) > 0 ? `in ${computeTimeAway(prediction)} minutes`: `${Math.abs(computeTimeAway(prediction))} minutes ago`}</span>
             </div>
           </div>
-          : <div style={styles.prediction}><Warning style={styles.predictionIcon}/>This bus is still finishing another trip and will turn around before starting this trip</div>
+          : <div style={styles.prediction}><Warning style={styles.predictionIcon}/>This bus is still finishing another trip and will turn around.</div>
         }
         <div style={{ marginTop: '.5em', display: 'flex', alignItems: 'center' }}>
-          <DirectionsBus style={{ height: 20, width: 20, borderRadius: 9999, background: 'rgba(0,0,0,.75)', padding: 2.5, color: 'white' }} />
+          <BusStop style={{ height: 20, width: 20, borderRadius: 9999, background: 'rgba(0,0,0,.75)', padding: 2.5, color: 'white' }} />
           <span style={{ marginLeft: '.5em' }}>Now near</span>
           <Link 
             style={{ fontSize: '1em', color: '#000', fontWeight: 300, padding: '0px 5px 0px 5px' }} 
