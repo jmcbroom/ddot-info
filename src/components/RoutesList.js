@@ -7,11 +7,11 @@ const RoutesList = ({ routes }) => {
     display: "grid",
     gridTemplateColumns: `repeat(auto-fit, minmax(275px, 1fr))`,
     gridGap: `.5em`,
-    maxHeight: '50vh',
+    maxHeight: "50vh",
     overflowY: "scroll",
     boxSizing: "border-box",
     padding: 0,
-    webkitOverflowScrolling: "touch"
+    WebkitOverflowScrolling: "touch"
   };
   return (
     <div style={gridStyle}>

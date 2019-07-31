@@ -2,10 +2,10 @@ import React from "react";
 import { Card, CardContent } from "@material-ui/core";
 import { SwapHoriz } from "@material-ui/icons";
 
-import StopLink from './StopLink'
+import StopLink from "./StopLink";
+import BusStop from "./BusStop";
 
 const RouteStopList = ({ route, longTrip }) => {
-
   const cardStyle = {
     display: "flex",
     justifyContent: "center",
@@ -22,7 +22,7 @@ const RouteStopList = ({ route, longTrip }) => {
       <CardContent>
         <div style={cardStyle}>
           <div style={{ width: "50%", marginLeft: "1rem", display: "flex", alignItems: "center" }}>
-            <SwapHoriz />
+            <BusStop />
             <span style={{ display: "block", marginLeft: ".5em" }}>Bus stops</span>
           </div>
           <div style={{ width: "50%", marginLeft: "1rem", display: "flex", alignItems: "center" }}>
@@ -30,15 +30,10 @@ const RouteStopList = ({ route, longTrip }) => {
             <span style={{ display: "block", marginLeft: ".5em" }}>Transfers</span>
           </div>
         </div>
-        <div style={{ height: "60vh", overflowY: "scroll" }}>
+        <div style={{ height: "60vh", overflowY: "scroll", WebkitOverflowScrolling: "touch" }}>
           {longTrip.stopTimes.map(st => (
             <div style={{ display: "flex", alignItems: "center", zIndex: 0 }} key={st.stop.stopId}>
-              <StopLink
-                stop={st.stop}
-                color={route.color}
-                isTimepoint={st.timepoint ? true : false}
-                showTransfers
-                showBorder />
+              <StopLink stop={st.stop} color={route.color} isTimepoint={st.timepoint ? true : false} showTransfers showBorder />
             </div>
           ))}
         </div>

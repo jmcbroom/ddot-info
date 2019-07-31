@@ -15,7 +15,7 @@ const TopNav = ({ children }) => (
         alignItems: "center",
         verticalAlign: "center",
         justifyContent: "space-between",
-        padding: ".75rem"
+        padding: ".5rem"
       }}
     >
       <div style={{ display: "flex", alignContent: "center", alignItems: "center", fontSize: "2em" }}>

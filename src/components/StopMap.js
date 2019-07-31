@@ -31,6 +31,8 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
       attributionControl: false
     });
 
+    map.addControl(new mapboxgl.NavigationControl());
+
     map.on("load", e => {
       // the stop
       map.addSource("this-stop", {
@@ -210,14 +212,13 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
   return (
     <>
       <Card style={{ gridArea: "title" }}>
-        <CardContent style={{ padding: 0, margin: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", padding: 0 }}>
-            <BusStop
-              style={{ marginLeft: "1em", backgroundColor: "rgba(0, 0, 0, .8)", color: "yellow", borderRadius: 999, height: "1.75em", width: "1.75em" }}
-            />
-            <CardHeader title={name} subheader={`Stop ID: #${id}`} style={{ fontSize: "1.2em", position: "sticky" }} />
-          </div>
-        </CardContent>
+        <CardHeader
+          avatar={<BusStop />}
+          title={name}
+          titleTypographyProps={{ variant: "h6" }}
+          subheader={`Stop ID: #${id}`}
+          subheaderTypographyProps={{ variant: "subtitle2" }}
+        />
       </Card>
       <div id="map" />
     </>

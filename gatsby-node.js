@@ -39,7 +39,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   `);
 
   result.data.postgres.routes.forEach(r => {
-
     // we'll make a route page
     createPage({
       path: `/route/${r.short}`,
@@ -68,7 +67,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     });
   });
 
-  
   result.data.postgres.stops.forEach(stop => {
     createPage({
       path: `/stop/${stop.stopId}`,

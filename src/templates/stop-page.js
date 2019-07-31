@@ -25,7 +25,6 @@ export default ({ data }) => {
   // let [route, setRoute] = useState('');
   let [route, setRoute] = useState(uniqRouteNums[0]);
 
-
   let [currentTrip, setCurrentTrip] = useState(null);
 
   let [predictions, setPredictions] = useState([]);
@@ -45,43 +44,44 @@ export default ({ data }) => {
         currentBus={predictions.filter(p => p.tripId === currentTrip)[0]}
       />
       <div style={{ gridArea: "details" }}>
-        <Card >
-          <CardContent style={{padding: 0, margin: 0}}> 
-          <CardHeader
-            title="Bus routes that stop here"
-            subheader="Showing next arrivals and today's schedule. Transfers tab shows nearby routes"
-            style={{ fontSize: "1.1em" }}
-          />
-        <AppBar position="static" color="red" style={{ display: "flex" }} elevation={0}>
-          <Toolbar>
-            <FormControl component="fieldset" required style={{ width: "100%" }}>
-              {uniqRouteNums.length < 4 ? (
-                <RadioGroup name="routes" value={route}>
-                  {uniqRouteNums.map(n => (
-                    <FormControlLabel
-                      key={n}
-                      value={n}
-                      control={<Radio />}
-                      onChange={() => setRoute(n)}
-                      label={<RouteLink id={n} small />}
-                      style={{ width: "100%" }}
-                    />
-                  ))}
-                </RadioGroup>
-              ) : (
-                <>
-                  <InputLabel htmlFor="route-native-helper">{uniqRouteNums.length} routes stop here; choose yours from the menu</InputLabel>
-                  <NativeSelect value={route} onChange={e => setRoute(e.target.value)} input={<Input name="route" id="route-native-helper" />}>
-                    {uniqRouteNums.map(n => (
-                      <option value={n}>{n}</option>
-                    ))}
-                  </NativeSelect>
-                </>
-              )}
-            </FormControl>
-          </Toolbar>
-        </AppBar>
-        </CardContent>
+        <Card>
+          <CardContent style={{ padding: 0, margin: 0 }}>
+            <CardHeader
+              title="Bus routes that stop here"
+              titleTypographyProps={{ variant: "subtitle1" }}
+              subheader="Showing next arrivals and today's schedule. Transfers tab shows nearby routes"
+              subheaderTypographyProps={{ variant: "subtitle2" }}
+            />
+            <AppBar position="static" color="red" style={{ display: "flex" }} elevation={0}>
+              <Toolbar>
+                <FormControl component="fieldset" required style={{ width: "100%" }}>
+                  {uniqRouteNums.length < 4 ? (
+                    <RadioGroup name="routes" value={route}>
+                      {uniqRouteNums.map(n => (
+                        <FormControlLabel
+                          key={n}
+                          value={n}
+                          control={<Radio />}
+                          onChange={() => setRoute(n)}
+                          label={<RouteLink id={n} small />}
+                          style={{ width: "100%" }}
+                        />
+                      ))}
+                    </RadioGroup>
+                  ) : (
+                    <>
+                      <InputLabel htmlFor="route-native-helper">{uniqRouteNums.length} routes stop here; choose yours from the menu</InputLabel>
+                      <NativeSelect value={route} onChange={e => setRoute(e.target.value)} input={<Input name="route" id="route-native-helper" />}>
+                        {uniqRouteNums.map(n => (
+                          <option value={n}>{n}</option>
+                        ))}
+                      </NativeSelect>
+                    </>
+                  )}
+                </FormControl>
+              </Toolbar>
+            </AppBar>
+          </CardContent>
         </Card>
         <AppBar position="static" color="default" elevation={0} style={{ display: "flex" }}>
           <Toolbar style={{ justifyContent: "space-between" }} elevation={0}>

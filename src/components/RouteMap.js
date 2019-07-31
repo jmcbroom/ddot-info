@@ -7,7 +7,7 @@ import bbox from "@turf/bbox";
 import style from "../data/mapstyle.json";
 import routes from "../data/routes";
 import { Card, CardHeader, CardContent, CardMedia, Button, IconButton, Box, Typography } from "@material-ui/core";
-import { SpeakerPhone, Schedule, Close, DirectionsBus} from "@material-ui/icons";
+import { SpeakerPhone, Schedule, Close, DirectionsBus } from "@material-ui/icons";
 import StopCard from "./StopCard.js";
 
 const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, refs }) => {
@@ -58,9 +58,11 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
       container: "map",
       style: style,
       center: randomTimepoint.geometry.coordinates,
-      zoom: 12.75, // starting zoom,
-      attributionControl: false
+      zoom: 12.75 // starting zoom
     });
+
+    let ctrl = new mapboxgl.NavigationControl();
+    map.addControl(ctrl, "top-left");
 
     map.on("load", e => {
       map.fitBounds(bounds, {
@@ -74,13 +76,6 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
       map.addSource("stops", {
         type: "geojson",
         data: { type: "FeatureCollection", features: stopsFeatures }
-      });
-      map.addSource("realtime", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: []
-        }
       });
 
       // stops
@@ -340,7 +335,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
       };
     });
 
-    if (theMap && theMap.isSourceLoaded("realtime")) {
+    if (theMap) {
       theMap.getSource("realtime").setData({ type: "FeatureCollection", features: features });
       if (tracked) {
         let filtered = activeTrips.filter(trip => trip.tripId === tracked);
@@ -372,7 +367,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
     <>
       <div id="map" />
       {tracked && realtimeTrip && gtfsTrip && (
-        <Card style={{ background: "white", zIndex: 2, gridArea: "title" }}>
+        <Card style={{ background: "white", zIndex: 2, gridArea: "realtime" }}>
           <CardHeader
             avatar={realtimeTrip.status.predicted ? <SpeakerPhone /> : <Schedule />}
             title={`${_.capitalize(rd.directions[gtfsTrip.direction])} to ${rd.between[gtfsTrip.direction]}`}
@@ -383,26 +378,24 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
                     realtimeTrip.status.scheduleDeviation < 0 ? "early" : "late"
                   }`
             }
-            titleTypographyProps={{ variant: "h6" }}
+            titleTypographyProps={{ variant: "subtitle1" }}
             action={
               <IconButton onClick={() => setTracked(null)}>
                 <Close />
               </IconButton>
             }
           />
-          <CardContent style={{ paddingTop: 0 }}>
-          <div style={{ marginTop: '.5em', display: 'flex', alignItems: 'center' }}>
-            <DirectionsBus style={{ height: 20, width: 20, borderRadius: 9999, background: 'rgba(0,0,0,.75)', padding: 2.5, color: 'white' }} />
-            <span style={{ marginLeft: '.5em' }}>Now near</span>
-            <Link 
-              style={{ fontSize: '1em', color: '#000', fontWeight: 300, padding: '0px 5px 0px 5px' }} 
-              to={`/stop/${nextStop.properties.stop_id}/`}>
-              <span style={{fontWeight: 700}}>{nextStop.properties.stop_desc}</span>
-            </Link>
-            <span style={{ background: '#eee', padding: '.25em', display: 'inline-block' }}>#{nextStop.properties.stop_id}</span>
-          </div>
+          <CardContent title="what" style={{ paddingTop: 0 }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <DirectionsBus style={{ height: 20, width: 20, borderRadius: 9999, background: "rgba(0,0,0,.75)", padding: 2.5, color: "white" }} />
+              <span style={{ marginLeft: ".5em" }}>Now near</span>
+              <Link style={{ fontSize: "1em", color: "#000", fontWeight: 300, padding: "0px 5px 0px 5px" }} to={`/stop/${nextStop.properties.stop_id}/`}>
+                <span style={{ fontWeight: 700 }}>{nextStop.properties.stop_desc}</span>
+              </Link>
+              <span style={{ background: "#eee", padding: ".25em", display: "inline-block" }}>#{nextStop.properties.stop_id}</span>
+            </div>
           </CardContent>
-            {/* <Typography variant="subtitle1" color="textPrimary" />
+          {/* <Typography variant="subtitle1" color="textPrimary" />
             <Typography variant="subtitle2" color="textPrimary">
               {`Next stop:`}
             </Typography>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import { Card, CardContent, List, ListItem, ListItemIcon, ListItemText, Collapse } from "@material-ui/core";
+import { Card, CardContent, List, ListItem, ListItemIcon, ListItemText, Collapse, Typography } from "@material-ui/core";
 import { Schedule, SpeakerPhone, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
 import Helpers from "../helpers";
 import routes from "../data/routes";
@@ -12,8 +12,6 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
   let [references, setReferences] = useState([]);
 
   let rd = routes.filter(rd => rd.number === parseInt(route))[0];
-
-  console.log(rd);
 
   useEffect(() => {
     let tick = setInterval(() => {
@@ -41,6 +39,7 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
   }, [now]);
 
   let matchedPredictions = predictions.filter(pr => pr.routeId.indexOf(rd.rt_id.toString()) > -1);
+
   return (
     <Card style={{ margin: "0px 0px 10px 0px" }}>
       <List style={{ paddingTop: 0 }}>
@@ -73,7 +72,10 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
             </>
           ))
         ) : (
-            <CardContent style={{ padding: "1em" }}>There are currently no real-time predictions available, see the schedule below.</CardContent>
+          <CardContent>
+            <Typography variant="subtitle1">There are currently no real-time predictions available.</Typography>
+            <Typography variant="subtitle1">There are currently no real-time predictions available.</Typography>
+          </CardContent>
         )}
       </List>
     </Card>
