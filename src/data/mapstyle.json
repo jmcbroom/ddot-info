@@ -126,7 +126,7 @@
       }
     }
   },
-  "sprite": "mapbox://sprites/cityofdetroit/cjdndtywb04ee2slc79udmzn8",
+  "sprite": "mapbox://styles/cityofdetroit/cjyson0570rh21cmxabzp4xxc",
   "glyphs": "mapbox://fonts/cityofdetroit/{fontstack}/{range}.pbf",
   "layers": [
     {

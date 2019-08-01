@@ -44,8 +44,8 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
         type: "circle",
         source: "this-stop",
         paint: {
-          "circle-radius": 8,
-          "circle-color": "rgba(226, 185, 61,0.5)",
+          "circle-radius": 15,
+          "circle-color": "rgba(240, 240, 240, 0.75)",
           "circle-stroke-color": "rgba(0, 0, 0, 0.95)",
           "circle-stroke-width": 1
         }
@@ -55,11 +55,11 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
         type: "symbol",
         source: "this-stop",
         layout: {
-          "icon-image": "star-15",
-          "icon-size": 0.75
+          "icon-image": "bus-stop-15",
+          "icon-size": 1
         },
         paint: {
-          "icon-opacity": 0.75
+          "icon-opacity": 1
         }
       });
 

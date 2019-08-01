@@ -8,6 +8,7 @@ import RouteLink from "../components/RouteLink";
 import StopRouteSchedule from "../components/StopRouteSchedule";
 import RoutePredictionsList from "../components/RoutePredictionsList";
 import TopNav from "../components/TopNav";
+import StopTransfers from '../components/StopTransfers';
 
 import { Card, CardHeader, AppBar, Toolbar, NativeSelect, CardContent } from "@material-ui/core";
 import { Radio, RadioGroup } from "@material-ui/core";
@@ -15,6 +16,18 @@ import { FormControl, FormControlLabel, InputLabel, Input } from "@material-ui/c
 
 export default ({ data }) => {
   const s = data.postgres.stop;
+
+  let thisStopRoutes = s.routeShapes.map(rs => {
+    return {
+      short: rs.routeByFeedIndexAndRouteId.routeShortName,
+      dir: rs.dir,
+      direction: rs.direction
+    }
+  })
+
+  let transferStops = s.nearby.filter(s => {
+    return !_.isEqual(s.routes, thisStopRoutes)
+  })
 
   let uniqRoutes = _.uniqBy(s.times, t => {
     return t.trip.route.routeLongName;
@@ -28,8 +41,6 @@ export default ({ data }) => {
   let [currentTrip, setCurrentTrip] = useState(null);
 
   let [predictions, setPredictions] = useState([]);
-
-  console.log(predictions, currentTrip);
 
   return (
     <Layout className="pageGrid">
@@ -103,6 +114,7 @@ export default ({ data }) => {
             shapes={s.routeShapes.filter(rs => rs.routeByFeedIndexAndRouteId.routeShortName === route.toString())}
             route={route}
           />
+          <StopTransfers xfers={transferStops} />
         </div>
       </div>
     </Layout>
@@ -150,6 +162,17 @@ export const query = graphql`
             hours
             minutes
             seconds
+          }
+        }
+        nearby: nearbyStopsList {
+          stopId
+          stopDesc
+          stopLat
+          stopLon
+          routes: routeShapesList {
+            short
+            dir
+            direction
           }
         }
       }
