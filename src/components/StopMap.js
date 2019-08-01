@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import bbox from "@turf/bbox";
+import nearestPointOnLine from "@turf/nearest-point-on-line";
 import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";
 
@@ -44,10 +45,10 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
         type: "circle",
         source: "this-stop",
         paint: {
-          "circle-radius": 15,
-          "circle-color": "rgba(240, 240, 240, 0.75)",
+          "circle-radius": 12,
+          "circle-color": "rgba(237, 237, 74, 1)",
           "circle-stroke-color": "rgba(0, 0, 0, 0.95)",
-          "circle-stroke-width": 1
+          "circle-stroke-width": 2
         }
       });
       map.addLayer({
@@ -56,7 +57,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
         source: "this-stop",
         layout: {
           "icon-image": "bus-stop-15",
-          "icon-size": 1
+          "icon-size": 0.75
         },
         paint: {
           "icon-opacity": 1
@@ -170,17 +171,28 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
   // effect fires when the live bus ticks
   useEffect(() => {
     if (theMap && currentBus && parseInt(currentBus.routeShortName) === currentRoute) {
+      let liveGeometry = {
+        type: "Point",
+        coordinates: [currentBus.tripStatus.position.lon, currentBus.tripStatus.position.lat]
+      };
+
       let liveBusFeature = {
         type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [currentBus.tripStatus.position.lon, currentBus.tripStatus.position.lat]
-        },
+        geometry: nearestPointOnLine(shapesFeatures[0], liveGeometry).geometry,
+        // geometry: {
+        //   type: "Point",
+        //   coordinates: [currentBus.tripStatus.position.lon, currentBus.tripStatus.position.lat]
+        // },
         properties: {
           this: "fake"
         }
       };
 
+      // console.log(currentRoute);
+      // console.log(shapesFeatures);
+      console.log(shapesFeatures.filter(sf => sf.properties.routeShortName === currentRoute.toString())[0]);
+
+      console.log();
       theMap.getSource("live-bus").setData({
         type: "FeatureCollection",
         features: [liveBusFeature]

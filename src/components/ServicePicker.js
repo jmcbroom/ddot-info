@@ -7,7 +7,7 @@ const ServicePicker = ({ services, service, handleChange, asRow = false }) => {
 
   return (
     <FormControl component="fieldset" required>
-      <RadioGroup name="services" value={service} row={asRow} style={{ marginLeft: `1rem` }}>
+      <RadioGroup name="services" value={service} row={asRow}>
         {services.map((s, i) => (
           <FormControlLabel key={s} value={s} control={<Radio />} onChange={() => handleChange(s)} label={svcLookup[s - 1]} />
         ))}

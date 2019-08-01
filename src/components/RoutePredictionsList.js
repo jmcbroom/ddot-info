@@ -16,7 +16,7 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
   useEffect(() => {
     let tick = setInterval(() => {
       setNow(new Date());
-    }, 20000);
+    }, 5000);
     return () => clearInterval(tick);
   }, []);
 

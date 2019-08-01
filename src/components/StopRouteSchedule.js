@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import _ from "lodash";
 
-import { Card, CardHeader, CardContent } from "@material-ui/core";
+import { Card, CardHeader, CardContent, CardActions } from "@material-ui/core";
 import { Schedule } from "@material-ui/icons";
 
 import ServicePicker from "./ServicePicker";
@@ -42,7 +42,7 @@ const cellStyle = {
   textAlign: "center",
   verticalAlign: "center",
   letterSpacing: "-0.05rem",
-  borderLeft: "1px solid #eee",
+  borderLeft: "1px solid #eee"
 };
 
 const StopRouteSchedule = ({ times, shapes, route }) => {
@@ -67,13 +67,13 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
                   width: "1.5em"
                 }}
               />
-              <CardHeader 
-                title={`${_.capitalize(s.direction)}`} 
-                titleTypographyProps={{variant: 'h5'}}
+              <CardHeader
+                title={`${_.capitalize(s.direction)}`}
+                titleTypographyProps={{ variant: "h5" }}
                 subheader={` to ${rd.between[s.dir]}`}
-                subheaderTypographyProps={{variant: 'subtitle2'}}
-                style={{padding: '10px 10px'}}
-                />
+                subheaderTypographyProps={{ variant: "subtitle2" }}
+                style={{ padding: "10px 10px" }}
+              />
             </div>
             <CardContent style={{ margin: 0, padding: 0, fontFamily: "Inter", fontFeatureSettings: "'tnum' 1" }}>
               <div
@@ -85,7 +85,13 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
                 {serviceTimes
                   .filter(st => st.trip.directionId.toString() === s.dir)
                   .map((st, i) => (
-                    <div style={{ ...cellStyle, borderLeft: i/serviceTimes.length < 0.2 ? `0px solid #eee` : `1.5px solid #eee`, fontWeight: st.arrivalTime.hours >= 12 && st.arrivalTime.hours <= 23 ? 600 : 400 }}>
+                    <div
+                      style={{
+                        ...cellStyle,
+                        borderLeft: i / serviceTimes.length < 0.2 ? `0px solid #eee` : `1.5px solid #eee`,
+                        fontWeight: st.arrivalTime.hours >= 12 && st.arrivalTime.hours <= 23 ? 600 : 400
+                      }}
+                    >
                       {arrivalTimeDisplay(
                         st.arrivalTime,
                         i === 0 || i === serviceTimes.length - 1 || (st.arrivalTime.hours === 12 && serviceTimes[i - 1].arrivalTime.hours === 11) ? true : false
@@ -96,7 +102,9 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
             </CardContent>
           </>
         ))}
-        <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
+        <CardActions disableSpacing>
+          <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
+        </CardActions>
       </Card>
     </>
   );
