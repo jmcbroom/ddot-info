@@ -25,7 +25,6 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
     fetch(url)
       .then(r => r.json())
       .then(d => {
-        console.log(d);
         let tripAdded = d.data.entry.arrivalsAndDepartures.map(dp => {
           let filteredTrip = trips.filter(tr => dp.tripId.indexOf(tr.tripId) > -1)[0];
           return {

@@ -23,12 +23,12 @@ const arrivalTimeDisplay = (time, showAp) => {
   if (time.hours < 12 && time.hours > 0) {
     hour = time.hours;
     ap = "am";
-  }  else if (time.hours > 12 && time.hours < 24) {
+  } else if (time.hours > 12 && time.hours < 24) {
     hour = time.hours - 12;
     ap = "pm";
   } else if (time.hours % 12 === 0) {
     hour = 12;
-    ap = time.hours === 12 ? 'pm' : 'am';
+    ap = time.hours === 12 ? "pm" : "am";
   } else if (time.hours >= 24) {
     hour = time.hours - 24;
     ap = "am";
@@ -44,6 +44,30 @@ const ScheduleTable = ({ trips, color, classes }) => {
   })[0];
 
   const timepoints = mostTimepointsTrip.stopTimes;
+
+  let stopIdOccurences = trips.map(t => t.stopTimes.map(s => s.stop.stopId));
+
+  let defaultTimepoint = 0;
+
+  timepoints
+    .map(t => t.stop.stopId)
+    .some((tp, j) => {
+      let included = stopIdOccurences.map(sio => sio.includes(tp));
+      if (included.every(i => i)) {
+        defaultTimepoint = j;
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+  let sorted = trips.sort((a, b) => {
+    return (
+      a.stopTimes[defaultTimepoint].arrivalTime.hours * 60 +
+      a.stopTimes[defaultTimepoint].arrivalTime.minutes -
+      (b.stopTimes[0].arrivalTime.hours * 60 + b.stopTimes[0].arrivalTime.minutes)
+    );
+  });
 
   return (
     <div style={{ overflow: "auto", backgroundColor: "white", maxHeight: 700 }}>
@@ -103,7 +127,6 @@ const ScheduleTable = ({ trips, color, classes }) => {
             <TableRow>
               {/* Iterate over the timepoints and filter the current trip's timepoints for a match.  */}
               {timepoints.map((tp, j) => {
-                console.log(t, tp);
                 let filtered = t.stopTimes.filter(st => {
                   return st.stop.stopId === tp.stop.stopId;
                 });
@@ -113,9 +136,9 @@ const ScheduleTable = ({ trips, color, classes }) => {
                       style={{
                         borderBottom: (i + 1) % 5 === 0 ? `2px solid #${color}` : 0,
                         borderRight: "1px solid #ccc",
-                        background: 'rgba(0,0,0,0.03)',
+                        background: "rgba(0,0,0,0.03)",
                         textAlign: "center",
-                        padding: 2,
+                        padding: 2
                       }}
                     >
                       -
@@ -129,7 +152,7 @@ const ScheduleTable = ({ trips, color, classes }) => {
                         borderRight: "1px solid #ccc",
                         textAlign: "center",
                         padding: 2,
-                        fontWeight: arrivalTimeDisplay(filtered[0].arrivalTime).indexOf("p") > -1 ? 700 : 500
+                        fontWeight: arrivalTimeDisplay(filtered[0].arrivalTime).indexOf("p") > -1 ? 700 : 300
                       }}
                       key={tp.stop.stopId}
                     >

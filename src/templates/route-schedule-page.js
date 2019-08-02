@@ -29,15 +29,6 @@ export default ({ data, pageContext }) => {
 
   let tripsToShow = r.trips.filter(trip => trip.direction === currentDirectionId && trip.service === currentService);
 
-  // const sorted = tripsToShow.sort((a, b) => {
-  //   return (
-  //     a.stopTimes[0].arrivalTime.hours * 60 +
-  //     a.stopTimes[0].arrivalTime.minutes -
-  //     (b.stopTimes[0].arrivalTime.hours * 60 +
-  //       b.stopTimes[0].arrivalTime.minutes)
-  //   );
-  // });
-
   let timepointList = tripsToShow
     .sort((a, b) => {
       return b.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val) - a.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val);
@@ -45,22 +36,6 @@ export default ({ data, pageContext }) => {
     .stopTimes.filter(st => {
       return st.timepoint === 1;
     });
-
-  let sorted = tripsToShow.sort((a, b) => {
-    let c = null;
-    let d = null;
-
-    for (let t of timepointList) {
-      let aFilter = a.stopTimes.filter(st => st.stop.stopId === t.stop.stopId);
-      let bFilter = b.stopTimes.filter(st => st.stop.stopId === t.stop.stopId);
-      if (bFilter.length > 0 && aFilter.length > 0) {
-        c = aFilter[0];
-        d = bFilter[0];
-        break;
-      }
-    }
-    return c.arrivalTime.hours * 60 + c.arrivalTime.minutes - (d.arrivalTime.hours * 60 + d.arrivalTime.minutes);
-  });
 
   return (
     <Layout>
@@ -170,7 +145,7 @@ export default ({ data, pageContext }) => {
             <DirectionPicker directions={availableDirections} direction={currentDirection} handleChange={setCurrentDirection} endpoints={rd.between} />
           </Toolbar>
         </AppBar>
-        <ScheduleTable trips={sorted} color={r.routeColor} />
+        <ScheduleTable trips={tripsToShow} color={r.routeColor} />
         <Card style={{ marginTop: "1em", backgroundColor: "#fff" }}>
           <CardContent>{/* <PrintSchedule routePdf={rd.pdf} /> */}</CardContent>
         </Card>

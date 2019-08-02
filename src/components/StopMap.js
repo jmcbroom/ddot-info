@@ -171,28 +171,23 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
   // effect fires when the live bus ticks
   useEffect(() => {
     if (theMap && currentBus && parseInt(currentBus.routeShortName) === currentRoute) {
-      let liveGeometry = {
+      theMap.setLayoutProperty("live-bus", "visibility", "visible");
+
+      let liveBusGeom = {
         type: "Point",
         coordinates: [currentBus.tripStatus.position.lon, currentBus.tripStatus.position.lat]
       };
 
+      let liveRouteGeom = shapesFeatures.filter(sf => sf.properties.routeShortName === currentRoute.toString())[0];
+
       let liveBusFeature = {
         type: "Feature",
-        geometry: nearestPointOnLine(shapesFeatures[0], liveGeometry).geometry,
-        // geometry: {
-        //   type: "Point",
-        //   coordinates: [currentBus.tripStatus.position.lon, currentBus.tripStatus.position.lat]
-        // },
+        geometry: nearestPointOnLine(liveRouteGeom, liveBusGeom).geometry || liveBusGeom,
         properties: {
           this: "fake"
         }
       };
 
-      // console.log(currentRoute);
-      // console.log(shapesFeatures);
-      console.log(shapesFeatures.filter(sf => sf.properties.routeShortName === currentRoute.toString())[0]);
-
-      console.log();
       theMap.getSource("live-bus").setData({
         type: "FeatureCollection",
         features: [liveBusFeature]
@@ -200,15 +195,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
 
       theMap.fitBounds(bbox({ type: "FeatureCollection", features: [liveBusFeature, stop] }), { padding: 30 });
     } else if ((theMap && !currentBus) || (currentBus && parseInt(currentBus.routeShortName) !== currentRoute)) {
-      theMap.getSource("live-bus").setData({
-        type: "FeatureCollection",
-        features: []
-      });
-
-      theMap.easeTo({
-        center: coords,
-        zoom: 15.75
-      });
+      return;
     }
   }, [currentBus, currentRoute]);
 
