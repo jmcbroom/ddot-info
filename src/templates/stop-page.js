@@ -8,7 +8,7 @@ import RouteLink from "../components/RouteLink";
 import StopRouteSchedule from "../components/StopRouteSchedule";
 import RoutePredictionsList from "../components/RoutePredictionsList";
 import TopNav from "../components/TopNav";
-import StopTransfers from '../components/StopTransfers';
+import StopTransfers from "../components/StopTransfers";
 
 import { Card, CardHeader, AppBar, Toolbar, NativeSelect, CardContent } from "@material-ui/core";
 import { Radio, RadioGroup } from "@material-ui/core";
@@ -22,12 +22,12 @@ export default ({ data }) => {
       short: rs.routeByFeedIndexAndRouteId.routeShortName,
       dir: rs.dir,
       direction: rs.direction
-    }
-  })
+    };
+  });
 
   let transferStops = s.nearby.filter(s => {
-    return !_.isEqual(s.routes, thisStopRoutes)
-  })
+    return !_.isEqual(s.routes, thisStopRoutes);
+  });
 
   let uniqRoutes = _.uniqBy(s.times, t => {
     return t.trip.route.routeLongName;
@@ -59,9 +59,9 @@ export default ({ data }) => {
           <CardContent style={{ padding: 0, margin: 0 }}>
             <CardHeader
               title="Bus routes that stop here"
-              titleTypographyProps={{ variant: "subtitle1" }}
-              subheader="Showing next arrivals and today's schedule. Transfers tab shows nearby routes"
-              subheaderTypographyProps={{ variant: "subtitle2" }}
+              titleTypographyProps={{ variant: "h6" }}
+              // subheader="Showing next arrivals and today's schedule. Transfers tab shows nearby routes"
+              // subheaderTypographyProps={{ variant: "subtitle2" }}
             />
             <AppBar position="static" color="red" style={{ display: "flex" }} elevation={0}>
               <Toolbar>

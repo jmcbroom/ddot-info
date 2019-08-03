@@ -57,25 +57,15 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
         <div style={{ marginLeft: "1em", textSize: ".5em" }} />
         {shapes.map(s => (
           <>
-            <div style={{ display: "flex", alignItems: "center", padding: 0 }}>
-              <Schedule
-                style={{
-                  marginLeft: ".5em",
-                  color: "#aaa",
-                  borderRadius: 999,
-                  height: "1.5em",
-                  width: "1.5em"
-                }}
-              />
-              <CardHeader
-                title={`${_.capitalize(s.direction)}`}
-                titleTypographyProps={{ variant: "h5" }}
-                subheader={` to ${rd.between[s.dir]}`}
-                subheaderTypographyProps={{ variant: "subtitle2" }}
-                style={{ padding: "10px 10px" }}
-              />
-            </div>
-            <CardContent style={{ margin: 0, padding: 0, fontFamily: "Inter", fontFeatureSettings: "'tnum' 1" }}>
+            <CardHeader
+              avatar={<Schedule />}
+              title={`${_.capitalize(s.direction)}`}
+              titleTypographyProps={{ variant: "h6" }}
+              subheader={` to ${rd.between[s.dir]}`}
+              subheaderTypographyProps={{ variant: "subtitle2" }}
+              style={{ padding: "10px 10px" }}
+            />
+            <CardContent style={{ margin: 0, padding: 10, fontFamily: "Inter", fontFeatureSettings: "'tnum' 1" }}>
               <div
                 style={{
                   gridTemplateRows: `repeat(${Math.ceil(serviceTimes.filter(st => st.trip.directionId.toString() === s.dir).length / 5)}, 22px)`,
