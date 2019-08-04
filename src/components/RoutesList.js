@@ -5,7 +5,7 @@ import RouteLink from "./RouteLink";
 const RoutesList = ({ routes }) => {
   const gridStyle = {
     display: "grid",
-    gridTemplateColumns: `repeat(auto-fit, minmax(275px, 1fr))`,
+    gridTemplateColumns: `repeat(auto-fit, minmax(350px, 1fr))`,
     gridGap: `.5em`,
     maxHeight: "50vh",
     overflowY: "scroll",

@@ -53,6 +53,7 @@ export default ({ data }) => {
         stop={s.geojson}
         currentRoute={route}
         currentBus={predictions.filter(p => p.tripId === currentTrip)[0]}
+        nearby={transferStops}
       />
       <div style={{ gridArea: "details" }}>
         <Card>

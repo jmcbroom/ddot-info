@@ -6,7 +6,7 @@ import nearestPointOnLine from "@turf/nearest-point-on-line";
 import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";
 
-const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) => {
+const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nearby }) => {
   // make some GeoJSON features for the map
   let shapesFeatures = shapes
     .map(sh => {
@@ -18,6 +18,22 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
     .sort((a, b) => {
       return parseInt(b.properties.routeShortName) - parseInt(a.properties.routeShortName);
     });
+
+  console.log(nearby[0]);
+
+  let nearbyFeatures = nearby.map(nb => {
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [nb.stopLon, nb.stopLat]
+      },
+      properties: {
+        stopId: nb.stopId,
+        stopDesc: nb.stopDesc
+      }
+    };
+  });
 
   let [theMap, setMap] = useState(null);
 
@@ -62,6 +78,11 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus }) =
         paint: {
           "icon-opacity": 1
         }
+      });
+
+      map.addSource("nearby", {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: nearbyFeatures }
       });
 
       // the routes

@@ -18,17 +18,21 @@ const StopTransfers = ({ xfers }) => {
 
   return (
     <Card style={{ marginTop: 10 }}>
-      <CardHeader title={`Nearby transfers`} titleTypographyProps={{ variant: "h6" }} />
+      <CardHeader title={`Nearby transfers`} titleTypographyProps={{ variant: "h6" }} style={{ paddingBottom: 0 }} />
       {Object.keys(routeXfers).map(k => {
         let rd = routes.filter(rt => rt.number === parseInt(k))[0];
-        return <CardHeader title={rd.name} titleTypographyProps={{ variant: "subtitle1" }} avatar={<RouteBadge id={k} />} />;
 
-        //     <RouteLink id={k} small />
-        //     {routeXfers[k].map(rx => (
-        //       // <Chip label={rx.direction} />
-        //       <Typography variant={`subtitle1`}>{rx.direction}</Typography>
-        //     ))}
-        // );
+        return (
+          <>
+            <CardHeader title={rd.name} titleTypographyProps={{ variant: "subtitle1" }} avatar={<RouteBadge id={k} />} style={{ paddingBottom: 0 }} />
+            <CardContent>
+              {routeXfers[k].map(d => {
+                console.log(xfers.filter(xf => xf.routes.indexOf(routeXfers[k]) > -1));
+                return <Typography>{_.capitalize(d.direction)}</Typography>;
+              })}
+            </CardContent>
+          </>
+        );
       })}
     </Card>
   );
