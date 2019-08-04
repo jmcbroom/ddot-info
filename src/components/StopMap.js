@@ -9,6 +9,8 @@ import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";
 
 const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nearby }) => {
+
+  console.log(currentRoute, currentBus)
   // make some GeoJSON features for the map
   let shapesFeatures = shapes
     .map(sh => {

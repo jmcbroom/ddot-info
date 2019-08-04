@@ -35,7 +35,6 @@ export default ({ data }) => {
 
   let uniqRouteNums = uniqRoutes.map(u => parseInt(u.routeShortName)).sort((a, b) => a - b);
 
-  // let [route, setRoute] = useState('');
   let [route, setRoute] = useState(uniqRouteNums[0]);
 
   let [currentTrip, setCurrentTrip] = useState(null);
@@ -61,8 +60,6 @@ export default ({ data }) => {
             <CardHeader
               title="Bus routes that stop here"
               titleTypographyProps={{ variant: "h6" }}
-              // subheader="Showing next arrivals and today's schedule. Transfers tab shows nearby routes"
-              // subheaderTypographyProps={{ variant: "subtitle2" }}
             />
             <AppBar position="static" color="red" style={{ display: "flex" }} elevation={0}>
               <Toolbar>

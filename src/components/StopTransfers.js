@@ -25,7 +25,7 @@ const StopTransfers = ({ xfers }) => {
           <>
             <CardHeader title={<RouteLink id={k} small />} titleTypographyProps={{ variant: "body1" }} style={{ paddingBottom: 0 }} />
             <CardContent style={{ padding: 15 }}>
-              {routeXfers[k].map(d => {
+              {_.uniqWith(routeXfers[k], _.isEqual).map(d => {
                 let matchedStops = _.uniqWith(xfers.filter(xf => _.findIndex(xf.routes, r => _.isEqual(r, d)) > -1), _.isEqual);
                 return (
                   <div style={{ marginBottom: 5 }}>
