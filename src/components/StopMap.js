@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import bbox from "@turf/bbox";
+import { navigate } from "@reach/router";
+
 import nearestPointOnLine from "@turf/nearest-point-on-line";
 import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";
@@ -18,8 +20,6 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
     .sort((a, b) => {
       return parseInt(b.properties.routeShortName) - parseInt(a.properties.routeShortName);
     });
-
-  console.log(nearby[0]);
 
   let nearbyFeatures = nearby.map(nb => {
     return {
@@ -51,6 +51,38 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on("load", e => {
+      // nearby stops
+      map.addSource("nearby", {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: nearbyFeatures }
+      });
+
+      map.addLayer({
+        id: "nearby-stop-icon-bg",
+        type: "circle",
+        source: "nearby",
+        minzoom: 15,
+        paint: {
+          "circle-radius": 10,
+          "circle-color": "rgba(255, 255, 255, 1)",
+          "circle-stroke-color": "rgba(0, 0, 0, 0.95)",
+          "circle-stroke-width": 1.5
+        }
+      });
+      map.addLayer({
+        id: "nearby-stop-icon",
+        type: "symbol",
+        source: "nearby",
+        minzoom: 15,
+        layout: {
+          "icon-image": "bus-stop-15",
+          "icon-size": 0.5
+        },
+        paint: {
+          "icon-opacity": 0.75
+        }
+      });
+
       // the stop
       map.addSource("this-stop", {
         type: "geojson",
@@ -78,11 +110,6 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
         paint: {
           "icon-opacity": 1
         }
-      });
-
-      map.addSource("nearby", {
-        type: "geojson",
-        data: { type: "FeatureCollection", features: nearbyFeatures }
       });
 
       // the routes
@@ -184,6 +211,14 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
         paint: {
           "icon-opacity": 1
         }
+      });
+
+      map.on("click", "nearby-stop-icon-bg", e => {
+        let stop = map.queryRenderedFeatures(e.point, {
+          layers: ["nearby-stop-icon-bg"]
+        })[0];
+
+        navigate(`/stop/${stop.properties.stopId}`);
       });
     });
     setMap(map);

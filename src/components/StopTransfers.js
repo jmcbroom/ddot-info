@@ -1,8 +1,8 @@
 import React from "react";
 import _ from "lodash";
-import { Card, CardHeader, CardContent, Typography, Chip } from "@material-ui/core";
+import { Card, CardHeader, CardContent, Typography, List, Chip, ListItem, ListItemAvatar } from "@material-ui/core";
 import RouteLink from "./RouteLink";
-import RouteBadge from "./RouteBadge";
+import { Link } from "gatsby";
 import routes from "../data/routes";
 
 const StopTransfers = ({ xfers }) => {
@@ -21,14 +21,22 @@ const StopTransfers = ({ xfers }) => {
       <CardHeader title={`Nearby transfers`} titleTypographyProps={{ variant: "h6" }} style={{ paddingBottom: 0 }} />
       {Object.keys(routeXfers).map(k => {
         let rd = routes.filter(rt => rt.number === parseInt(k))[0];
-
         return (
           <>
-            <CardHeader title={rd.name} titleTypographyProps={{ variant: "subtitle1" }} avatar={<RouteBadge id={k} />} style={{ paddingBottom: 0 }} />
-            <CardContent>
+            <CardHeader title={<RouteLink id={k} small />} titleTypographyProps={{ variant: "body1" }} style={{ paddingBottom: 0 }} />
+            <CardContent style={{ padding: 15 }}>
               {routeXfers[k].map(d => {
-                console.log(xfers.filter(xf => xf.routes.indexOf(routeXfers[k]) > -1));
-                return <Typography>{_.capitalize(d.direction)}</Typography>;
+                let matchedStops = _.uniqWith(xfers.filter(xf => _.findIndex(xf.routes, r => _.isEqual(r, d)) > -1), _.isEqual);
+                return (
+                  <div style={{ marginBottom: 5 }}>
+                    <Chip label={_.capitalize(d.direction)} display="inline" />
+                    {matchedStops.slice(0, 1).map(ms => (
+                      <Typography variant="body2" display="inline" style={{ marginLeft: 10 }}>
+                        <Link to={`/stop/${ms.stopId}`}>{ms.stopDesc}</Link>
+                      </Typography>
+                    ))}
+                  </div>
+                );
               })}
             </CardContent>
           </>
@@ -38,4 +46,4 @@ const StopTransfers = ({ xfers }) => {
   );
 };
 
-export default StopTransfers;
+export default React.memo(StopTransfers);
