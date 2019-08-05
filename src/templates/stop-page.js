@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import _ from "lodash";
 
 import Layout from "../components/Layout";
@@ -56,48 +56,41 @@ export default ({ data }) => {
       />
       <div style={{ gridArea: "details" }}>
         <Card>
-          <CardContent style={{ padding: 0, margin: 0 }}>
-            <CardHeader
-              title="Bus routes that stop here"
-              titleTypographyProps={{ variant: "h6" }}
-            />
-            <AppBar position="static" color="red" style={{ display: "flex" }} elevation={0}>
-              <Toolbar>
-                <FormControl component="fieldset" required style={{ width: "100%" }}>
-                  {uniqRouteNums.length < 4 ? (
-                    <RadioGroup name="routes" value={route}>
-                      {uniqRouteNums.map(n => (
-                        <FormControlLabel
-                          key={n}
-                          value={n}
-                          control={<Radio />}
-                          onChange={() => setRoute(n)}
-                          label={<RouteLink id={n} small />}
-                          style={{ width: "100%" }}
-                        />
-                      ))}
-                    </RadioGroup>
-                  ) : (
-                    <>
-                      <InputLabel htmlFor="route-native-helper">{uniqRouteNums.length} routes stop here; choose yours from the menu</InputLabel>
-                      <NativeSelect value={route} onChange={e => setRoute(e.target.value)} input={<Input name="route" id="route-native-helper" />}>
-                        {uniqRouteNums.map(n => (
-                          <option value={n}>{n}</option>
-                        ))}
-                      </NativeSelect>
-                    </>
-                  )}
-                </FormControl>
-              </Toolbar>
-            </AppBar>
+          <CardHeader title="Bus routes that stop here" titleTypographyProps={{ variant: "h6" }} />
+          <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
+            <FormControl component="fieldset" required style={{ width: "100%" }}>
+              {uniqRouteNums.length < 4 ? (
+                <RadioGroup name="routes" value={route}>
+                  {uniqRouteNums.map(n => (
+                    <FormControlLabel
+                      key={n}
+                      value={n}
+                      control={<Radio />}
+                      onChange={() => setRoute(n)}
+                      label={<RouteLink id={n} small />}
+                      style={{ width: "100%" }}
+                    />
+                  ))}
+                </RadioGroup>
+              ) : (
+                <>
+                  <InputLabel htmlFor="route-native-helper">{uniqRouteNums.length} routes stop here; choose yours from the menu</InputLabel>
+                  <NativeSelect value={route} onChange={e => setRoute(e.target.value)} input={<Input name="route" id="route-native-helper" />}>
+                    {uniqRouteNums.map(n => (
+                      <option value={n}>{n}</option>
+                    ))}
+                  </NativeSelect>
+                </>
+              )}
+            </FormControl>
           </CardContent>
-        </Card>
-        <AppBar position="static" color="default" elevation={0} style={{ display: "flex" }}>
-          <Toolbar style={{ justifyContent: "space-between" }} elevation={0}>
-            <RouteLink id={route} />
-          </Toolbar>
-        </AppBar>
-        <div style={{ display: "block", padding: "0em 0em", width: "100%" }}>
+          <CardHeader
+            component={Link}
+            to={`/route/${route}`}
+            style={{ textDecoration: "none" }}
+            title={<RouteLink id={route} small />}
+            titleTypographyProps={{ variant: "h6" }}
+          />
           <RoutePredictionsList
             stop={s.stopId}
             trips={s.times.map(ti => ti.trip)}
@@ -107,13 +100,19 @@ export default ({ data }) => {
             predictions={predictions}
             setPredictions={setPredictions}
           />
-          <StopRouteSchedule
-            times={s.times.filter(t => t.trip.route.routeShortName === route.toString())}
-            shapes={s.routeShapes.filter(rs => rs.routeByFeedIndexAndRouteId.routeShortName === route.toString())}
-            route={route}
-          />
-          <StopTransfers xfers={transferStops} />
-        </div>
+        </Card>
+
+        {/* <AppBar position="static" color="default" elevation={0} style={{ display: "flex" }}>
+          <Toolbar style={{ justifyContent: "space-between" }} elevation={0}>
+          </Toolbar>
+        </AppBar> */}
+
+        <StopRouteSchedule
+          times={s.times.filter(t => t.trip.route.routeShortName === route.toString())}
+          shapes={s.routeShapes.filter(rs => rs.routeByFeedIndexAndRouteId.routeShortName === route.toString())}
+          route={route}
+        />
+        <StopTransfers xfers={transferStops} />
       </div>
     </Layout>
   );

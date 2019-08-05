@@ -9,8 +9,7 @@ import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";
 
 const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nearby }) => {
-
-  console.log(currentRoute, currentBus)
+  console.log(currentRoute, currentBus);
   // make some GeoJSON features for the map
   let shapesFeatures = shapes
     .map(sh => {
@@ -228,7 +227,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
 
   // effect fires when the live bus ticks
   useEffect(() => {
-    if (theMap && currentBus && parseInt(currentBus.routeShortName) === currentRoute) {
+    if (theMap && currentBus) {
       theMap.setLayoutProperty("live-bus", "visibility", "visible");
 
       let liveBusGeom = {
@@ -253,6 +252,10 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
 
       theMap.fitBounds(bbox({ type: "FeatureCollection", features: [liveBusFeature, stop] }), { padding: 30 });
     } else if ((theMap && !currentBus) || (currentBus && parseInt(currentBus.routeShortName) !== currentRoute)) {
+      theMap.easeTo({
+        center: coords,
+        zoom: 15.75
+      });
       return;
     }
   }, [currentBus, currentRoute]);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { Card, CardContent, List, ListItem, ListItemIcon, ListItemText, Collapse, Typography } from "@material-ui/core";
-import { Schedule, SpeakerPhone, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
+import { DirectionsBus, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
 import Helpers from "../helpers";
 import routes from "../data/routes";
 
@@ -40,13 +40,15 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
   let matchedPredictions = predictions.filter(pr => pr.routeId.indexOf(rd.rt_id.toString()) > -1);
 
   return (
-    <Card style={{ margin: "0px 0px 10px 0px" }}>
+    <CardContent style={{ padding: 0 }}>
       <List style={{ paddingTop: 0 }}>
         {matchedPredictions.length > 0 ? (
           matchedPredictions.map((p, i) => (
             <>
               <ListItem button key={p.tripId} onClick={() => (currentTrip === p.tripId ? handleChange(null) : handleChange(p.tripId))}>
-                <ListItemIcon>{p.predicted ? <SpeakerPhone /> : <Schedule />}</ListItemIcon>
+                <ListItemIcon>
+                  <DirectionsBus />
+                </ListItemIcon>
                 <ListItemText
                   secondary={p.directionId}
                   primary={`${p.predicted ? moment(p.predictedArrivalTime).format("h:mma") : moment(p.scheduledArrivalTime).format("h:mma")}`}
@@ -72,12 +74,12 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
           ))
         ) : (
           <CardContent>
-            <Typography variant="subtitle1">There are currently no real-time predictions available.</Typography>
-            <Typography variant="subtitle1">There are currently no real-time predictions available.</Typography>
+            <Typography variant="subtitle1">There are no real-time predictions available.</Typography>
+            <Typography variant="subtitle1">Please check scheduled times below.</Typography>
           </CardContent>
         )}
       </List>
-    </Card>
+    </CardContent>
   );
 };
 

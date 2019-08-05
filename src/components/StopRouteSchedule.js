@@ -53,7 +53,7 @@ const StopRouteSchedule = ({ times, shapes, route }) => {
 
   return (
     <>
-      <Card style={{ padding: 10 }}>
+      <Card style={{ padding: 10, marginTop: 10 }}>
         <div style={{ marginLeft: "1em", textSize: ".5em" }} />
         {shapes.map(s => (
           <>
