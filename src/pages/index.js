@@ -20,6 +20,7 @@ const IndexPage = ({ data }) => {
   let [open, setOpen] = useState("routes");
 
   let routes = data.postgres.routes;
+  let stops = data.postgres.stops;
 
   return (
     <Layout>
@@ -78,7 +79,7 @@ const IndexPage = ({ data }) => {
           ) : open === "stops" ? (
             <StopSearch stops={data.postgres.stops} />
           ) : open === "nearby" ? (
-            <Nearby />
+            <Nearby allStops={stops} />
           ) : null}
         </Collapse>
       </List>
@@ -98,8 +99,8 @@ export const query = graphql`
       stops: allStopsList(condition: { feedIndex: 5 }) {
         stopId
         stopDesc
-        routes: routesList {
-          routeShortName
+        routes: routeShapesList {
+          short
         }
       }
     }

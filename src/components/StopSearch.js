@@ -33,9 +33,7 @@ const StopInput = ({ input, handleChange }) => {
 const StopSearch = ({ stops }) => {
   let [input, setInput] = useState("");
 
-  let randomStops = _.sampleSize(stops, 7);
-
-  console.log(randomStops);
+  let stopsToShow = input === "" ? _.sampleSize(stops, 7) : stops.filter(st => { return st.stopId.indexOf(input) > -1 || st.stopDesc.indexOf(input) > -1 })
 
   return (
     <Card>
@@ -50,8 +48,8 @@ const StopSearch = ({ stops }) => {
           ``
         )}
         <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`, gridGap: 20, overflowY: "scroll" }}>
-          {randomStops.map(rs => (
-            <StopCard stopId={rs.stopId} stopDesc={rs.stopDesc || rs.stopName} stopRoutes={rs.routes.map(r => r.routeShortName)} />
+          {stopsToShow.slice(0,12).map(st => (
+            <StopCard key={st.stopId} stopId={st.stopId} stopDesc={st.stopDesc || st.stopName} stopRoutes={st.routes.map(r => r.short)} />
           ))}
         </div>
       </CardContent>

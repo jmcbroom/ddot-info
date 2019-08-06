@@ -5,10 +5,9 @@ import _ from "lodash";
 
 import { Card, CardContent, CardHeader } from "@material-ui/core";
 import Helpers from "../helpers";
-import RouteLink from "./RouteLink.js";
-import StopCard from "./StopCard";
-import StopTransfers from "./StopTransfers";
-import routes from "../data/routes";
+import StopTransfers from "../components/StopTransfers";
+import Layout from '../components/Layout'
+import TopNav from '../components/TopNav'
 
 const NearbyMap = ({ stops, coords, radius }) => {
   let [theMap, setMap] = useState(null);
@@ -87,7 +86,7 @@ const NearbyMap = ({ stops, coords, radius }) => {
     setMap(map);
   }, []);
 
-  return <div id="map" style={{ height: "50vh", width: "100%" }} />;
+  return <div id="map" />;
 };
 
 const FeaturesNearLocation = ({ coords, radius, allStops }) => {
@@ -106,17 +105,16 @@ const FeaturesNearLocation = ({ coords, radius, allStops }) => {
   }, []);
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 10 }}>
       <>
-        <NearbyMap stops={stops} coords={coords} radius={radius} />
-        <StopTransfers xfers={stops} />
-        {/* <NearbyList refs={refs} stops={stops} /> */}
+        <NearbyMap stops={stops} coords={coords} radius={radius} />\
+        <div style={{gridArea: 'details'}}>
+          <StopTransfers xfers={stops} />
+        </div>
       </>
-    </div>
   );
 };
 
-const Nearby = ({ allStops }) => {
+const NearbyPage = ({ data }) => {
   let [coords, setCoords] = useState(null);
   let [location, setLocation] = useState(null);
 
@@ -132,11 +130,36 @@ const Nearby = ({ allStops }) => {
   }, []);
 
   return (
-    <Card>
-      <CardHeader title={`5 minute walk`} subheader={location} />
-      <CardContent>{coords ? <FeaturesNearLocation allStops={allStops} coords={coords} radius={1000} /> : ``}</CardContent>
-    </Card>
+    <Layout className="pageGrid">
+      <TopNav />
+        {coords ? <FeaturesNearLocation allStops={data.postgres.stops} coords={coords} radius={1000} /> : ``}
+    </Layout>
   );
 };
 
-export default Nearby;
+export const query = graphql`
+  {
+    postgres {
+      routes: allRoutesList(condition: { feedIndex: 5 }) {
+        short: routeShortName
+        long: routeLongName
+        color: routeColor
+        routeId
+        
+      }
+      stops: allStopsList(condition: { feedIndex: 5 }) {
+        stopId
+        stopDesc
+        stopLat
+        stopLon
+        routes: routeShapesList {
+          short
+          dir
+          direction
+        }
+      }
+    }
+  }
+`;
+
+export default NearbyPage;

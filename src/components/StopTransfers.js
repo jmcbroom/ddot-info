@@ -8,6 +8,8 @@ import routes from "../data/routes";
 const StopTransfers = ({ xfers }) => {
   // let routeXfers = _.groupBy(_.flatten(_.uniqWith(xfers.map(x => x.routes), _.isEqual));
 
+  console.log(xfers)
+
   let routeXfers = _(xfers.map(x => x.routes))
     .uniqWith(_.isEqual)
     .flatten()

@@ -7,14 +7,16 @@ import BusStop from "./BusStop";
 
 const StopCard = ({ stopId, stopDesc, stopRoutes }) => {
   return (<Card style={{ background: "#eee", margin: ".25em", height: 150, minWidth: 250 }}>
-    <CardHeader style={{ paddingBottom: 0 }} avatar={<BusStop style={{ height: "1em", width: "1em" }} />} title={<>
+
+    {/* <CardHeader style={{ paddingBottom: 0 }} avatar={<BusStop style={{ height: "1em", width: "1em" }} />} title={<>
       <Link to={`/stop/${stopId}`} style={{ color: "black", fontSize: "1.2em" }}>
         <span>{stopDesc}</span>
       </Link>
       <div>
         <span style={{ background: "#ccc", padding: "4px 8px", fontSize: "1em", fontWeight: 700, color: "black" }}>#{stopId}</span>
       </div>
-    </>} />
+    </>} /> */}
+    <CardHeader avatar={<BusStop />} title={stopDesc} titleTypographyProps={{variant: 'body1'}}/>
     <CardContent>
       <div style={{ display: "flex", alignItems: "center" }}>
         <Timeline style={{ marginRight: ".65em" }} />

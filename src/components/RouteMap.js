@@ -6,11 +6,10 @@ import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import bbox from "@turf/bbox";
 import style from "../data/mapstyle.json";
 import routes from "../data/routes";
-import { Card, CardHeader, CardContent, CardMedia, Button, IconButton, Box, Typography } from "@material-ui/core";
+import { Card, CardHeader, CardContent, IconButton } from "@material-ui/core";
 import { SpeakerPhone, Schedule, Close, DirectionsBus } from "@material-ui/icons";
-import StopCard from "./StopCard.js";
 
-const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, refs }) => {
+const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }) => {
   // do a route detail lookup
   let rd = routes.filter(rd => rd.number === parseInt(shortName))[0];
 
@@ -64,7 +63,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
     let ctrl = new mapboxgl.NavigationControl();
     map.addControl(ctrl, "top-left");
 
-    map.on("load", e => {
+    map.on("load", () => {
       map.fitBounds(bounds, {
         padding: 30
       });
@@ -218,7 +217,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
         source: "realtime",
         paint: {
           "circle-radius": 12,
-          "circle-color": "rgba(50,50,50,0.5)",
+          "circle-color": "rgba(89,89,89,1)",
           "circle-stroke-width": 2
         }
       });
@@ -228,7 +227,8 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
         source: "realtime",
         layout: {
           "icon-image": "bus-light-15",
-          "icon-allow-overlap": true
+          "icon-allow-overlap": true,
+          "icon-size": 0.75
         }
       });
 
@@ -306,11 +306,11 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
         });
       });
 
-      map.on("mouseover", "stop-points", e => {
+      map.on("mouseover", "stop-points", () => {
         map.getCanvas().style.cursor = "pointer";
       });
 
-      map.on("mouseleave", "stop-points", e => {
+      map.on("mouseleave", "stop-points", () => {
         map.getCanvas().style.cursor = "";
       });
     });
@@ -339,8 +339,6 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
       theMap.getSource("realtime").setData({ type: "FeatureCollection", features: features });
       if (tracked) {
         let filtered = activeTrips.filter(trip => trip.tripId === tracked);
-        // console.log(allTrips)
-        let filteredTrip = allTrips.filter(trip => trip.id === tracked.slice(5));
 
         if (filtered.length === 0) {
           return;
@@ -366,6 +364,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips, 
   return (
     <>
       <div id="map" />
+
       {tracked && realtimeTrip && gtfsTrip && (
         <Card style={{ background: "white", zIndex: 2, gridArea: "realtime" }}>
           <CardHeader

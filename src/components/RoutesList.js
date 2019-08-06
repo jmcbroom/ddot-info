@@ -16,7 +16,7 @@ const RoutesList = ({ routes }) => {
   return (
     <div style={gridStyle}>
       {routes.map(r => (
-        <RouteLink key={r.id} id={r.short} routeId={r.routeId} icons />
+        <RouteLink key={r.short} id={r.short} routeId={r.routeId} icons />
       ))}
     </div>
   );

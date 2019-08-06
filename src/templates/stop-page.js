@@ -101,12 +101,6 @@ export default ({ data }) => {
             setPredictions={setPredictions}
           />
         </Card>
-
-        {/* <AppBar position="static" color="default" elevation={0} style={{ display: "flex" }}>
-          <Toolbar style={{ justifyContent: "space-between" }} elevation={0}>
-          </Toolbar>
-        </AppBar> */}
-
         <StopRouteSchedule
           times={s.times.filter(t => t.trip.route.routeShortName === route.toString())}
           shapes={s.routeShapes.filter(rs => rs.routeByFeedIndexAndRouteId.routeShortName === route.toString())}
