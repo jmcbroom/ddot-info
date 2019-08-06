@@ -68,9 +68,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
         padding: 30
       });
 
-      map.addSource("routes", {
-        type: "geojson",
-        data: { type: "FeatureCollection", features: shapesFeatures }
+      map.getSource("routes").setData({ type: "FeatureCollection", features: shapesFeatures
       });
       map.addSource("stops", {
         type: "geojson",

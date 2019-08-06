@@ -12,8 +12,6 @@ import TopNav from "../components/TopNav";
 const NearbyMap = ({ stops, routes, coords, radius }) => {
   let [theMap, setMap] = useState(null);
 
-  console.log(routes)
-
   let shapesFeatures = routes.map(sh => {
     return {
       properties: { ...sh.route },
@@ -21,16 +19,14 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
     }
   })
 
-  // console.log(_.flatten(routes.map(r => r.shapes)))
-  // let shapesFeatures = _.flatten(routes.map(r => r.shapes)).map(sh => {
-  //   return {
-  //     properties: { ...sh.routeByFeedIndexAndRouteId },
-  //     ...sh.geojson
-  //   };
-  // });
-
-  console.log(shapesFeatures)
-
+  let routeXfers = _(stops.map(x => x.routes))
+  .uniqWith(_.isEqual)
+  .flatten()
+  .groupBy("short")
+  .value();
+  
+  let filteredShapes = shapesFeatures.filter(sf => Object.keys(routeXfers).indexOf(sf.properties.short) > -1)
+  
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1IjoiY2l0eW9mZGV0cm9pdCIsImEiOiJjaXZvOWhnM3QwMTQzMnRtdWhyYnk5dTFyIn0.FZMFi0-hvA60KYnI-KivWg";
@@ -68,6 +64,79 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
           "icon-opacity": 0.75
         }
       });
+      map.addLayer(
+        {
+          id: "ddot-routes-highlight",
+          type: "line",
+          source: "routes",
+          interactive: "true",
+          filter: ["==", "routeShortName", ""],
+          layout: {
+            visibility: "visible",
+            "line-cap": "round",
+            "line-join": "round"
+          },
+          paint: {
+            "line-color": ["concat", "#", ["get", "routeColor"]],
+            "line-width": {
+              base: 1,
+              stops: [[9, 5.5], [16, 15], [22, 90]]
+            },
+            "line-offset": 0,
+            "line-opacity": 0.4
+          }
+        },
+        "road-label-small"
+      );
+
+      map.addLayer(
+        {
+          id: "ddot-routes-case",
+          type: "line",
+          source: "routes",
+          interactive: "true",
+          layout: {
+            visibility: "visible",
+            "line-cap": "round",
+            "line-join": "round"
+          },
+          paint: {
+            "line-color": "black",
+            "line-width": {
+              base: 1,
+              stops: [[9, 1.5], [16, 8], [22, 69]]
+            },
+            "line-offset": 0,
+            "line-opacity": 1
+          }
+        },
+        "road-label-small"
+      );
+
+      map.addLayer(
+        {
+          id: "ddot-routes",
+          type: "line",
+          source: "routes",
+          interactive: "true",
+          layout: {
+            visibility: "visible",
+            "line-cap": "round",
+            "line-join": "round"
+          },
+          paint: {
+            "line-color": ["concat", "#", ["get", "routeColor"]],
+            "line-width": {
+              base: 1,
+              stops: [[9, 1], [16, 6], [22, 60]]
+            },
+            "line-offset": 0,
+            "line-opacity": 1
+          }
+        },
+        "road-label-small"
+      );
+
     });
 
     map.resize();
@@ -75,27 +144,29 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
     setMap(map);
   }, []);
 
-  // useEffect(() => {
-  //   if (theMap) {
-  //     theMap.getSource("nearby").setData({
-  //       type: "FeatureCollection",
-  //       features: stops.map(s => {
-  //         return {
-  //           type: "Feature",
-  //           geometry: {
-  //             type: "Point",
-  //             coordinates: [s.stopLon, s.stopLat]
-  //           },
-  //           properties: {
-  //             ...s
-  //           }
-  //         };
-  //       })
-  //     });
+  useEffect(() => {
+    if (theMap) {
+      theMap.getSource("nearby").setData({
+        type: "FeatureCollection",
+        features: stops.map(s => {
+          return {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [s.stopLon, s.stopLat]
+            },
+            properties: {
+              ...s
+            }
+          };
+        })
+      });
 
-  //     theMap.resize();
-  //   }
-  // }, [stops]);
+      theMap.getSource("routes").setData({ type: "FeatureCollection", features: filteredShapes })
+
+      theMap.resize();
+    }
+  }, [stops]);
 
   return <div id="map" />;
 };

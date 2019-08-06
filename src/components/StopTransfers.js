@@ -6,17 +6,12 @@ import { Link } from "gatsby";
 import routes from "../data/routes";
 
 const StopTransfers = ({ xfers, title }) => {
-  // let routeXfers = _.groupBy(_.flatten(_.uniqWith(xfers.map(x => x.routes), _.isEqual));
-
-  console.log(xfers)
-
+  
   let routeXfers = _(xfers.map(x => x.routes))
     .uniqWith(_.isEqual)
     .flatten()
     .groupBy("short")
     .value();
-
-  console.log(routeXfers);
 
   return (
     <Card>
@@ -30,7 +25,7 @@ const StopTransfers = ({ xfers, title }) => {
               {_.uniqWith(routeXfers[k], _.isEqual).map(d => {
                 let matchedStops = _.uniqWith(xfers.filter(xf => _.findIndex(xf.routes, r => _.isEqual(r, d)) > -1), _.isEqual);
                 return (
-                  <div style={{ marginBottom: 5 }}>
+                  <div key={`${k}-${d.direction}`} style={{ marginBottom: 5 }}>
                     <Chip label={_.capitalize(d.direction)} display="inline" />
                     {matchedStops.slice(0, 1).map(ms => (
                       <Typography variant="body2" display="inline" style={{ marginLeft: 10 }}>

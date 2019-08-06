@@ -131,6 +131,13 @@
         "type": "FeatureCollection",
         "features": []
       }
+    },
+    "routes": {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": []
+      }
     }
   },
   "sprite": "mapbox://styles/cityofdetroit/cjyson0570rh21cmxabzp4xxc",

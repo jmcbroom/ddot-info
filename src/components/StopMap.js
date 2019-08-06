@@ -112,10 +112,9 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
       });
 
       // the routes
-      map.addSource("routes", {
-        type: "geojson",
-        data: { type: "FeatureCollection", features: shapesFeatures }
-      });
+      map.getSource("routes").setData(
+        { type: "FeatureCollection", features: shapesFeatures }
+      );
 
       map.addLayer(
         {
