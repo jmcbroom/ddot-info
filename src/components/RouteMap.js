@@ -363,10 +363,12 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
 
   return (
     <>
-      <div id="map" />
+    <div id="map" style={{gridArea: "map"}}/>
 
       {tracked && realtimeTrip && gtfsTrip && (
-        <Card style={{ background: "white", zIndex: 2, gridArea: "realtime" }}>
+        <div style={{gridArea: "realtime"}}>
+
+        <Card style={{ background: "white", zIndex: 2 }}>
           <CardHeader
             avatar={realtimeTrip.status.predicted ? <SpeakerPhone /> : <Schedule />}
             title={`${_.capitalize(rd.directions[gtfsTrip.direction])} to ${rd.between[gtfsTrip.direction]}`}
@@ -403,6 +405,8 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
             </Typography>
           </CardContent> */}
         </Card>
+        </div>
+
       )}
     </>
   );

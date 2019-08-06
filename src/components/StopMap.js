@@ -53,10 +53,8 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
 
     map.on("load", e => {
       // nearby stops
-      map.addSource("nearby", {
-        type: "geojson",
-        data: { type: "FeatureCollection", features: nearbyFeatures }
-      });
+
+      map.getSource("nearby").setData({ type: "FeatureCollection", features: nearbyFeatures })
 
       map.addLayer({
         id: "nearby-stop-icon-bg",

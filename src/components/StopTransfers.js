@@ -5,7 +5,7 @@ import RouteLink from "./RouteLink";
 import { Link } from "gatsby";
 import routes from "../data/routes";
 
-const StopTransfers = ({ xfers }) => {
+const StopTransfers = ({ xfers, title }) => {
   // let routeXfers = _.groupBy(_.flatten(_.uniqWith(xfers.map(x => x.routes), _.isEqual));
 
   console.log(xfers)
@@ -19,8 +19,8 @@ const StopTransfers = ({ xfers }) => {
   console.log(routeXfers);
 
   return (
-    <Card style={{ marginTop: 10 }}>
-      <CardHeader title={`Nearby transfers`} titleTypographyProps={{ variant: "h6" }} style={{ paddingBottom: 0 }} />
+    <Card>
+      <CardHeader title={title} titleTypographyProps={{ variant: "h6" }} style={{ paddingBottom: 0 }} />
       {Object.keys(routeXfers).map(k => {
         let rd = routes.filter(rt => rt.number === parseInt(k))[0];
         return (

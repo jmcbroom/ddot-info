@@ -4,7 +4,7 @@ import { graphql } from "gatsby";
 
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
-import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
+import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight, NearMe } from "@material-ui/icons";
 import BusStop from "../components/BusStop";
 import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
@@ -13,8 +13,8 @@ import Helpers from "../helpers";
 import Layout from "../components/Layout";
 import RouteSearch from "../components/RouteSearch";
 import StopSearch from "../components/StopSearch";
-import Nearby from "../components/Nearby";
 import TopNav from "../components/TopNav";
+import { navigate } from "@reach/router";
 
 const IndexPage = ({ data }) => {
   let [open, setOpen] = useState("routes");
@@ -61,16 +61,12 @@ const IndexPage = ({ data }) => {
         <ListItem
           key="nearby"
           button
-          onClick={() => setOpen("nearby")}
-          style={{
-            background: open === "nearby" ? Helpers.colors.background : "#fff"
-          }}
+          onClick={() => navigate(`/nearby`)}
         >
           <ListItemIcon style={{ fontSize: 30 }}>
-            <AccessAlarm style={{ color: "#000" }} />
+            <NearMe style={{ color: "#000" }} />
           </ListItemIcon>
           <ListItemText inset primary="See what's nearby" style={{ padding: 0 }} />
-          {open === "nearby" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
         <Divider />
         <Collapse in={true} timeout="auto" unmountOnExit>
@@ -78,8 +74,6 @@ const IndexPage = ({ data }) => {
             <RouteSearch routes={routes} />
           ) : open === "stops" ? (
             <StopSearch stops={data.postgres.stops} />
-          ) : open === "nearby" ? (
-            <Nearby allStops={stops} />
           ) : null}
         </Collapse>
       </List>

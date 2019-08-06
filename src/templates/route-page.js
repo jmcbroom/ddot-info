@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { graphql } from "gatsby";
+import { Card, CardHeader } from '@material-ui/core';
+import RouteBadge from '../components/RouteBadge';
 
 import Layout from "../components/Layout";
 import RouteHeader from "../components/RouteHeader";
 import RouteMap from "../components/RouteMap";
 import RouteDetails from "../components/RouteDetails";
-import routes from '../data/routes'
+import routes from "../data/routes";
 import Helpers from "../helpers";
 
 export default ({ data, pageContext }) => {
   let r = data.postgres.route[0];
-  let rd = routes.filter(rd => rd.number === parseInt(pageContext.routeNo))
+  let rd = routes.filter(rd => rd.number === parseInt(pageContext.routeNo));
   let [now, setNow] = useState(new Date());
   let [activeTrips, setActiveTrips] = useState([]);
-  let [refs, setRefs] = useState(null)
+  let [refs, setRefs] = useState(null);
 
   // set up a 15s 'tick' using `now`
   useEffect(() => {
@@ -25,22 +27,39 @@ export default ({ data, pageContext }) => {
 
   // fetch data here; this ticks on `now`
   useEffect(() => {
-    const url = `${Helpers.endpoint}/trips-for-route/DDOT_${r.routeId}.json?key=BETA&includePolylines=false&includeStatus=true`;
+    const url = `${Helpers.endpoint}/trips-for-route/DDOT_${
+      r.routeId
+    }.json?key=BETA&includePolylines=false&includeStatus=true`;
     fetch(url)
       .then(r => r.json())
       .then(d => {
         // filter the API's trips; does it appear in the current route's roster of trips?
         let allTripIds = r.trips.map(trip => trip.id);
-        let filteredTrips = d.data.list.filter(l => allTripIds.indexOf(l.tripId.slice(5)) !== -1);
+        let filteredTrips = d.data.list.filter(
+          l => allTripIds.indexOf(l.tripId.slice(5)) !== -1
+        );
         setActiveTrips(filteredTrips);
-        setRefs(d.data.references)
+        setRefs(d.data.references);
       });
   }, [now]);
 
   return (
     <Layout className="pageGrid">
       <RouteHeader number={r.routeShortName} page="Overview" />
-      <RouteMap shapes={r.shapes} longTrips={r.longTrips} activeTrips={activeTrips} allTrips={r.trips} refs={refs} color={r.routeColor} shortName={r.routeShortName} />
+      <div style={{ gridArea: "title" }}>
+        <Card>
+          <CardHeader title={<RouteBadge id={r.routeShortName} showName />} />
+        </Card>
+      </div>
+      <RouteMap
+        shapes={r.shapes}
+        longTrips={r.longTrips}
+        activeTrips={activeTrips}
+        allTrips={r.trips}
+        refs={refs}
+        color={r.routeColor}
+        shortName={r.routeShortName}
+      />
       <RouteDetails id={r.routeShortName} />
     </Layout>
   );
@@ -49,7 +68,9 @@ export default ({ data, pageContext }) => {
 export const query = graphql`
   query($routeNo: String!) {
     postgres {
-      route: allRoutesList(condition: { routeShortName: $routeNo, feedIndex: 5 }) {
+      route: allRoutesList(
+        condition: { routeShortName: $routeNo, feedIndex: 5 }
+      ) {
         agencyId
         routeShortName
         routeLongName
@@ -68,7 +89,9 @@ export const query = graphql`
         longTrips: longestTripsList {
           tripHeadsign
           directionId
-          stopTimes: stopTimesByFeedIndexAndTripIdList(orderBy: STOP_SEQUENCE_ASC) {
+          stopTimes: stopTimesByFeedIndexAndTripIdList(
+            orderBy: STOP_SEQUENCE_ASC
+          ) {
             stopSequence
             timepoint
             arrivalTime {
@@ -91,7 +114,9 @@ export const query = graphql`
           headsign: tripHeadsign
           direction: directionId
           service: serviceId
-          stopTimes: stopTimesByFeedIndexAndTripIdList(condition: { timepoint: 1 }) {
+          stopTimes: stopTimesByFeedIndexAndTripIdList(
+            condition: { timepoint: 1 }
+          ) {
             timepoint
             arrivalTime {
               hours

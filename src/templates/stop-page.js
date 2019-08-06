@@ -106,7 +106,7 @@ export default ({ data }) => {
           shapes={s.routeShapes.filter(rs => rs.routeByFeedIndexAndRouteId.routeShortName === route.toString())}
           route={route}
         />
-        <StopTransfers xfers={transferStops} />
+        <StopTransfers xfers={transferStops} title={`Nearby transfers`}/>
       </div>
     </Layout>
   );

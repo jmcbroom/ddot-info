@@ -12,8 +12,8 @@ const RouteDetails = ({ id }) => {
   })[0];
 
   return (
-    <Card style={{ gridArea: "details" }}>
-      <CardHeader title={<RouteBadge id={id} showName />} />
+    <div style={{gridArea: "details"}}>
+    <Card>
       <CardContent>{obj.description}</CardContent>
       {["Monday-Friday", "Saturday", "Sunday/Holiday"].map((d, i) => (
         <div key={i}>
@@ -57,6 +57,7 @@ const RouteDetails = ({ id }) => {
         </div>
       ))}
     </Card>
+    </div>
   );
 };
 

@@ -54,20 +54,13 @@ body {
       "title details"
       "map details"
       "realtime details"
-      /* "details title"
-      "details map"
-      "details realtime" */
       "footer footer";
   }
 
   .pageGrid > #map {
     grid-area: "map";
-    min-width: 50vw;
-    height: 65vh;
+    min-width: 40vw;
+    height: 70vh;
   }
-}
 
-.mapboxgl-popup {
-  max-width: 400px;
-  font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
