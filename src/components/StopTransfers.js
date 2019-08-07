@@ -5,7 +5,7 @@ import RouteLink from "./RouteLink";
 import { Link } from "gatsby";
 import routes from "../data/routes";
 
-const StopTransfers = ({ xfers, title }) => {
+const StopTransfers = ({ xfers, title, avatar }) => {
   
   let routeXfers = _(xfers.map(x => x.routes))
     .uniqWith(_.isEqual)
@@ -15,7 +15,7 @@ const StopTransfers = ({ xfers, title }) => {
 
   return (
     <Card>
-      <CardHeader title={title} titleTypographyProps={{ variant: "h6" }} style={{ paddingBottom: 0 }} />
+      <CardHeader title={title} avatar={avatar} titleTypographyProps={{ variant: "h6" }} style={{ paddingBottom: 0 }} />
       {Object.keys(routeXfers).map(k => {
         let rd = routes.filter(rt => rt.number === parseInt(k))[0];
         return (

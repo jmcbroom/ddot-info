@@ -60,7 +60,7 @@ body {
   .pageGrid > #map {
     grid-area: "map";
     min-width: 40vw;
-    height: 70vh;
+    height: 55vh;
   }
 
 }

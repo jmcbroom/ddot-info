@@ -13,6 +13,7 @@ import StopTransfers from "../components/StopTransfers";
 import { Card, CardHeader, AppBar, Toolbar, NativeSelect, CardContent } from "@material-ui/core";
 import { Radio, RadioGroup } from "@material-ui/core";
 import { FormControl, FormControlLabel, InputLabel, Input } from "@material-ui/core";
+import { NetworkCell, Timeline } from "@material-ui/icons";
 
 export default ({ data }) => {
   const s = data.postgres.stop;
@@ -56,7 +57,7 @@ export default ({ data }) => {
       />
       <div style={{ gridArea: "details" }}>
         <Card>
-          <CardHeader title="Bus routes that stop here" titleTypographyProps={{ variant: "h6" }} />
+        <CardHeader avatar={<Timeline />} title="Bus routes that stop here" titleTypographyProps={{ variant: "h6" }} />
           <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
             <FormControl component="fieldset" required style={{ width: "100%" }}>
               {uniqRouteNums.length < 4 ? (

@@ -197,7 +197,16 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
           features: []
         }
       });
-
+      map.addLayer({
+        id: "realtime-circle",
+        type: "circle",
+        source: "live-bus",
+        paint: {
+          "circle-radius": 14,
+          "circle-color": "rgba(89,89,89,1)",
+          "circle-stroke-width": 2
+        }
+      });
       map.addLayer({
         id: "live-bus-icon",
         type: "symbol",
@@ -210,6 +219,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
           "icon-opacity": 1
         }
       });
+      
 
       map.on("click", "nearby-stop-icon-bg", e => {
         let stop = map.queryRenderedFeatures(e.point, {
@@ -248,6 +258,8 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
       });
 
       theMap.fitBounds(bbox({ type: "FeatureCollection", features: [liveBusFeature, stop] }), { padding: 30 });
+
+      theMap.resize()
     } else if ((theMap && !currentBus) || (currentBus && parseInt(currentBus.routeShortName) !== currentRoute)) {
       theMap.easeTo({
         center: coords,

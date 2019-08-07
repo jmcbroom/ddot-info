@@ -214,7 +214,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
         type: "circle",
         source: "realtime",
         paint: {
-          "circle-radius": 12,
+          "circle-radius": 14,
           "circle-color": "rgba(89,89,89,1)",
           "circle-stroke-width": 2
         }
@@ -226,7 +226,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
         layout: {
           "icon-image": "bus-light-15",
           "icon-allow-overlap": true,
-          "icon-size": 0.75
+          "icon-size": 1
         }
       });
 

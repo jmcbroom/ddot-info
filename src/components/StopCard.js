@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "gatsby";
+import _ from 'lodash';
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { Timeline } from "@material-ui/icons";
 import routes from "../data/routes";
 import BusStop from "./BusStop";
 
 const StopCard = ({ stopId, stopDesc, stopRoutes }) => {
-  return (<Card style={{ background: "#eee", margin: ".25em", height: 150, minWidth: 250 }}>
+  return (<Card component={Link} to={`/stop/${stopId}`} style={{ background: "#eee", padding: 5, minWidth: 250, textDecoration: 'none' }}>
 
     {/* <CardHeader style={{ paddingBottom: 0 }} avatar={<BusStop style={{ height: "1em", width: "1em" }} />} title={<>
       <Link to={`/stop/${stopId}`} style={{ color: "black", fontSize: "1.2em" }}>
@@ -16,12 +17,12 @@ const StopCard = ({ stopId, stopDesc, stopRoutes }) => {
         <span style={{ background: "#ccc", padding: "4px 8px", fontSize: "1em", fontWeight: 700, color: "black" }}>#{stopId}</span>
       </div>
     </>} /> */}
-    <CardHeader avatar={<BusStop />} title={stopDesc} titleTypographyProps={{variant: 'body1'}}/>
-    <CardContent>
+    <CardHeader avatar={<BusStop />} title={stopDesc} titleTypographyProps={{variant: 'body1'}} subheader={`#${stopId}`} style={{padding: 10}}/>
+    <CardContent style={{padding: 10}}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <Timeline style={{ marginRight: ".65em" }} />
         <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", marginTop: "-.5em" }}>
-          {stopRoutes
+          {_.uniq(stopRoutes)
             .sort((a, b) => {
               return a - b;
             })

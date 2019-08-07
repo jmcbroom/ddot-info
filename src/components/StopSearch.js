@@ -47,7 +47,7 @@ const StopSearch = ({ stops }) => {
         ) : (
           ``
         )}
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`, gridGap: 20, overflowY: "scroll" }}>
+        <div style={{ padding: 10, display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`, gridGap: 10, overflowY: "scroll" }}>
           {stopsToShow.slice(0,12).map(st => (
             <StopCard key={st.stopId} stopId={st.stopId} stopDesc={st.stopDesc || st.stopName} stopRoutes={st.routes.map(r => r.short)} />
           ))}

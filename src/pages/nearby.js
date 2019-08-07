@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import style from "../data/mapstyle.json";
 import _ from "lodash";
+import {navigate} from '@reach/router';
 
 import { Card, CardContent, CardHeader } from "@material-ui/core";
 import Helpers from "../helpers";
@@ -40,6 +41,31 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
     });
 
     map.on("load", e => {
+
+      map.addSource("geolocated", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [{
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": coords
+            }
+          }]
+        }
+      })
+
+      map.addLayer({
+        id: 'geolocated-marker',
+        type: 'symbol',
+        source: 'geolocated',
+        layout: {
+          "icon-image": "geolocated",
+          "icon-size": 1.25
+        }
+      })
+
       map.addLayer({
         id: "nearby-stop-icon-bg",
         type: "circle",
@@ -136,6 +162,14 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
         },
         "road-label-small"
       );
+
+      map.on("click", "nearby-stop-icon-bg", e => {
+        let stop = map.queryRenderedFeatures(e.point, {
+          layers: ["nearby-stop-icon-bg"]
+        })[0];
+
+        navigate(`/stop/${stop.properties.stopId}`);
+      });
 
     });
 
