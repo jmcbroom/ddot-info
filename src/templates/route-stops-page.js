@@ -213,6 +213,9 @@ export const query = graphql`
               stopLat
               stopLon
               geojson
+              routeShapes: routeShapesList {
+                short
+              }
             }
           }
         }

@@ -257,7 +257,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
         features: [liveBusFeature]
       });
 
-      theMap.fitBounds(bbox({ type: "FeatureCollection", features: [liveBusFeature, stop] }), { padding: 30 });
+      theMap.fitBounds(bbox({ type: "FeatureCollection", features: [liveBusFeature, stop] }), { padding: 70 });
 
       theMap.resize()
     } else if ((theMap && !currentBus) || (currentBus && parseInt(currentBus.routeShortName) !== currentRoute)) {

@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "gatsby";
+import _ from 'lodash';
+import routes from '../data/routes'
 
 const defaultStyles = {
   display: "flex",
@@ -11,7 +13,9 @@ const defaultStyles = {
 };
 
 /** Linked stop name and id for RouteStopList */
-const StopLink = ({ stop, color, isTimepoint, showBorder, showTransfers }) => {
+const StopLink = ({ stop, color, isTimepoint, showBorder, showTransfers, route }) => {
+  console.log(route.number)
+  console.log(stop.routeShapes.map(r => r.short).filter(x => parseInt(x) !== route.number))
   return (
     <div style={showBorder ? { ...defaultStyles, marginLeft: "1em", borderLeft: `6px solid ${color}` } : defaultStyles}>
       {showBorder ? (
@@ -39,7 +43,29 @@ const StopLink = ({ stop, color, isTimepoint, showBorder, showTransfers }) => {
         </Link>
         <span style={{ padding: ".25rem", fontSize: ".75rem", background: "#eee" }}>#{stop.stopId}</span>
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", width: "50%", marginTop: "-.25em" }}>
+      <div style={{ display: "flex", marginLeft: '.5em', flexWrap: "wrap", alignItems: "center", width: "50%", marginTop: "-.25em" }}>
+        {_.uniq(stop.routeShapes.map(r => r.short).filter(x => parseInt(x) !== route.number)).map(u => {
+          let rd = routes.filter(rd => rd.number === parseInt(u))[0];
+          return (
+          <Link to={`/route/${rd.number}`} key={u} style={{
+            display: "flex",
+            textDecoration: "none",
+            alignItems: "center",
+            fontWeight: 900,
+            justifyContent: "center",
+            width: "1.8em",
+            height: "1.8em",
+            color: "white",
+            fontSize: "1em",
+            backgroundColor: rd.color,
+            border: `1px solid ${rd.color}`,
+            borderRadius: rd.radius,
+            marginRight: ".5em",
+            marginTop: ".5em"
+          }}>
+            {u}
+          </Link>
+        )})}
         {/* {Stops[this.props.id] && routes.length < 25 ? routes.sort((a, b) => { return a - b}).map((r, i) => (
         <Link style={exclude.toString() === r.toString() ? { display: 'none' } : { marginRight: '.5rem', textDecoration: 'none' }} to={{pathname: `/route/${r}`}} key={i}>
           <div style={exclude.toString() === r.toString() ? { display: 'none' } : { display: 'flex', alignItems:'center',  justifyContent: 'center', width: '2em', height: '2em', backgroundColor: Schedules[r].color, border: `1px solid ${Schedules[r].color}`, borderRadius: Schedules[r].color === '#004445' ? 99 : 0, color: '#fff', fontWeight: 700, marginTop: '.25em' }}>

@@ -88,7 +88,7 @@ export default ({ data }) => {
           <CardHeader
             component={Link}
             to={`/route/${route}`}
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: "none", background: '#eee' }}
             title={<RouteLink id={route} small />}
             titleTypographyProps={{ variant: "h6" }}
           />

@@ -17,7 +17,7 @@ const RouteLink = ({ id, icons, direction, small = false }) => {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      backgroundColor: small ? "#fff" : "rgb(245, 245, 245)"
+      backgroundColor: 'none'
     },
     badge: {
       display: "flex",

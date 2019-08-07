@@ -32,9 +32,11 @@ const RouteStopList = ({ route, longTrip }) => {
         </div>
         <div style={{ height: "60vh", overflowY: "scroll", WebkitOverflowScrolling: "touch" }}>
           {longTrip.stopTimes.map(st => (
+            <>
             <div style={{ display: "flex", alignItems: "center", zIndex: 0 }} key={st.stop.stopId}>
-              <StopLink stop={st.stop} color={route.color} isTimepoint={st.timepoint ? true : false} showTransfers showBorder />
+              <StopLink stop={st.stop} route={route} color={route.color} isTimepoint={st.timepoint ? true : false} showTransfers showBorder />
             </div>
+            </>
           ))}
         </div>
       </CardContent>
