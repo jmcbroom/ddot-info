@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
-import { Card, CardHeader, CardContent } from "@material-ui/core";
+import { Card, CardHeader } from "@material-ui/core";
 import bbox from "@turf/bbox";
 import { navigate } from "@reach/router";
 

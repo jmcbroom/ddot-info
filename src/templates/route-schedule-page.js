@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import _ from "lodash";
-import chroma from "chroma-js";
 import { Link, graphql } from "gatsby";
 
 import Layout from "../components/Layout";
@@ -12,12 +11,11 @@ import ScheduleTable from "../components/ScheduleTable";
 
 import routes from "../data/routes";
 
-import { AppBar, CardActions, Typography, CardActionArea } from "@material-ui/core";
+import { CardActions, Typography, CardActionArea } from "@material-ui/core";
 import { Card, CardContent, CardHeader } from "@material-ui/core";
-import Toolbar from "@material-ui/core/Toolbar";
-import { AccountCircle, FiberManualRecord } from "@material-ui/icons";
+import { FiberManualRecord } from "@material-ui/icons";
 
-export default ({ data, pageContext }) => {
+export default ({ data }) => {
   let r = data.postgres.route[0];
   let rd = routes.filter(rd => rd.number === parseInt(r.routeShortName))[0];
 
@@ -30,13 +28,6 @@ export default ({ data, pageContext }) => {
 
   let tripsToShow = r.trips.filter(trip => trip.direction === currentDirectionId && trip.service === currentService);
 
-  let timepointList = tripsToShow
-    .sort((a, b) => {
-      return b.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val) - a.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val);
-    })[0]
-    .stopTimes.filter(st => {
-      return st.timepoint === 1;
-    });
 
   return (
     <Layout>

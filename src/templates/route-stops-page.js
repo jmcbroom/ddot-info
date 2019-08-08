@@ -6,10 +6,8 @@ import RouteHeader from "../components/RouteHeader";
 import RouteBadge from "../components/RouteBadge";
 import RouteStopList from "../components/RouteStopList";
 
-import Toolbar from "@material-ui/core/Toolbar";
-import { AppBar, Card, CardContent, CardActions, CardHeader, CardActionArea } from "@material-ui/core";
+import { Card, CardContent, CardActions, CardHeader, CardActionArea } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
-import { Search } from "@material-ui/icons";
 
 import routes from "../data/routes";
 import DirectionPicker from "../components/DirectionPicker";
@@ -28,7 +26,7 @@ const StopInput = ({ input, handleChange }) => {
   );
 };
 
-export default ({ data, pageContext }) => {
+export default ({ data }) => {
   let r = data.postgres.route[0];
   let rd = routes.filter(rd => rd.number === parseInt(r.routeShortName))[0];
 

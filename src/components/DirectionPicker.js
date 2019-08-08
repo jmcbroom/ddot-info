@@ -1,4 +1,5 @@
 import React from "react";
+import _ from 'lodash';
 import { Radio, RadioGroup } from "@material-ui/core";
 import { FormControl, FormControlLabel, FormLabel} from "@material-ui/core";
 
@@ -15,7 +16,7 @@ const DirectionPicker = ({ directions, direction, handleChange, endpoints, asRow
             control={<Radio />}
             style={{textDecoration: direction === s ? 'dotted underline' : 'none'}}
             onChange={() => handleChange(s)}
-            label={`${s} to ${endpoints[i]}`}
+            label={`${_.capitalize(s)}`}
           />
         ))}
       </RadioGroup>

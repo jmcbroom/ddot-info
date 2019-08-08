@@ -41,6 +41,8 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
       attributionControl: false
     });
 
+    map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-left');
+
     map.on("load", e => {
 
       map.addSource("geolocated", {
@@ -308,7 +310,7 @@ const FeaturesNearLocation = ({
         radius={radius}
       />}
       <div style={{ gridArea: "details" }}>
-        <StopTransfers xfers={coords ? stops : []} title={`Routes and stops near you`} />
+        <StopTransfers coords={coords} xfers={coords ? stops : []} title={`Routes and stops near you`} />
       </div>
     </>
   );
