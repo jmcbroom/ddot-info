@@ -5,7 +5,7 @@ import { SwapHoriz } from "@material-ui/icons";
 import StopLink from "./StopLink";
 import BusStop from "./BusStop";
 
-const RouteStopList = ({ route, longTrip }) => {
+const RouteStopList = ({ route, longTrip, input }) => {
   const cardStyle = {
     display: "flex",
     justifyContent: "center",
@@ -16,6 +16,12 @@ const RouteStopList = ({ route, longTrip }) => {
     paddingBottom: "1rem",
     width: "100%"
   };
+
+  let filteredStopTimes = longTrip.stopTimes
+
+  if(input !== ``) {
+    filteredStopTimes = longTrip.stopTimes.filter(st => { return  st.stop.stopDesc.indexOf(input) > -1 || st.stop.stopId.indexOf(input) > -1})
+  }
 
   return (
     <Card>
@@ -31,7 +37,7 @@ const RouteStopList = ({ route, longTrip }) => {
           </div>
         </div>
         <div style={{ height: "60vh", overflowY: "scroll", WebkitOverflowScrolling: "touch" }}>
-          {longTrip.stopTimes.map(st => (
+          {filteredStopTimes.map(st => (
             <>
             <div style={{ display: "flex", alignItems: "center", zIndex: 0 }} key={st.stop.stopId}>
               <StopLink stop={st.stop} route={route} color={route.color} isTimepoint={st.timepoint ? true : false} showTransfers showBorder />

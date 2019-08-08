@@ -60,12 +60,15 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
       zoom: 12.75 // starting zoom
     });
 
-    let ctrl = new mapboxgl.NavigationControl();
-    map.addControl(ctrl, "top-left");
+    let ctrl = new mapboxgl.NavigationControl({
+      showCompass: false
+    });
+
+    map.addControl(ctrl, "bottom-left");
 
     map.on("load", () => {
       map.fitBounds(bounds, {
-        padding: 30
+        padding: 50
       });
 
       map.getSource("routes").setData({ type: "FeatureCollection", features: shapesFeatures

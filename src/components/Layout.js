@@ -2,14 +2,14 @@ import React from "react";
 import { ThemeProvider } from "@material-ui/styles";
 import { Helmet } from "react-helmet";
 import theme from "../theme";
-import TopNav from "./TopNav";
+import { Link } from "gatsby";
 import "../css/app.css";
 import { Divider, Typography } from "@material-ui/core";
 
 const Footer = () => (
-  <div style={{ gridArea: 'footer', background: "rgba(0, 68, 69, 0.2)", height: "5em", padding: '1em' }}>
-    <Divider />
-    <Typography>Created by IET. City of Detroit, 2019.</Typography>
+  <div style={{ gridArea: 'footer', height: "4em", padding: '1em' }}>
+    <Divider style={{margin: 10}} />
+    <Typography variant={'subtitle1'} style={{color: '#555'}} align='center'>2019, City of Detroit. <Link to={`/about`}>Read more about this site.</Link> You can provide feedback <a href='https://app.smartsheet.com/b/form/28665a43770d48b5bbdfe35f3b7b45ac'>using this form.</a></Typography>
   </div>
 );
 

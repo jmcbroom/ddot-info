@@ -12,9 +12,10 @@ import ScheduleTable from "../components/ScheduleTable";
 
 import routes from "../data/routes";
 
-import { AppBar } from "@material-ui/core";
-import { Card, CardContent } from "@material-ui/core";
+import { AppBar, CardActions, Typography, CardActionArea } from "@material-ui/core";
+import { Card, CardContent, CardHeader } from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
+import { AccountCircle, FiberManualRecord } from "@material-ui/icons";
 
 export default ({ data, pageContext }) => {
   let r = data.postgres.route[0];
@@ -40,116 +41,36 @@ export default ({ data, pageContext }) => {
   return (
     <Layout>
       <RouteHeader number={r.routeShortName} page="Schedule" />
-      <div className="schedule">
-        <AppBar position="static" color="default" elevation={0} style={{ display: "flex", background: "white" }}>
-          <Toolbar elevation={0} style={{ flexDirection: "column", alignItems: "flex-start" }}>
-            <span
-              style={{
-                margin: 0,
-                padding: ".5em 0em",
-                fontSize: "1.5em",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
-              <span style={{ marginLeft: ".25em" }}>
-                <RouteBadge id={r.routeShortName} showName />
-              </span>
-              : <span style={{ fontWeight: 700, paddingLeft: ".2em" }}>Schedule</span>
-            </span>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                marginBottom: ".5em"
-              }}
-            >
-              <span style={{ fontSize: ".9em" }}>
-                <b>Major stops</b>{" "}
-              </span>
-              <span
-                style={{
-                  height: "15px",
-                  width: "15px",
-                  backgroundColor: "#000",
-                  border: "1px solid #000",
-                  borderRadius: "3em",
-                  margin: ".25em"
-                }}
-              />
-              <span style={{ fontSize: ".9em" }}>
-                {" "}
-                are shown in order in the top row; look down the column to see scheduled departure times from that bus stop.
-              </span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                marginBottom: ".5em"
-              }}
-            >
-              <span style={{ fontSize: ".9em" }}>
-                Buses make additional stops between major stops; see a list of all stops on the{" "}
-                <Link to={`/route/${r.routeShortName}/stops`} style={{ color: "black" }}>
-                  BUS STOPS
-                </Link>{" "}
-                tab.
-              </span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: ".5em"
-              }}
-            >
-              <span style={{ fontSize: ".9em" }}>
-                Displaying AM times, <b>PM times</b>, and{" "}
-              </span>
-              <span
-                style={{
-                  background: chroma(r.routeColor)
-                    .alpha(0.25)
-                    .css(),
-                  fontSize: ".9em",
-                  marginLeft: ".25em",
-                  padding: ".15em"
-                }}
-              >
-                {" "}
-                current trips.
-              </span>
-            </div>
-          </Toolbar>
-        </AppBar>
-        <AppBar position="static" color="default" elevation={0} style={{ display: "flex", flexWrap: "wrap", padding: ".5em 0em" }}>
-          <Toolbar
-            elevation={0}
-            style={{
-              justifyContent: "flex-start",
-              alignItems: "start",
-              marginLeft: ".5em",
-              fontSize: 10,
-              padding: 0
-            }}
-          >
-            <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} />
-            <DirectionPicker directions={availableDirections} direction={currentDirection} handleChange={setCurrentDirection} endpoints={rd.between} />
-          </Toolbar>
-        </AppBar>
+      <Card className="schedule">
+        <CardHeader title={<RouteBadge id={r.routeShortName} showName />} />
+        <CardContent style={{ paddingTop: 0 }}>
+          <Typography variant={"body1"}>
+            <b>Major stops</b> <FiberManualRecord fontSize='small' style={{padding: 0, margin: 0, display: 'inline'}}/>
+            are shown in order in the top row; look down the column to see scheduled departure times from that bus stop.
+          </Typography>
+          <Typography variant={"body1"}>
+            {" "}
+            Buses make additional stops between major stops; see a list of all stops on the{" "}
+            <Link to={`/route/${r.routeShortName}/stops`} style={{ color: "black" }}>
+              BUS STOPS
+            </Link>{" "}
+            tab.
+          </Typography>
+          <Typography variant={"body1"}>
+            {" "}
+            Displaying AM times and <b>PM times</b>
+          </Typography>
+        </CardContent>
+        <CardActionArea>
+
+        <CardActions style={{ display: "flex", paddingLeft: 20, paddingTop: 10, paddingBottom: 0 }}>
+          <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
+          <DirectionPicker directions={availableDirections} direction={currentDirection} handleChange={setCurrentDirection} endpoints={rd.between} asRow />
+        </CardActions>
+        </CardActionArea>
         <ScheduleTable trips={tripsToShow} color={r.routeColor} />
-        <Card style={{ marginTop: "1em", backgroundColor: "#fff" }}>
-          <CardContent>{/* <PrintSchedule routePdf={rd.pdf} /> */}</CardContent>
-        </Card>
-      </div>
+        {/* <CardActions><PrintSchedule routePdf={rd.pdf} /></CardActions> */}
+      </Card>
     </Layout>
   );
 };

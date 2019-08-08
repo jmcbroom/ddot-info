@@ -4,11 +4,12 @@ import style from "../data/mapstyle.json";
 import _ from "lodash";
 import {navigate} from '@reach/router';
 
-import { Card, CardContent, CardHeader } from "@material-ui/core";
+import { Card, CardContent, CardHeader, CardActions, TextField } from "@material-ui/core";
 import Helpers from "../helpers";
 import StopTransfers from "../components/StopTransfers";
 import Layout from "../components/Layout";
 import TopNav from "../components/TopNav";
+import bbox from "@turf/bbox";
 
 const NearbyMap = ({ stops, routes, coords, radius }) => {
   let [theMap, setMap] = useState(null);
@@ -18,7 +19,7 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
       properties: { ...sh.route },
       ...sh.geojson
     }
-  })
+  }).sort((a, b) => b.properties.short - a.properties.short)
 
   let routeXfers = _(stops.map(x => x.routes))
   .uniqWith(_.isEqual)
@@ -71,7 +72,10 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
         type: "circle",
         source: "nearby",
         paint: {
-          "circle-radius": 8,
+          "circle-radius": {
+            "base": 1,
+            "stops": [[13, 2], [15, 8], [19, 10]]
+          },
           "circle-color": "rgba(255, 255, 255, 1)",
           "circle-stroke-color": "rgba(0, 0, 0, 0.95)",
           "circle-stroke-width": 1.5
@@ -81,6 +85,7 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
         id: "nearby-stop-icon",
         type: "symbol",
         source: "nearby",
+        minzoom: 15,
         layout: {
           "icon-image": "bus-stop-15",
           "icon-size": 0.5,
@@ -171,6 +176,14 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
         navigate(`/stop/${stop.properties.stopId}`);
       });
 
+      map.on("mouseover", "nearby-stop-icon-bg", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      map.on("mouseleave", "nearby-stop-icon-bg", () => {
+        map.getCanvas().style.cursor = "";
+      });
+
     });
 
     map.resize();
@@ -198,6 +211,26 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
 
       theMap.getSource("routes").setData({ type: "FeatureCollection", features: filteredShapes })
 
+      let stopBounds = bbox({
+        type: "FeatureCollection",
+        features: stops.map(s => {
+          return {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [s.stopLon, s.stopLat]
+            },
+            properties: {
+              ...s
+            }
+          };
+        })
+      })
+
+      theMap.fitBounds(stopBounds, {
+        padding: 40
+      })
+
       theMap.resize();
     }
   }, [stops]);
@@ -207,52 +240,75 @@ const NearbyMap = ({ stops, routes, coords, radius }) => {
 
 const FeaturesNearLocation = ({
   coords,
-  radius,
   allStops,
   allShapes,
   intersection
 }) => {
   let [stops, setStops] = useState([]);
 
+  const radii = {
+    300: '5 minute walk',
+    600: '10 minute walk',
+    1200: '20 minute walk'
+  }
+  
+  let [radius, setRadius] = useState(300)
+
   useEffect(() => {
-    fetch(
-      `${
-        Helpers.endpoint
-      }/stops-for-location.json?key=BETA&radius=${radius}&lat=${
-        coords[1]
-      }&lon=${coords[0]}`
-    )
-      .then(r => r.json())
-      .then(d => {
-        let matchedStops = [];
-        d.data.list.forEach(l => {
-          matchedStops.push(
-            _.merge(l, allStops.filter(as => as.stopId === l.id.slice(5))[0])
-          );
-        });
-        setStops(matchedStops);
-      });
-  }, []);
+    if(coords) {
+      fetch(
+        `${
+          Helpers.endpoint
+        }/stops-for-location.json?key=BETA&radius=${radius}&lat=${
+          coords[1]
+        }&lon=${coords[0]}`
+        )
+        .then(r => r.json())
+        .then(d => {
+          let matchedStops = [];
+          d.data.list.forEach(l => {
+            matchedStops.push(
+              _.merge(l, allStops.filter(as => as.stopId === l.id.slice(5))[0])
+              );
+            });
+            setStops(matchedStops);
+          });
+        }
+        else {
+          return;
+        }
+  }, [coords, radius]);
 
   return (
     <>
       <Card style={{ gridArea: "title" }}>
+
         <CardHeader
           // avatar={<BusStop />}
-          title={`5 minute walk`}
-          titleTypographyProps={{ variant: "h6" }}
-          subheader={intersection}
-          subheaderTypographyProps={{ variant: "subtitle2" }}
+          subheader={<><TextField
+            select
+            value={radius}
+            onChange={(e) => setRadius(e.target.value)}
+                    >
+            {Object.keys(radii).map(n => 
+              <option key={n} value={n}>
+                {radii[n]}
+              </option>)}
+          </TextField> from {coords ? intersection : `?`}</>}
+          subheaderTypographyProps={{ variant: "h6" }}
         />
+        <CardActions>
+          
+        </CardActions>
       </Card>
-      <NearbyMap
+      {coords && <NearbyMap
         stops={stops}
         routes={allShapes}
         coords={coords}
         radius={radius}
-      />
+      />}
       <div style={{ gridArea: "details" }}>
-        <StopTransfers xfers={stops} title={`Routes and stops near you`} />
+        <StopTransfers xfers={coords ? stops : []} title={`Routes and stops near you`} />
       </div>
     </>
   );
@@ -280,17 +336,13 @@ const NearbyPage = ({ data }) => {
   return (
     <Layout className="pageGrid">
       <TopNav />
-      {coords ? (
-        <FeaturesNearLocation
-          allStops={data.postgres.stops}
-          allShapes={data.postgres.shapes}
-          coords={coords}
-          intersection={location}
-          radius={400}
-        />
-      ) : (
-        ``
-      )}
+      <FeaturesNearLocation
+        allStops={data.postgres.stops}
+        allShapes={data.postgres.shapes}
+        coords={coords}
+        intersection={location}
+        radius={400}
+      />
     </Layout>
   );
 };

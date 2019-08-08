@@ -6,6 +6,13 @@ const theme = createMuiTheme({
   typography: {
     fontFamily:['Gibson Detroit Regular','Gibson Detroit Light',"Segoe UI"]
   },
+  overrides: {
+    MuiFormLabel: {
+      asterisk: {
+        display: 'none'
+      }
+    },
+  },
   palette: {
     primary: {
       main: '#B0D27B',
@@ -17,7 +24,7 @@ const theme = createMuiTheme({
       main: red.A400,
     },
     background: {
-      default: '#fff',
+      default: '#CCDADA',
     },
   },
 });

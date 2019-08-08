@@ -25,10 +25,10 @@ const IndexPage = ({ data }) => {
   return (
     <Layout>
       <TopNav />
-      <Card>
+      {/* <Card>
         <CardHeader title="Welcome to DDOT's new bus schedule tool" />
         <CardContent>You can browse bus routes, look up a bus stop, or see service near your current location</CardContent>
-      </Card>
+      </Card> */}
       <List style={{ background: "#fff" }}>
         <ListItem
           key="routes"

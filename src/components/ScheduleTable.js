@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "gatsby";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
+import { Table, TableBody, TableCell, TableHead, TableRow, CardContent } from "@material-ui/core";
 import { KeyboardArrowRight } from "@material-ui/icons";
 import { withStyles } from "@material-ui/styles";
 
@@ -70,7 +70,7 @@ const ScheduleTable = ({ trips, color, classes }) => {
   });
 
   return (
-    <div style={{ overflow: "auto", backgroundColor: "white", maxHeight: 700 }}>
+    <CardContent style={{ overflow: "auto", backgroundColor: "white", maxHeight: 700, paddingTop: 0 }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -165,7 +165,7 @@ const ScheduleTable = ({ trips, color, classes }) => {
           ))}
         </TableBody>
       </Table>
-    </div>
+      </CardContent>
   );
 };
 

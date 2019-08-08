@@ -5,9 +5,10 @@ import BusStop from "../components/BusStop";
 
 import routes from "../data/routes";
 import _ from "lodash";
+import { withStyles } from "@material-ui/styles";
 
 /** Linked route number and name with optional icons for RoutesList, NearbyList, StopTransfers and Stop */
-const RouteLink = ({ id, icons, direction, small = false }) => {
+const RouteLink = ({ id, icons, direction, small = false, background='none' }) => {
   const route = _.find(routes, a => {
     return a.number === parseInt(id, 10);
   });
@@ -17,7 +18,7 @@ const RouteLink = ({ id, icons, direction, small = false }) => {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      backgroundColor: 'none'
+      backgroundColor: background
     },
     badge: {
       display: "flex",
@@ -42,7 +43,7 @@ const RouteLink = ({ id, icons, direction, small = false }) => {
     span: {
       fontSize: small ? `1em` : `1.1em`,
       fontFamily: small ? "Gibson Detroit Regular" : "Gibson Detroit Light",
-      fontWeight: small ? 400 : 600,
+      fontWeight: 400,
       color: "black"
     },
     icons: {
@@ -76,7 +77,7 @@ const RouteLink = ({ id, icons, direction, small = false }) => {
           </span>
         ) : (
           <Link to={`/route/${id}`} style={{ textDecoration: "none" }}>
-            <span style={styles.span}>
+            <span style={{...styles.span, fontWeight: 600}}>
               {route.name} {direction ? ` (${direction})` : ``}
             </span>
           </Link>

@@ -7,7 +7,7 @@ const RoutesList = ({ routes }) => {
     display: "grid",
     gridTemplateColumns: `repeat(auto-fit, minmax(350px, 1fr))`,
     gridGap: `.5em`,
-    maxHeight: "50vh",
+    maxHeight: "35vh",
     overflowY: "scroll",
     boxSizing: "border-box",
     padding: 0,
@@ -16,7 +16,7 @@ const RoutesList = ({ routes }) => {
   return (
     <div style={gridStyle}>
       {routes.map(r => (
-        <RouteLink key={r.short} id={r.short} routeId={r.routeId} icons />
+        <RouteLink key={r.short} id={r.short} routeId={r.routeId} background='#eee' icons />
       ))}
     </div>
   );

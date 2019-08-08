@@ -228,6 +228,14 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
 
         navigate(`/stop/${stop.properties.stopId}`);
       });
+
+      map.on("mouseover", "nearby-stop-icon-bg", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      map.on("mouseleave", "nearby-stop-icon-bg", () => {
+        map.getCanvas().style.cursor = "";
+      });
     });
     setMap(map);
   }, []);
