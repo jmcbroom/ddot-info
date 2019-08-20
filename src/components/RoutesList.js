@@ -4,6 +4,7 @@ import RouteLink from "./RouteLink";
 /** List of all routes matching search input for RouteSearch on Homepage */
 const RoutesList = ({ routes }) => {
   const gridStyle = {
+    width: '100vw',
     display: "grid",
     gridTemplateColumns: `repeat(auto-fit, minmax(275px, 1fr))`,
     gridGap: `.5em`,

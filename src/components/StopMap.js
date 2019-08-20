@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
-import { Card, CardHeader } from "@material-ui/core";
+import { Card, CardHeader, CardContent, Button, IconButton } from "@material-ui/core";
 import bbox from "@turf/bbox";
 import { navigate } from "@reach/router";
 
 import nearestPointOnLine from "@turf/nearest-point-on-line";
 import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";
+import { Star, StarBorder } from "@material-ui/icons";
 
 const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nearby }) => {
-  console.log(currentRoute, currentBus);
   // make some GeoJSON features for the map
   let shapesFeatures = shapes
     .map(sh => {
@@ -295,8 +295,9 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
           titleTypographyProps={{ variant: "h6" }}
           subheader={`Stop ID: #${id}`}
           subheaderTypographyProps={{ variant: "subtitle2" }}
-        />
-      </Card>
+  action={<IconButton onClick={e => localStorage.setItem("favorite", id)}>{typeof window !== undefined && localStorage.getItem("favorite") === id ? <Star /> : <StarBorder />}</IconButton>}
+        />      
+        </Card>
       <div id="map" />
     </>
   );

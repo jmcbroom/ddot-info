@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 import { graphql } from "gatsby";
 
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { List, ListItem, ListItemIcon, ListItemText, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography } from "@material-ui/core";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
-import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight, NearMe } from "@material-ui/icons";
+import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight, NearMe, Star, ExpandMore, StarBorder } from "@material-ui/icons";
 import BusStop from "../components/BusStop";
 import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
@@ -15,6 +15,7 @@ import RouteSearch from "../components/RouteSearch";
 import StopSearch from "../components/StopSearch";
 import TopNav from "../components/TopNav";
 import { navigate } from "@reach/router";
+import StopCard from "../components/StopCard";
 
 const IndexPage = ({ data }) => {
   let [open, setOpen] = useState("routes");
@@ -22,6 +23,17 @@ const IndexPage = ({ data }) => {
   let routes = data.postgres.routes;
   let stops = data.postgres.stops;
 
+  let favorite = typeof window !== undefined && localStorage.getItem("favorite") ? localStorage.getItem("favorite") : null
+  let favoriteStop = stops.filter(s => s.stopId === favorite)[0]
+  console.log(favorite, favoriteStop)
+
+  let favoriteStyles = {
+    header: {
+      paddingTop: 0,
+      paddingBottom: 0
+    }
+  }
+  
   return (
     <Layout>
       <TopNav />
@@ -29,6 +41,66 @@ const IndexPage = ({ data }) => {
         <CardHeader title="Welcome to DDOT's new bus schedule tool" />
         <CardContent>You can browse bus routes, look up a bus stop, or see service near your current location</CardContent>
       </Card> */}
+
+      <ExpansionPanel defaultExpanded={favorite ? true : false}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMore />}
+  
+          >
+            <Typography>Favorite routes & stops</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+            sit amet blandit leo lobortis eget.
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMore />}
+          >
+            <Typography>Choose a bus route</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <RouteSearch routes={routes} />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMore />}
+          >
+            <Typography>Search for a stop</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+            sit amet blandit leo lobortis eget.
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMore />}
+          >
+            <Typography>Near my location</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+            sit amet blandit leo lobortis eget.
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
+      {/* {favoriteStop &&
+      <Card>
+        <CardHeader avatar={<Star />} title='Favorite stops' style={favoriteStyles.header}/>
+        <CardHeader avatar={<BusStop />} title={favoriteStop.stopDesc} />
+      </Card>
+
+
+      }
       <List style={{ background: "#fff" }}>
         <ListItem
           key="routes"
@@ -76,7 +148,7 @@ const IndexPage = ({ data }) => {
             <StopSearch stops={data.postgres.stops} />
           ) : null}
         </Collapse>
-      </List>
+      </List> */}
     </Layout>
   );
 };

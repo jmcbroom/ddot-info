@@ -18,6 +18,7 @@ const StopCard = ({ stopId, stopDesc, stopRoutes }) => {
       </div>
     </>} /> */}
     <CardHeader avatar={<BusStop />} title={stopDesc} titleTypographyProps={{variant: 'body1'}} subheader={`#${stopId}`} style={{padding: 10}}/>
+    {stopRoutes &&
     <CardContent style={{padding: 10}}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <Timeline style={{ marginRight: ".65em" }} />
@@ -49,7 +50,7 @@ const StopCard = ({ stopId, stopDesc, stopRoutes }) => {
             })}
         </div>
       </div>
-    </CardContent>
+    </CardContent>}
   </Card>);
 };
 
