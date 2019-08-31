@@ -1,9 +1,8 @@
 import { CardContent, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
-
 import { KeyboardArrowRight } from "@material-ui/icons";
+import { withStyles } from "@material-ui/styles";
 import { Link } from "gatsby";
 import React from "react";
-import { withStyles } from "@material-ui/styles";
 
 // attempting a fixedHeader like this: https://codesandbox.io/s/k0vwm7xpl3
 const styles = theme => ({
@@ -55,16 +54,12 @@ const ScheduleTable = ({ trips, color, classes }) => {
     .some((tp, j) => {
       let included = stopIdOccurences.map(sio => sio.includes(tp));
       if (included.every(i => i)) {
-        console.log(tp);
         defaultTimepoint = tp;
         return true;
       } else {
         return false;
       }
     });
-
-  console.log(trips);
-  console.log(defaultTimepoint);
 
   let sorted = trips.sort((a, b) => {
     let aStopTime = a.stopTimes.filter(st => st.stop.stopId === defaultTimepoint)[0].arrivalTime;
@@ -93,7 +88,7 @@ const ScheduleTable = ({ trips, color, classes }) => {
                   }}
                 >
                   <Link style={{ fontSize: "1.1em", color: "black", fontWeight: 700 }} to={`/stop/${s.stop.stopId}/`}>
-                    {s.stop.stopDesc || s.stop.stopName}
+                    {s.stop.stopName}
                   </Link>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
@@ -127,7 +122,7 @@ const ScheduleTable = ({ trips, color, classes }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {trips.map((t, i) => (
+          {sorted.map((t, i) => (
             <TableRow>
               {/* Iterate over the timepoints and filter the current trip's timepoints for a match.  */}
               {timepoints.map((tp, j) => {
@@ -137,6 +132,7 @@ const ScheduleTable = ({ trips, color, classes }) => {
                 if (filtered.length === 0) {
                   return (
                     <TableCell
+                      key={tp.stop.stopId}
                       style={{
                         borderBottom: (i + 1) % 5 === 0 ? `2px solid #${color}` : 0,
                         borderRight: "1px solid #ccc",

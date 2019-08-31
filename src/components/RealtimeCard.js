@@ -1,8 +1,8 @@
-import React from "react";
-import moment from "moment";
-
 import { Card, CardContent, List, ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
-import { SpeakerPhone, Schedule } from "@material-ui/icons";
+import { Schedule, SpeakerPhone } from "@material-ui/icons";
+import moment from "moment";
+import React from "react";
+
 import BusStop from "./BusStop";
 
 const computeTimeAway = prediction => {
@@ -21,7 +21,7 @@ const arrivalText = prediction => {
   if (minsAway < 0 && prediction.tripStatus.predicted) {
     return `Arrived ${Math.abs(computeTimeAway(prediction))} minutes ago`;
   }
-  if (minsAway == 0) {
+  if (minsAway === 0) {
     return `Arriving now`;
   }
   if (minsAway > 0 && prediction.tripStatus.predicted) {

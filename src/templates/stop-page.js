@@ -1,8 +1,9 @@
-import { AppBar, Card, CardContent, CardHeader, NativeSelect, Toolbar } from "@material-ui/core";
+import { Card, CardContent, CardHeader, NativeSelect } from "@material-ui/core";
 import { FormControl, FormControlLabel, Input, InputLabel } from "@material-ui/core";
-import { Link, graphql } from "gatsby";
-import { NetworkCell, Timeline } from "@material-ui/icons";
 import { Radio, RadioGroup } from "@material-ui/core";
+import { Timeline } from "@material-ui/icons";
+import { Link, graphql } from "gatsby";
+import _ from "lodash";
 import React, { useState } from "react";
 
 import Layout from "../components/Layout";
@@ -12,7 +13,6 @@ import StopMap from "../components/StopMap";
 import StopRouteSchedule from "../components/StopRouteSchedule";
 import StopTransfers from "../components/StopTransfers";
 import TopNav from "../components/TopNav";
-import _ from "lodash";
 
 export default ({ data }) => {
   const s = data.postgres.stop;
@@ -45,7 +45,7 @@ export default ({ data }) => {
     <Layout className="pageGrid">
       <TopNav />
       <StopMap
-        name={s.stopDesc || s.stopName}
+        name={s.stopName}
         id={s.stopId}
         coords={[s.stopLon, s.stopLat]}
         shapes={s.routeShapes}
@@ -67,7 +67,7 @@ export default ({ data }) => {
                       value={n}
                       control={<Radio />}
                       onChange={() => setRoute(n)}
-                      label={<RouteLink id={n} small />}
+                      label={<RouteLink id={n} small link={false} />}
                       style={{ width: "100%" }}
                     />
                   ))}
@@ -115,10 +115,9 @@ export default ({ data }) => {
 export const query = graphql`
   query($stopId: String!) {
     postgres {
-      stop: stopByFeedIndexAndStopId(stopId: $stopId, feedIndex: 5) {
+      stop: stopByFeedIndexAndStopId(stopId: $stopId, feedIndex: 6) {
         stopId
         stopName
-        stopDesc
         stopLat
         stopLon
         geojson
@@ -157,7 +156,7 @@ export const query = graphql`
         }
         nearby: nearbyStopsList {
           stopId
-          stopDesc
+          stopName
           stopLat
           stopLon
           routes: routeShapesList {

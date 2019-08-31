@@ -1,16 +1,16 @@
-import { Card, CardActions, CardContent, CardHeader, TextField } from "@material-ui/core";
+import { Card, CardActions, CardHeader, TextField } from "@material-ui/core";
+import { navigate } from "@reach/router";
+import bbox from "@turf/bbox";
+import { graphql } from "gatsby";
+import _ from "lodash";
+import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import React, { useEffect, useState } from "react";
 
-import Helpers from "../helpers";
 import Layout from "../components/Layout";
 import StopTransfers from "../components/StopTransfers";
 import TopNav from "../components/TopNav";
-import _ from "lodash";
-import bbox from "@turf/bbox";
-import { graphql } from "gatsby";
-import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
-import { navigate } from "@reach/router";
 import style from "../data/mapstyle.json";
+import Helpers from "../helpers";
 
 const NearbyMap = ({ stops, routes, coords, radius }) => {
   let [theMap, setMap] = useState(null);
@@ -324,7 +324,7 @@ const NearbyPage = ({ data }) => {
 export const query = graphql`
   {
     postgres {
-      shapes: allRouteShapesList(condition: { feedIndex: 5 }) {
+      shapes: allRouteShapesList(condition: { feedIndex: 6 }) {
         dir
         direction
         geojson: simpleGeojson
@@ -340,9 +340,9 @@ export const query = graphql`
           routeSortOrder
         }
       }
-      stops: allStopsList(condition: { feedIndex: 5 }) {
+      stops: allStopsList(condition: { feedIndex: 6 }) {
         stopId
-        stopDesc
+        stopName
         stopLat
         stopLon
         routes: routeShapesList {

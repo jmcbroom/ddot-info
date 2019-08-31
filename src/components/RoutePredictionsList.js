@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import moment from "moment";
-import { Card, CardContent, List, ListItem, ListItemIcon, ListItemText, Collapse, Typography } from "@material-ui/core";
+import { CardContent, Collapse, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
 import { DirectionsBus, KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons";
-import Helpers from "../helpers";
-import routes from "../data/routes";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 
+import routes from "../data/routes";
+import Helpers from "../helpers";
 import RealtimeCard from "./RealtimeCard";
 
 const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, predictions, setPredictions }) => {
@@ -67,7 +67,7 @@ const RoutePredictionsList = ({ stop, trips, route, currentTrip, handleChange, p
                   )}
                 </ListItemIcon>
               </ListItem>
-              <Collapse in={currentTrip === p.tripId} timeout="auto" unmountOnExit>
+              <Collapse in={currentTrip === p.tripId} key={p.tripId} timeout="auto" unmountOnExit>
                 <RealtimeCard prediction={p} references={references} />
               </Collapse>
             </>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Card, CardHeader, CardContent, TextField } from "@material-ui/core";
+import { Card, CardContent, CardHeader, TextField } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import _ from "lodash";
+import React, { useState } from "react";
 
 import StopCard from "./StopCard";
 
@@ -33,7 +33,12 @@ const StopInput = ({ input, handleChange }) => {
 const StopSearch = ({ stops }) => {
   let [input, setInput] = useState("");
 
-  let stopsToShow = input === "" ? _.sampleSize(stops, 7) : stops.filter(st => { return st.stopId.indexOf(input) > -1 || st.stopDesc.indexOf(input) > -1 })
+  let stopsToShow =
+    input === ""
+      ? _.sampleSize(stops, 7)
+      : stops.filter(st => {
+          return st.stopId.indexOf(input) > -1 || st.stopName.indexOf(input) > -1;
+        });
 
   return (
     <Card>
@@ -48,8 +53,8 @@ const StopSearch = ({ stops }) => {
           ``
         )}
         <div style={{ padding: 10, display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`, gridGap: 10, overflowY: "scroll" }}>
-          {stopsToShow.slice(0,12).map(st => (
-            <StopCard key={st.stopId} stopId={st.stopId} stopDesc={st.stopDesc || st.stopName} stopRoutes={st.routes.map(r => r.short)} />
+          {stopsToShow.slice(0, 12).map(st => (
+            <StopCard key={st.stopId} stopId={st.stopId} stopName={st.stopName} stopRoutes={st.routes.map(r => r.short)} />
           ))}
         </div>
       </CardContent>

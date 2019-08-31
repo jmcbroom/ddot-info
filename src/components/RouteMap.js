@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import _ from "lodash";
-import { Link } from "gatsby";
+import { Card, CardContent, CardHeader, IconButton } from "@material-ui/core";
+import { Close, DirectionsBus, Schedule, SpeakerPhone } from "@material-ui/icons";
 import { navigate } from "@reach/router";
-import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import bbox from "@turf/bbox";
+import { Link } from "gatsby";
+import _ from "lodash";
+import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
+import React, { useEffect, useState } from "react";
+
 import style from "../data/mapstyle.json";
 import routes from "../data/routes";
-import { Card, CardHeader, CardContent, IconButton } from "@material-ui/core";
-import { SpeakerPhone, Schedule, Close, DirectionsBus } from "@material-ui/icons";
 
 const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }) => {
   // do a route detail lookup
@@ -71,8 +72,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
         padding: 50
       });
 
-      map.getSource("routes").setData({ type: "FeatureCollection", features: shapesFeatures
-      });
+      map.getSource("routes").setData({ type: "FeatureCollection", features: shapesFeatures });
       map.addSource("stops", {
         type: "geojson",
         data: { type: "FeatureCollection", features: stopsFeatures }
@@ -141,7 +141,7 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
             stops: [["southbound", "top-right"], ["northbound", "bottom-left"], ["eastbound", "top-left"], ["westbound", "bottom-right"]],
             default: "center"
           },
-          "text-field": ["get", "stop_desc"],
+          "text-field": ["get", "stop_name"],
           "text-letter-spacing": -0.01,
           "text-max-width": 5
         },
@@ -195,7 +195,6 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
           "text-padding": 10,
           "text-offset": [0, 1.5],
           "text-font": ["Gibson Detroit SemiBold", "Arial Unicode MS Regular"],
-          "text-padding": 0,
           visibility: "visible",
           "text-field": "{stop_name}",
           "text-max-width": 5
@@ -297,7 +296,6 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
           layers: ["realtime-circle"]
         })[0];
 
-        console.log(clickedTrip.properties.tripId);
         // let matchedTrip = activeTrips.filter(at => at.status.vehicleId === clickedTrip.properties.vehicleId)[0];
         setTracked(clickedTrip.properties.tripId);
 
@@ -359,45 +357,43 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
     realtimeTrip = activeTrips.filter(trip => trip.tripId === tracked)[0];
     gtfsTrip = allTrips.filter(trip => trip.id === tracked.slice(5))[0];
     nextStop = stopsFeatures.filter(sf => sf.properties.stop_id === realtimeTrip.status.nextStop.slice(5).toString())[0];
-    console.log(realtimeTrip);
   }
 
   return (
     <>
-    <div id="map" style={{gridArea: "map"}}/>
+      <div id="map" style={{ gridArea: "map" }} />
 
       {tracked && realtimeTrip && gtfsTrip && (
-        <div style={{gridArea: "realtime"}}>
-
-        <Card style={{ background: "white", zIndex: 2 }}>
-          <CardHeader
-            avatar={realtimeTrip.status.predicted ? <SpeakerPhone /> : <Schedule />}
-            title={`${_.capitalize(rd.directions[gtfsTrip.direction])} to ${rd.between[gtfsTrip.direction]}`}
-            subheader={
-              Math.abs(realtimeTrip.status.scheduleDeviation / 60) === 0
-                ? `On time`
-                : `${Math.abs(realtimeTrip.status.scheduleDeviation / 60)} minute${Math.abs(realtimeTrip.status.scheduleDeviation / 60) === 1 ? `` : `s`} ${
-                    realtimeTrip.status.scheduleDeviation < 0 ? "early" : "late"
-                  }`
-            }
-            titleTypographyProps={{ variant: "subtitle1" }}
-            action={
-              <IconButton onClick={() => setTracked(null)}>
-                <Close />
-              </IconButton>
-            }
-          />
-          <CardContent title="what" style={{ paddingTop: 0 }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <DirectionsBus style={{ height: 20, width: 20, borderRadius: 9999, background: "rgba(0,0,0,.75)", padding: 2.5, color: "white" }} />
-              <span style={{ marginLeft: ".5em" }}>Now near</span>
-              <Link style={{ fontSize: "1em", color: "#000", fontWeight: 300, padding: "0px 5px 0px 5px" }} to={`/stop/${nextStop.properties.stop_id}/`}>
-                <span style={{ fontWeight: 700 }}>{nextStop.properties.stop_desc}</span>
-              </Link>
-              <span style={{ background: "#eee", padding: ".25em", display: "inline-block" }}>#{nextStop.properties.stop_id}</span>
-            </div>
-          </CardContent>
-          {/* <Typography variant="subtitle1" color="textPrimary" />
+        <div style={{ gridArea: "realtime" }}>
+          <Card style={{ background: "white", zIndex: 2 }}>
+            <CardHeader
+              avatar={realtimeTrip.status.predicted ? <SpeakerPhone /> : <Schedule />}
+              title={`${_.capitalize(rd.directions[gtfsTrip.direction])} to ${rd.between[gtfsTrip.direction]}`}
+              subheader={
+                Math.abs(realtimeTrip.status.scheduleDeviation / 60) === 0
+                  ? `On time`
+                  : `${Math.abs(realtimeTrip.status.scheduleDeviation / 60)} minute${Math.abs(realtimeTrip.status.scheduleDeviation / 60) === 1 ? `` : `s`} ${
+                      realtimeTrip.status.scheduleDeviation < 0 ? "early" : "late"
+                    }`
+              }
+              titleTypographyProps={{ variant: "subtitle1" }}
+              action={
+                <IconButton onClick={() => setTracked(null)}>
+                  <Close />
+                </IconButton>
+              }
+            />
+            <CardContent title="what" style={{ paddingTop: 0 }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <DirectionsBus style={{ height: 20, width: 20, borderRadius: 9999, background: "rgba(0,0,0,.75)", padding: 2.5, color: "white" }} />
+                <span style={{ marginLeft: ".5em" }}>Now near</span>
+                <Link style={{ fontSize: "1em", color: "#000", fontWeight: 300, padding: "0px 5px 0px 5px" }} to={`/stop/${nextStop.properties.stop_id}/`}>
+                  <span style={{ fontWeight: 700 }}>{nextStop.properties.stop_name}</span>
+                </Link>
+                <span style={{ background: "#eee", padding: ".25em", display: "inline-block" }}>#{nextStop.properties.stop_id}</span>
+              </div>
+            </CardContent>
+            {/* <Typography variant="subtitle1" color="textPrimary" />
             <Typography variant="subtitle2" color="textPrimary">
               {`Next stop:`}
             </Typography>
@@ -405,9 +401,8 @@ const RouteMap = ({ shapes, longTrips, allTrips, color, shortName, activeTrips }
               <Link to={`/stop/${nextStop.properties.stopId}`}> {`${nextStop.properties.stop_desc} (#${nextStop.properties.stop_id})`} </Link>
             </Typography>
           </CardContent> */}
-        </Card>
+          </Card>
         </div>
-
       )}
     </>
   );

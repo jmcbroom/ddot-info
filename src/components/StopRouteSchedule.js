@@ -1,10 +1,10 @@
 import { Card, CardActions, CardContent, CardHeader } from "@material-ui/core";
+import { Schedule } from "@material-ui/icons";
+import _ from "lodash";
 import React, { useState } from "react";
 
-import { Schedule } from "@material-ui/icons";
-import ServicePicker from "./ServicePicker";
-import _ from "lodash";
 import routes from "../data/routes";
+import ServicePicker from "./ServicePicker";
 
 const arrivalTimeDisplay = (time, showAp) => {
   let hour = time.hours;
@@ -45,8 +45,15 @@ const cellStyle = {
 };
 
 const StopRouteSchedule = ({ times, shapes, route }) => {
-  let availableServices = _.uniq(times.map(t => t.trip).map(tr => tr.serviceId));
-  let [currentService, setCurrentService] = useState(availableServices[0]);
+  let availableServices = _.uniq(times.map(t => t.trip).map(tr => tr.serviceId)).sort();
+  let todayService = availableServices[0];
+  if (new Date().getDay() === 0 && availableServices.indexOf("3") > -1) {
+    todayService = availableServices[2];
+  }
+  if (new Date().getDay() === 6 && availableServices.indexOf("2") > -1) {
+    todayService = availableServices[1];
+  }
+  let [currentService, setCurrentService] = useState(todayService);
   let serviceTimes = times.filter(t => t.trip.serviceId === currentService);
   let rd = routes.filter(rd => rd.number === parseInt(route))[0];
 

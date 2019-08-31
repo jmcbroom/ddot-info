@@ -1,34 +1,26 @@
-import React, { useState } from "react";
-
-import { graphql } from "gatsby";
-
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { Card, CardHeader, CardContent } from "@material-ui/core";
-import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight, NearMe } from "@material-ui/icons";
-import BusStop from "../components/BusStop";
 import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
-import Helpers from "../helpers";
+import { DirectionsBus, KeyboardArrowDown, KeyboardArrowRight, NearMe } from "@material-ui/icons";
+import { navigate } from "@reach/router";
+import { graphql } from "gatsby";
+import React, { useState } from "react";
 
+import BusStop from "../components/BusStop";
 import Layout from "../components/Layout";
 import RouteSearch from "../components/RouteSearch";
 import StopSearch from "../components/StopSearch";
 import TopNav from "../components/TopNav";
-import { navigate } from "@reach/router";
+import Helpers from "../helpers";
 
 const IndexPage = ({ data }) => {
   let [open, setOpen] = useState("routes");
 
   let routes = data.postgres.routes;
-  let stops = data.postgres.stops;
 
   return (
     <Layout>
       <TopNav />
-      {/* <Card>
-        <CardHeader title="Welcome to DDOT's new bus schedule tool" />
-        <CardContent>You can browse bus routes, look up a bus stop, or see service near your current location</CardContent>
-      </Card> */}
       <List style={{ background: "#fff" }}>
         <ListItem
           key="routes"
@@ -76,15 +68,15 @@ const IndexPage = ({ data }) => {
 export const query = graphql`
   {
     postgres {
-      routes: allRoutesList(condition: { feedIndex: 5 }) {
+      routes: allRoutesList(condition: { feedIndex: 6 }) {
         short: routeShortName
         long: routeLongName
         color: routeColor
         routeId
       }
-      stops: allStopsList(condition: { feedIndex: 5, stopId: "7919" }) {
+      stops: allStopsList(condition: { feedIndex: 6 }) {
         stopId
-        stopDesc
+        stopName
         routes: routeShapesList {
           short
         }

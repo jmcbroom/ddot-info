@@ -1,9 +1,9 @@
-import React from "react";
 import { Card, CardContent } from "@material-ui/core";
 import { SwapHoriz } from "@material-ui/icons";
+import React from "react";
 
-import StopLink from "./StopLink";
 import BusStop from "./BusStop";
+import StopLink from "./StopLink";
 
 const RouteStopList = ({ route, longTrip, input }) => {
   const cardStyle = {
@@ -17,10 +17,12 @@ const RouteStopList = ({ route, longTrip, input }) => {
     width: "100%"
   };
 
-  let filteredStopTimes = longTrip.stopTimes
+  let filteredStopTimes = longTrip.stopTimes;
 
-  if(input !== ``) {
-    filteredStopTimes = longTrip.stopTimes.filter(st => { return  st.stop.stopDesc.indexOf(input) > -1 || st.stop.stopId.indexOf(input) > -1})
+  if (input !== ``) {
+    filteredStopTimes = longTrip.stopTimes.filter(st => {
+      return st.stop.stopName.indexOf(input) > -1 || st.stop.stopId.indexOf(input) > -1;
+    });
   }
 
   return (
@@ -38,11 +40,9 @@ const RouteStopList = ({ route, longTrip, input }) => {
         </div>
         <div style={{ height: "60vh", overflowY: "scroll", WebkitOverflowScrolling: "touch" }}>
           {filteredStopTimes.map(st => (
-            <>
             <div style={{ display: "flex", alignItems: "center", zIndex: 0 }} key={st.stop.stopId}>
               <StopLink stop={st.stop} route={route} color={route.color} isTimepoint={st.timepoint ? true : false} showTransfers showBorder />
             </div>
-            </>
           ))}
         </div>
       </CardContent>
