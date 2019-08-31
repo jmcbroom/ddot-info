@@ -1,10 +1,9 @@
+import { Card, CardActions, CardContent, CardHeader } from "@material-ui/core";
 import React, { useState } from "react";
-import _ from "lodash";
 
-import { Card, CardHeader, CardContent, CardActions } from "@material-ui/core";
 import { Schedule } from "@material-ui/icons";
-
 import ServicePicker from "./ServicePicker";
+import _ from "lodash";
 import routes from "../data/routes";
 
 const arrivalTimeDisplay = (time, showAp) => {

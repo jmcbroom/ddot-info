@@ -58,11 +58,7 @@ const IndexPage = ({ data }) => {
           <ListItemText inset primary="Find your bus stop" style={{ padding: 0 }} />
           {open === "stops" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
-        <ListItem
-          key="nearby"
-          button
-          onClick={() => navigate(`/nearby`)}
-        >
+        <ListItem key="nearby" button onClick={() => navigate(`/nearby`)}>
           <ListItemIcon style={{ fontSize: 30 }}>
             <NearMe style={{ color: "#000" }} />
           </ListItemIcon>
@@ -70,11 +66,7 @@ const IndexPage = ({ data }) => {
         </ListItem>
         <Divider />
         <Collapse in={true} timeout="auto" unmountOnExit>
-          {open === "routes" ? (
-            <RouteSearch routes={routes} />
-          ) : open === "stops" ? (
-            <StopSearch stops={data.postgres.stops} />
-          ) : null}
+          {open === "routes" ? <RouteSearch routes={routes} /> : open === "stops" ? <StopSearch stops={data.postgres.stops} /> : null}
         </Collapse>
       </List>
     </Layout>
@@ -90,7 +82,7 @@ export const query = graphql`
         color: routeColor
         routeId
       }
-      stops: allStopsList(condition: { feedIndex: 5 }) {
+      stops: allStopsList(condition: { feedIndex: 5, stopId: "7919" }) {
         stopId
         stopDesc
         routes: routeShapesList {

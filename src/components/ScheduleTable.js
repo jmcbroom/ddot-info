@@ -1,7 +1,8 @@
-import React from "react";
-import { Link } from "gatsby";
-import { Table, TableBody, TableCell, TableHead, TableRow, CardContent } from "@material-ui/core";
+import { CardContent, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
+
 import { KeyboardArrowRight } from "@material-ui/icons";
+import { Link } from "gatsby";
+import React from "react";
 import { withStyles } from "@material-ui/styles";
 
 // attempting a fixedHeader like this: https://codesandbox.io/s/k0vwm7xpl3
@@ -54,19 +55,22 @@ const ScheduleTable = ({ trips, color, classes }) => {
     .some((tp, j) => {
       let included = stopIdOccurences.map(sio => sio.includes(tp));
       if (included.every(i => i)) {
-        defaultTimepoint = j;
+        console.log(tp);
+        defaultTimepoint = tp;
         return true;
       } else {
         return false;
       }
     });
 
+  console.log(trips);
+  console.log(defaultTimepoint);
+
   let sorted = trips.sort((a, b) => {
-    return (
-      a.stopTimes[defaultTimepoint].arrivalTime.hours * 60 +
-      a.stopTimes[defaultTimepoint].arrivalTime.minutes -
-      (b.stopTimes[0].arrivalTime.hours * 60 + b.stopTimes[0].arrivalTime.minutes)
-    );
+    let aStopTime = a.stopTimes.filter(st => st.stop.stopId === defaultTimepoint)[0].arrivalTime;
+    let bStopTime = b.stopTimes.filter(st => st.stop.stopId === defaultTimepoint)[0].arrivalTime;
+
+    return aStopTime.hours * 60 + aStopTime.minutes - (bStopTime.hours * 60 + bStopTime.minutes);
   });
 
   return (
@@ -165,7 +169,7 @@ const ScheduleTable = ({ trips, color, classes }) => {
           ))}
         </TableBody>
       </Table>
-      </CardContent>
+    </CardContent>
   );
 };
 
