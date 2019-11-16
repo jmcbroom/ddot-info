@@ -4,7 +4,7 @@ const routes = [{
         orientation: 'EW',
         color: "#44aa42",
         radius: 0,
-        rt_id: 7031,
+        rt_id: 7077,
         downtown: true,
         directions: ["eastbound", "westbound"],
         timepoints: {
@@ -45,7 +45,7 @@ const routes = [{
         orientation: 'NS',
         color: "#9b5ba5",
         radius: 0,
-        rt_id: 7032,
+        rt_id: 7078,
         timepoints: {
             northbound: [10178, 74, 75, 76, 77],
             southbound: [77, 79, 80, 83, 10178]
@@ -53,7 +53,7 @@ const routes = [{
         downtown: false,
         directions: ["northbound", "southbound"],
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Jefferson & Maryland', '7 Mile & Gratiot'],
+        between: ['7 Mile & Gratiot', 'Jefferson & Maryland'],
         via: ['Chalmers', "Schoenherr"],
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/April2017schedules/9ChalmersMS.pdf"],
         description: "An east side route that offers 24/7 service and improved frequency as part of the ConnectTen network. Connects Detroit from Jefferson & Maryland to 7 Mile & Gratiot; some trips extend to Waltham & 8 Mile. The main streets served are Chalmers and Schoenherr St.",
@@ -91,7 +91,7 @@ const routes = [{
             northbound: [8892, 87, 118, 89, 90, 91, 92],
             southbound: [95, 96, 97, 98, 99, 100, 503, 8892]
         },
-        rt_id: 7028,
+        rt_id: 7074,
         directions: ["northbound", "southbound"],
         days_per_week: ['Monday', 'Sunday'],
         between: ['Varjo & Van Dyke', 'Rosa Parks TC'],
@@ -127,7 +127,7 @@ const routes = [{
         orientation: 'EW',
         color: "#0079c2",
         radius: 0,
-        rt_id: 7006,
+        rt_id: 7052,
         timepoints: {
             eastbound: [103, 2491, 107, 800, 111, 112, 115],
             westbound: [115, 1236, 118, 8248, 122, 2492, 103]
@@ -135,7 +135,7 @@ const routes = [{
         downtown: false,
         days_per_week: ['Monday', 'Sunday'],
         directions: ["eastbound", "westbound"],
-        between: ['Lycaste & Jefferson', 'Clark & Fort'],
+        between: ['Warren & Conner', 'Clark & Fort'],
         via: ['Junction', 'Epworth', 'Joy', 'Harper', 'St. Jean'],
         description: "Connects various neighborhoods between Jefferson & Lycaste and Clark & Fort. The main streets served are St Jean, Shoemaker, Harper, Owen, Clairmount, Epworth and Junction.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2016/January/11Clairmount.pdf"],
@@ -155,7 +155,7 @@ const routes = [{
         orientation: 'NS',
         color: "#9b5ba5",
         radius: 0,
-        rt_id: 7007,
+        rt_id: 7053,
         downtown: false,
         timepoints: {
             southbound: [127, 7864, 129, 130, 9034, 5525, 132, 10176, 10167],
@@ -195,7 +195,7 @@ const routes = [{
         orientation: 'NS',
         color: "#9b5ba5",
         radius: 0,
-        rt_id: 7008,
+        rt_id: 7054,
         downtown: false,
         timepoints: {
             southbound: [93, 8552, 144, 145, 9033, 147, 148, 149, 150],
@@ -237,7 +237,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: false,
-        rt_id: 7003, 
+        rt_id: 7049, 
         timepoints: {
             eastbound: [10187, 7141, 161, 162, 163, 164, 165, 169, 171, 172, 41],
             westbound: [41, 175, 48, 177, 181, 182, 183, 184, 185, 7140, 10192]
@@ -281,14 +281,14 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 7009,
+        rt_id: 7055,
         timepoints: {
             eastbound: [10414, 190, 191, 192, 193, 194, 195, 196, 197, 198],
             westbound: [198, 200, 201, 202, 203, 204, 205, 206, 207, 10414]
         },
         directions: ["eastbound", "westbound"],
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Rouge Park', 'Woodward & Manchester'],
+        between: ['Woodward & Manchester', 'Rouge Park'],
         via: [''],
         description: "A crosstown route that connects Detroit from Rouge Park to Woodward & Manchester. The main streets served are Chicago and Davison. In addition to Detroit, this route also serves Highland Park.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/Bus%20Schedules/January%202018/15ChicagoDavison.pdf"],
@@ -322,7 +322,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 7010,
+        rt_id: 7056,
         timepoints: {
             southbound: [10340, 10325, 212, 213, 214, 215, 216, 218, 220, 221, 8913, 223],
             northbound: [223, 8913, 224, 225, 227, 229, 230, 231, 6056, 233, 10326, 10340]
@@ -366,7 +366,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 7011,
+        rt_id: 7057,
         timepoints: {
             eastbound: [236, 238, 10325, 240, 242, 243, 144, 62, 245, 40],
             westbound: [41, 245, 63, 247, 248, 249, 251, 10326, 253, 236]
@@ -410,12 +410,12 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        directions: ["eastbound", "westbound"],
+        directions: ["southbound", "northbound"],
         timepoints: {
             eastbound: [256, 258, 260, 262, 263, 265, 266, 267, 8928],
             westbound: [8928, 272, 273, 274, 3377, 276, 277, 279, 286, 288]
         },
-        rt_id: 7012,
+        rt_id: 7058,
         days_per_week: ['Monday', 'Sunday'],
         between: ['Rosa Parks TC', 'Telegraph & Fenkell'],
         via: ['12th (northbound)/14th (southbound)', 'Fenkell'],
@@ -454,14 +454,14 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 7013,
+        rt_id: 7059,
         directions: ["westbound", "eastbound"],
         timepoints: {
             westbound: [8891, 290, 291, 2558, 294, 295],
             eastbound: [298, 299, 2561, 302, 303, 8891]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Rosa Parks TC', 'West Outer Drive'],
+        between: ['West Outer Drive', 'Rosa Parks TC'],
         via: ['Fort St.'],
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/September2017Schedules/19Fort.pdf"],
         description: "A southwest route that connects Detroit from Downtown Rosa Parks Transit Center to W Outer Dr & Fort. The main street served is Fort.",
@@ -497,7 +497,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6998,
+        rt_id: 7044,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [324, 325, 328, 330, 331, 332, 334, 335, 337, 394],
@@ -545,7 +545,7 @@ const routes = [{
             southbound: [210, 10325, 358, 359, 361, 363, 600, 368],
             northbound: [368, 372, 374, 376, 378, 379, 10326, 210]
         },
-        rt_id: 7005,
+        rt_id: 7051,
         directions: ["southbound", "northbound"],
         days_per_week: ['Monday', 'Sunday'],
         between: ['Fairlane Mall', 'Northland Mall'],
@@ -584,7 +584,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 7014,
+        rt_id: 7060,
         timepoints: {
             northbound: [8933, 9474, 401, 402, 403, 9658, 10145],
             southbound: [1045, 9690, 386, 387, 10339, 9475, 8933]
@@ -625,7 +625,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 7004,
+        rt_id: 7050,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [9970, 9021, 420, 421, 422, 10178],
@@ -668,7 +668,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 7015,
+        rt_id: 7061,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [429, 432, 434, 435, 437, 438, 439, 441, 443, 8910],
@@ -710,7 +710,7 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 7016,
+        rt_id: 7052,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [2781, 465, 467, 469, 470, 8912],
@@ -751,14 +751,14 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 7017,
+        rt_id: 7063,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [127, 481, 8987, 482, 483, 484, 486, 487, 488],
             northbound: [488, 490, 491, 493, 494, 495, 230, 496, 127]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Fairgrounds TC', 'W. Jefferson & Brennan'],
+        between: ['W. Jefferson & Brennan', 'Fairgrounds TC'],
         via: ['Livernois'],
         description: "Connects neighborhoods between northwest Detroit to southwest Detroit from 8 Mile & Jefferson. Main streets served are Livernois, Jefferson & Dragoon.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2016/April%202016/30LivernoisMS.pdf?ver=2016-04-22-151449-233"],
@@ -792,14 +792,14 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 7018,
+        rt_id: 7064,
         directions: ["westbound", "eastbound"],
         timepoints: {
             westbound: [41, 497, 498, 499, 6334, 502, 1616, 8918],
             eastbound: [8918, 21, 505, 6336, 508, 509, 510, 41]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Mack & Moross', 'Rosa Parks TC'],
+        between: ['Rosa Parks TC', 'Mack & Moross'],
         via: ['Mack', 'Cass'],
         description: "An East side route that connects Detroit from Mack & Moross to Downtown Rosa Parks Transit Center. The main streets served are Mack and Cass.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2016/January/31MackMS.pdf"],
@@ -835,14 +835,14 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 7019,
+        rt_id: 7065,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [9860, 7230, 514, 515, 517, 519, 524, 510, 41],
             westbound: [41, 527, 529, 534, 536, 538, 539, 10157, 9860]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['6 Mile & Telegraph', 'Mack & Moross'],
+        between: ['Mack & Moross', '6 Mile & Telegraph'],
         via: ['McNichols', 'Cadieux'],
         description: "A crosstown route that connects Detroit from McNichols & Telegraph to McNichols & Cadieux. The main streets used are McNichols and Seymour St.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/Jan2017schedules/32McNichols.pdf?ver=2017-01-30-160912-920"],
@@ -877,14 +877,14 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 7001,
+        rt_id: 7047,
         directions: ["northbound", "southbound"],
         timepoints: {
             northbound: [9963, 167, 547, 549, 550, 552, 62],
             southbound: [554, 555, 550, 558, 178, 179, 9963]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['3rd & Abbott', '8 Mile & Gratiot'],
+        between: ['8 Mile & Gratiot', '3rd & Abbott'],
         via: ['Gratiot'],
         description: "An east side route that offers 24/7 service and improved frequency as part of the ConnectTen network. Connects Detroit from 3rd & Michigan to Gratiot & 8 Mile. The main street served is Gratiot.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2018/6GratiotMF.pdf", "http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2018/6GratiotSS.pdf"],
@@ -918,7 +918,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6997,
+        rt_id: 7043,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [368, 590, 6578, 591, 1489, 8945],
@@ -962,14 +962,14 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 7020,
+        rt_id: 7066,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [9776, 9572, 8874, 603, 607, 608, 54, 55, 1804, 59, 60, 61, 613, 1927],
             westbound: [1927, 614, 65, 66, 67, 615, 71, 619, 620, 624, 626, 9549, 9776]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['I-96 & Middlebelt', '8 Mile & Hayes'],
+        between: ['8 Mile & Hayes', 'I-96 & Middlebelt'],
         via: ['Plymouth', 'Elmhurst', 'Caniff'],
         description: "Connects Livonia, Redford, Detroit and Hamtramck between Millennium Park and Gratiot & French. Monday-Friday peak-hour trips extend to Hayes & 8 Mile. The main streets served are Plymouth, Elmhurst, Calvert/Trowbridge, Harmon/Collingwood, Caniff, Mt Elliott, Miller, Georgia, E Outer Dr and Hayes.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2016/January/38Plymouth.pdf"],
@@ -1003,14 +1003,14 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 7021,
+        rt_id: 7067,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [627, 628, 629, 630, 3032, 196],
             westbound: [201, 634, 635, 636, 637, 638]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Southfield & Fenkell', 'Manchester & Woodward'],
+        between: ['Manchester & Woodward', 'Southfield & Fenkell'],
         via: ['Fenkell', 'Puritan'],
         description: "A west side route that connects Detroit from Southfield & Fenkell to Manchester & Woodward. The main street served is Puritan.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2016/January/39Puritan.pdf"],
@@ -1043,14 +1043,14 @@ const routes = [{
         color: "#44aa42",
         radius: 0,
         downtown: true,
-        rt_id: 7022,
+        rt_id: 7068,
         directions: ["northbound", "southbound"],
         timepoints: {
             northbound: [8944, 8777, 7414, 641, 644, 645, 646, 647, 648],
             southbound: [648, 649, 650, 652, 7415, 655, 8944]
         },
         days_per_week: ['Monday', 'Friday'],
-        between: ['Rosa Parks TC', 'Van Dyke & E. Outer Dr'],
+        between: ['Van Dyke & E. Outer Dr', 'Rosa Parks TC'],
         via: [''],
         description: "An east side route that connects Detroit from Downtown Rosa Parks Transit Center to E outer Dr & Van Dyke. The main streets served are Russell, Dequindre and E Outer Dr.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2016/January/40RussellMF.pdf"],
@@ -1071,14 +1071,14 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 7023,
+        rt_id: 7069,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [656, 657, 659, 660, 6627, 661, 662, 663, 664],
             northbound: [664, 9561, 662, 668, 6630, 669, 670, 672, 673]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['8 Mile & Schaefer', 'Brennan Loop'],
+        between: ['Brennan Loop', '8 Mile & Schaefer'],
         via: ['Schaefer', 'W. Jefferson'],
         description: "A west side route that connects Detroit from 8 Mile & Schaefer to Brennan & Jefferson (Del Ray). The main street used is Schaefer Hwy. In addition to Detroit, this route serves Dearborn and River Rouge.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2016/January/41SchaeferMS.pdf"],
@@ -1111,7 +1111,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: false,
-        rt_id: 7024,
+        rt_id: 7070,
         directions: ["clockwise"],
         timepoints: {
             clockwise: [571, 584, 568, 7831, 4388, 8263, 3381]
@@ -1193,7 +1193,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: false,
-        rt_id: 7002,
+        rt_id: 7048,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [10157, 689, 6074, 384, 9635, 695, 520, 79, 42, 41],
@@ -1236,7 +1236,7 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 7026,
+        rt_id: 7072,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [7282, 707, 708, 709, 710, 712, 843, 368],
@@ -1265,7 +1265,7 @@ const routes = [{
         color: "#0079c2",
         radius: 0,
         downtown: false,
-        rt_id: 7027,
+        rt_id: 7073,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [159, 721, 722, 724, 439, 727, 729, 1616],
@@ -1299,7 +1299,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 7000,
+        rt_id: 7046,
         days_per_week: ['Monday', 'Sunday'],
         between: ['Bel Air Center', 'Rosa Parks TC'],
         via: ['Lafayette', 'Van Dyke'],
@@ -1343,7 +1343,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6996,
+        rt_id: 7042,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [6578, 10264, 765, 766, 767, 768, 8915],
@@ -1385,7 +1385,7 @@ const routes = [{
         color: "#004445",
         radius: 99,
         downtown: true,
-        rt_id: 6999,
+        rt_id: 7045,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [127, 4604, 785, 787, 788, 1064, 9694],
@@ -1428,7 +1428,7 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 7029,
+        rt_id: 7075,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [127, 250, 805, 807, 808, 809, 810, 811, 322, 323, 815],
@@ -1468,14 +1468,14 @@ const routes = [{
         color: "#9b5ba5",
         radius: 0,
         downtown: false,
-        rt_id: 7030,
+        rt_id: 7076,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [10329, 380, 838, 839, 7154, 842, 843, 368],
             northbound: [368, 843, 844, 7156, 846, 847, 848, 849, 10328]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Northland Mall', 'Fairlane Mall'],
+        between: ['Fairlane Mall', 'Northland Mall'],
         via: ['8 Mile Rd', 'Evergreen'],
         description: "A west side route that connects Detroit on 10 Mile & Evergreen to Fairlane Mall. The main street served is Evergreen. In addition to Detroit, this route also serves Dearborn and Southfield.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/September2017Schedules/60Evergreen.pdf"],
@@ -1510,7 +1510,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: true,
-        rt_id: 7033,
+        rt_id: 7079,
         directions: ["westbound", "eastbound"],
         timepoints: {
             westbound: [10178, 8167, 8148, 4841, 10258, 8263],
@@ -1539,7 +1539,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: false,
-        rt_id: 7034,
+        rt_id: 7080,
         directions: ["southbound", "northbound"],
         timepoints: {
             southbound: [2507, 3412, 1490, 772, 10260, 295],
@@ -1568,14 +1568,14 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: true,
-        rt_id: 7035,
+        rt_id: 7081,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [10253, 327, 330, 10231, 8100],
             westbound: [341, 8441, 351, 847, 7258]
         },
         days_per_week: ['Monday', 'Friday'],
-        between: ['8 Mile & Evergreen', 'Downtown'],
+        between: ['Downtown Detroit', '8 Mile & Evergreen'],
         via: ['Grand River', 'I-96'],
         description: "Connects various neighborhoods with express service on I-96 freeway (Jeffries) between Pembroke & Vaughan and Larned & St Antoine. Service operates Monday-Friday during morning and evening peak hours. The main streets served are Pembroke, Burt Rd, 8 Mile, Evergreen, Grand River, Washington Blvd and Larned.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/Bus%20Schedules/January%202018/92RosedaleExpressMF.pdf"],
@@ -1597,7 +1597,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: true,
-        rt_id: 7037,
+        rt_id: 7083,
         directions: ["northbound", "southbound"],
         timepoints: {
             northbound: [10204, 10205, 7328, 10207, 10208, 646],
@@ -1625,7 +1625,7 @@ const routes = [{
         color: "#d07c32",
         radius: 0,
         downtown: true,
-        rt_id: 7038,
+        rt_id: 7084,
         directions: ["eastbound", "westbound"],
         timepoints: {
             eastbound: [7158, 7214, 434, 437, 10231, 8100],

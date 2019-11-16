@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { Card, CardHeader } from "@material-ui/core";
 import { graphql } from "gatsby";
-import { Card, CardHeader } from '@material-ui/core';
-import RouteBadge from '../components/RouteBadge';
+import React, { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
+import RouteBadge from "../components/RouteBadge";
+import RouteDetails from "../components/RouteDetails";
 import RouteHeader from "../components/RouteHeader";
 import RouteMap from "../components/RouteMap";
-import RouteDetails from "../components/RouteDetails";
-import routes from "../data/routes";
+// import routes from "../data/routes";
 import Helpers from "../helpers";
 
 export default ({ data, pageContext }) => {
   let r = data.postgres.route[0];
-  let rd = routes.filter(rd => rd.number === parseInt(pageContext.routeNo));
+  // let rd = routes.filter(rd => rd.number === parseInt(pageContext.routeNo));
   let [now, setNow] = useState(new Date());
   let [activeTrips, setActiveTrips] = useState([]);
   let [refs, setRefs] = useState(null);
@@ -27,17 +27,13 @@ export default ({ data, pageContext }) => {
 
   // fetch data here; this ticks on `now`
   useEffect(() => {
-    const url = `${Helpers.endpoint}/trips-for-route/DDOT_${
-      r.routeId
-    }.json?key=BETA&includePolylines=false&includeStatus=true`;
+    const url = `${Helpers.endpoint}/trips-for-route/DDOT_${r.routeId}.json?key=BETA&includePolylines=false&includeStatus=true`;
     fetch(url)
       .then(r => r.json())
       .then(d => {
         // filter the API's trips; does it appear in the current route's roster of trips?
         let allTripIds = r.trips.map(trip => trip.id);
-        let filteredTrips = d.data.list.filter(
-          l => allTripIds.indexOf(l.tripId.slice(5)) !== -1
-        );
+        let filteredTrips = d.data.list.filter(l => allTripIds.indexOf(l.tripId.slice(5)) !== -1);
         setActiveTrips(filteredTrips);
         setRefs(d.data.references);
       });
@@ -89,9 +85,7 @@ export const query = graphql`
         longTrips: longestTripsList {
           tripHeadsign
           directionId
-          stopTimes: stopTimesByFeedIndexAndTripIdList(
-            orderBy: STOP_SEQUENCE_ASC
-          ) {
+          stopTimes: stopTimesByFeedIndexAndTripIdList(orderBy: STOP_SEQUENCE_ASC) {
             stopSequence
             timepoint
             arrivalTime {
@@ -102,7 +96,6 @@ export const query = graphql`
             stop: stopByFeedIndexAndStopId {
               stopId
               stopName
-              stopDesc
               stopLat
               stopLon
               geojson
@@ -114,9 +107,7 @@ export const query = graphql`
           headsign: tripHeadsign
           direction: directionId
           service: serviceId
-          stopTimes: stopTimesByFeedIndexAndTripIdList(
-            condition: { timepoint: 1 }
-          ) {
+          stopTimes: stopTimesByFeedIndexAndTripIdList(condition: { timepoint: 1 }) {
             timepoint
             arrivalTime {
               hours
@@ -125,7 +116,6 @@ export const query = graphql`
             }
             stop: stopByFeedIndexAndStopId {
               stopId
-              stopDesc
               stopName
               stopLat
               stopLon

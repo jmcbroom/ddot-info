@@ -1,14 +1,13 @@
-import React from "react";
-import { Link } from "gatsby";
 import { Schedule } from "@material-ui/icons";
-import BusStop from "../components/BusStop";
-
-import routes from "../data/routes";
+import { Link } from "gatsby";
 import _ from "lodash";
-import { withStyles } from "@material-ui/styles";
+import React from "react";
+
+import BusStop from "../components/BusStop";
+import routes from "../data/routes";
 
 /** Linked route number and name with optional icons for RoutesList, NearbyList, StopTransfers and Stop */
-const RouteLink = ({ id, icons, direction, small = false, background='none' }) => {
+const RouteLink = ({ id, icons, direction, small = false, link = true, background = "none" }) => {
   const route = _.find(routes, a => {
     return a.number === parseInt(id, 10);
   });
@@ -31,7 +30,7 @@ const RouteLink = ({ id, icons, direction, small = false, background='none' }) =
       borderRadius: route.radius,
       color: "#fff",
       fontSize: small ? "1em" : "1.25em",
-      fontWeight: small ? 500 : 700
+      fontWeight: small ? 400 : 600
     },
     name: {
       display: "flex",
@@ -42,8 +41,8 @@ const RouteLink = ({ id, icons, direction, small = false, background='none' }) =
     },
     span: {
       fontSize: small ? `1em` : `1.1em`,
-      fontFamily: small ? "Gibson Detroit Regular" : "Gibson Detroit Light",
-      fontWeight: 400,
+      fontFamily: "Gibson Detroit Regular",
+      fontWeight: 600,
       color: "black"
     },
     icons: {
@@ -70,19 +69,21 @@ const RouteLink = ({ id, icons, direction, small = false, background='none' }) =
           </Link>
         )}
       </div>
-      <div style={styles.name}>
-        {small ? (
-          <span style={styles.span}>
-            {route.name} {direction ? ` (${direction})` : ``}
-          </span>
-        ) : (
+      {link ? (
+        <div style={styles.name}>
           <Link to={`/route/${id}`} style={{ textDecoration: "none" }}>
-            <span style={{...styles.span, fontWeight: 600}}>
+            <span style={{ ...styles.span, fontWeight: 400 }}>
               {route.name} {direction ? ` (${direction})` : ``}
             </span>
           </Link>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div style={styles.name}>
+          <span style={{ ...styles.span, fontWeight: 400 }}>
+            {route.name} {direction ? ` (${direction})` : ``}
+          </span>
+        </div>
+      )}
       {icons ? (
         <div style={styles.icons}>
           <Link to={`/route/${id}/stops`}>

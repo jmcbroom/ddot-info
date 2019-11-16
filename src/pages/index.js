@@ -1,34 +1,26 @@
-import React, { useState } from "react";
-
-import { graphql } from "gatsby";
-
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { Card, CardHeader, CardContent } from "@material-ui/core";
-import { AccessAlarm, DirectionsBus, KeyboardArrowDown, KeyboardArrowRight, NearMe } from "@material-ui/icons";
-import BusStop from "../components/BusStop";
 import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
-import Helpers from "../helpers";
+import { DirectionsBus, KeyboardArrowDown, KeyboardArrowRight, NearMe } from "@material-ui/icons";
+import { navigate } from "@reach/router";
+import { graphql } from "gatsby";
+import React, { useState } from "react";
 
+import BusStop from "../components/BusStop";
 import Layout from "../components/Layout";
 import RouteSearch from "../components/RouteSearch";
 import StopSearch from "../components/StopSearch";
 import TopNav from "../components/TopNav";
-import { navigate } from "@reach/router";
+import Helpers from "../helpers";
 
 const IndexPage = ({ data }) => {
   let [open, setOpen] = useState("routes");
 
   let routes = data.postgres.routes;
-  let stops = data.postgres.stops;
 
   return (
     <Layout>
       <TopNav />
-      {/* <Card>
-        <CardHeader title="Welcome to DDOT's new bus schedule tool" />
-        <CardContent>You can browse bus routes, look up a bus stop, or see service near your current location</CardContent>
-      </Card> */}
       <List style={{ background: "#fff" }}>
         <ListItem
           key="routes"
@@ -58,11 +50,7 @@ const IndexPage = ({ data }) => {
           <ListItemText inset primary="Find your bus stop" style={{ padding: 0 }} />
           {open === "stops" ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
         </ListItem>
-        <ListItem
-          key="nearby"
-          button
-          onClick={() => navigate(`/nearby`)}
-        >
+        <ListItem key="nearby" button onClick={() => navigate(`/nearby`)}>
           <ListItemIcon style={{ fontSize: 30 }}>
             <NearMe style={{ color: "#000" }} />
           </ListItemIcon>
@@ -70,11 +58,7 @@ const IndexPage = ({ data }) => {
         </ListItem>
         <Divider />
         <Collapse in={true} timeout="auto" unmountOnExit>
-          {open === "routes" ? (
-            <RouteSearch routes={routes} />
-          ) : open === "stops" ? (
-            <StopSearch stops={data.postgres.stops} />
-          ) : null}
+          {open === "routes" ? <RouteSearch routes={routes} /> : open === "stops" ? <StopSearch stops={data.postgres.stops} /> : null}
         </Collapse>
       </List>
     </Layout>
@@ -92,7 +76,7 @@ export const query = graphql`
       }
       stops: allStopsList(condition: { feedIndex: 7 }) {
         stopId
-        stopDesc
+        stopName
         routes: routeShapesList {
           short
         }

@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
-import { Card, CardHeader, CardContent } from "@material-ui/core";
-import bbox from "@turf/bbox";
+import { Card, CardHeader } from "@material-ui/core";
 import { navigate } from "@reach/router";
-
+import bbox from "@turf/bbox";
 import nearestPointOnLine from "@turf/nearest-point-on-line";
+import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
+import React, { useEffect, useState } from "react";
+
 import style from "../data/mapstyle.json";
 import BusStop from "./BusStop.js";
 
 const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nearby }) => {
-  console.log(currentRoute, currentBus);
   // make some GeoJSON features for the map
   let shapesFeatures = shapes
     .map(sh => {
@@ -31,7 +30,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
       },
       properties: {
         stopId: nb.stopId,
-        stopDesc: nb.stopDesc
+        stopName: nb.stopName
       }
     };
   });
@@ -54,7 +53,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
     map.on("load", e => {
       // nearby stops
 
-      map.getSource("nearby").setData({ type: "FeatureCollection", features: nearbyFeatures })
+      map.getSource("nearby").setData({ type: "FeatureCollection", features: nearbyFeatures });
 
       map.addLayer({
         id: "nearby-stop-icon-bg",
@@ -112,9 +111,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
       });
 
       // the routes
-      map.getSource("routes").setData(
-        { type: "FeatureCollection", features: shapesFeatures }
-      );
+      map.getSource("routes").setData({ type: "FeatureCollection", features: shapesFeatures });
 
       map.addLayer(
         {
@@ -219,7 +216,6 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
           "icon-opacity": 1
         }
       });
-      
 
       map.on("click", "nearby-stop-icon-bg", e => {
         let stop = map.queryRenderedFeatures(e.point, {
@@ -243,8 +239,6 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
   // effect fires when the live bus ticks
   useEffect(() => {
     if (theMap && currentBus) {
-      theMap.setLayoutProperty("live-bus", "visibility", "visible");
-
       let liveBusGeom = {
         type: "Point",
         coordinates: [currentBus.tripStatus.position.lon, currentBus.tripStatus.position.lat]
@@ -267,7 +261,7 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
 
       theMap.fitBounds(bbox({ type: "FeatureCollection", features: [liveBusFeature, stop] }), { padding: 70 });
 
-      theMap.resize()
+      theMap.resize();
     } else if ((theMap && !currentBus) || (currentBus && parseInt(currentBus.routeShortName) !== currentRoute)) {
       theMap.easeTo({
         center: coords,
@@ -279,7 +273,6 @@ const StopMap = ({ name, id, coords, stop, shapes, currentRoute, currentBus, nea
 
   useEffect(() => {
     if (theMap) {
-      console.log(currentRoute);
       theMap.setFilter("ddot-routes-highlight", ["==", "routeShortName", currentRoute.toString()]);
       theMap.setFilter("ddot-routes", ["==", "routeShortName", currentRoute.toString()]);
       theMap.setFilter("ddot-routes-case", ["==", "routeShortName", currentRoute.toString()]);

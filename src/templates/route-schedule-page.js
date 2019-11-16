@@ -1,23 +1,19 @@
-import React, { useState } from "react";
-import _ from "lodash";
-import chroma from "chroma-js";
+import { CardActionArea, CardActions, Typography } from "@material-ui/core";
+import { Card, CardContent, CardHeader } from "@material-ui/core";
+import { FiberManualRecord } from "@material-ui/icons";
 import { Link, graphql } from "gatsby";
+import _ from "lodash";
+import React, { useState } from "react";
 
-import Layout from "../components/Layout";
-import RouteHeader from "../components/RouteHeader";
-import RouteBadge from "../components/RouteBadge";
 import DirectionPicker from "../components/DirectionPicker";
-import ServicePicker from "../components/ServicePicker";
+import Layout from "../components/Layout";
+import RouteBadge from "../components/RouteBadge";
+import RouteHeader from "../components/RouteHeader";
 import ScheduleTable from "../components/ScheduleTable";
-
+import ServicePicker from "../components/ServicePicker";
 import routes from "../data/routes";
 
-import { AppBar, CardActions, Typography, CardActionArea } from "@material-ui/core";
-import { Card, CardContent, CardHeader } from "@material-ui/core";
-import Toolbar from "@material-ui/core/Toolbar";
-import { AccountCircle, FiberManualRecord } from "@material-ui/icons";
-
-export default ({ data, pageContext }) => {
+export default ({ data }) => {
   let r = data.postgres.route[0];
   let rd = routes.filter(rd => rd.number === parseInt(r.routeShortName))[0];
 
@@ -26,17 +22,16 @@ export default ({ data, pageContext }) => {
   let currentDirectionId = rd.directions.indexOf(currentDirection);
 
   let availableServices = _.uniq(r.trips.map(t => t.service));
-  let [currentService, setCurrentService] = useState(availableServices[0]);
+  let todayService = availableServices[0];
+  if (new Date().getDay() === 0 && availableServices.indexOf("3") > -1) {
+    todayService = availableServices[2];
+  }
+  if (new Date().getDay() === 6 && availableServices.indexOf("2") > -1) {
+    todayService = availableServices[1];
+  }
+  let [currentService, setCurrentService] = useState(todayService);
 
   let tripsToShow = r.trips.filter(trip => trip.direction === currentDirectionId && trip.service === currentService);
-
-  let timepointList = tripsToShow
-    .sort((a, b) => {
-      return b.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val) - a.stopTimes.map(s => s.timepoint).reduce((acc, val) => acc + val);
-    })[0]
-    .stopTimes.filter(st => {
-      return st.timepoint === 1;
-    });
 
   return (
     <Layout>
@@ -45,7 +40,7 @@ export default ({ data, pageContext }) => {
         <CardHeader title={<RouteBadge id={r.routeShortName} showName />} />
         <CardContent style={{ paddingTop: 0 }}>
           <Typography variant={"body1"}>
-            <b>Major stops</b> <FiberManualRecord fontSize='small' style={{padding: 0, margin: 0, display: 'inline'}}/>
+            <b>Major stops</b> <FiberManualRecord fontSize="small" style={{ padding: 0, margin: 0, display: "inline" }} />
             are shown in order in the top row; look down the column to see scheduled departure times from that bus stop.
           </Typography>
           <Typography variant={"body1"}>
@@ -62,11 +57,10 @@ export default ({ data, pageContext }) => {
           </Typography>
         </CardContent>
         <CardActionArea>
-
-        <CardActions style={{ display: "flex", paddingLeft: 20, paddingTop: 10, paddingBottom: 0 }}>
-          <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
-          <DirectionPicker directions={availableDirections} direction={currentDirection} handleChange={setCurrentDirection} endpoints={rd.between} asRow />
-        </CardActions>
+          <CardActions style={{ display: "flex", paddingLeft: 20, paddingTop: 10, paddingBottom: 0 }}>
+            <ServicePicker services={availableServices} service={currentService} handleChange={setCurrentService} asRow />
+            <DirectionPicker directions={availableDirections} direction={currentDirection} handleChange={setCurrentDirection} endpoints={rd.between} asRow />
+          </CardActions>
         </CardActionArea>
         <ScheduleTable trips={tripsToShow} color={r.routeColor} />
         {/* <CardActions><PrintSchedule routePdf={rd.pdf} /></CardActions> */}
@@ -107,7 +101,7 @@ export const query = graphql`
             stop: stopByFeedIndexAndStopId {
               stopId
               stopName
-              stopDesc
+              stopName
               stopLat
               stopLon
               geojson
@@ -128,7 +122,7 @@ export const query = graphql`
             }
             stop: stopByFeedIndexAndStopId {
               stopId
-              stopDesc
+              stopName
               stopName
               stopLat
               stopLon

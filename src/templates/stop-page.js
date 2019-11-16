@@ -1,19 +1,18 @@
-import React, { useState } from "react";
-import { graphql, Link } from "gatsby";
+import { Card, CardContent, CardHeader, NativeSelect } from "@material-ui/core";
+import { FormControl, FormControlLabel, Input, InputLabel } from "@material-ui/core";
+import { Radio, RadioGroup } from "@material-ui/core";
+import { Timeline } from "@material-ui/icons";
+import { Link, graphql } from "gatsby";
 import _ from "lodash";
+import React, { useState } from "react";
 
 import Layout from "../components/Layout";
-import StopMap from "../components/StopMap";
 import RouteLink from "../components/RouteLink";
-import StopRouteSchedule from "../components/StopRouteSchedule";
 import RoutePredictionsList from "../components/RoutePredictionsList";
-import TopNav from "../components/TopNav";
+import StopMap from "../components/StopMap";
+import StopRouteSchedule from "../components/StopRouteSchedule";
 import StopTransfers from "../components/StopTransfers";
-
-import { Card, CardHeader, AppBar, Toolbar, NativeSelect, CardContent } from "@material-ui/core";
-import { Radio, RadioGroup } from "@material-ui/core";
-import { FormControl, FormControlLabel, InputLabel, Input } from "@material-ui/core";
-import { NetworkCell, Timeline } from "@material-ui/icons";
+import TopNav from "../components/TopNav";
 
 export default ({ data }) => {
   const s = data.postgres.stop;
@@ -46,7 +45,7 @@ export default ({ data }) => {
     <Layout className="pageGrid">
       <TopNav />
       <StopMap
-        name={s.stopDesc || s.stopName}
+        name={s.stopName}
         id={s.stopId}
         coords={[s.stopLon, s.stopLat]}
         shapes={s.routeShapes}
@@ -57,7 +56,7 @@ export default ({ data }) => {
       />
       <div style={{ gridArea: "details" }}>
         <Card>
-        <CardHeader avatar={<Timeline />} title="Bus routes that stop here" titleTypographyProps={{ variant: "h6" }} />
+          <CardHeader avatar={<Timeline />} title="Bus routes that stop here" titleTypographyProps={{ variant: "h6" }} />
           <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
             <FormControl component="fieldset" required style={{ width: "100%" }}>
               {uniqRouteNums.length < 4 ? (
@@ -68,7 +67,7 @@ export default ({ data }) => {
                       value={n}
                       control={<Radio />}
                       onChange={() => setRoute(n)}
-                      label={<RouteLink id={n} small />}
+                      label={<RouteLink id={n} small link={false} />}
                       style={{ width: "100%" }}
                     />
                   ))}
@@ -88,7 +87,7 @@ export default ({ data }) => {
           <CardHeader
             component={Link}
             to={`/route/${route}`}
-            style={{ textDecoration: "none", background: '#eee' }}
+            style={{ textDecoration: "none", background: "#eee" }}
             title={<RouteLink id={route} small />}
             titleTypographyProps={{ variant: "h6" }}
           />
@@ -107,7 +106,7 @@ export default ({ data }) => {
           shapes={s.routeShapes.filter(rs => rs.routeByFeedIndexAndRouteId.routeShortName === route.toString())}
           route={route}
         />
-        <StopTransfers xfers={transferStops} title={`Nearby transfers`}/>
+        <StopTransfers xfers={transferStops} coords={[s.stopLon, s.stopLat]} title={`Nearby transfers`} />
       </div>
     </Layout>
   );
@@ -119,7 +118,6 @@ export const query = graphql`
       stop: stopByFeedIndexAndStopId(stopId: $stopId, feedIndex: 7) {
         stopId
         stopName
-        stopDesc
         stopLat
         stopLon
         geojson
@@ -158,7 +156,7 @@ export const query = graphql`
         }
         nearby: nearbyStopsList {
           stopId
-          stopDesc
+          stopName
           stopLat
           stopLon
           routes: routeShapesList {
