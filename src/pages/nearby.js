@@ -350,7 +350,7 @@ const NearbyPage = ({ data }) => {
 export const query = graphql`
   {
     postgres {
-      shapes: allRouteShapesList(condition: { feedIndex: 5 }) {
+      shapes: allRouteShapesList(condition: { feedIndex: 7 }) {
         dir
         direction
         geojson: simpleGeojson
@@ -366,7 +366,7 @@ export const query = graphql`
           routeSortOrder
         }
       }
-      stops: allStopsList(condition: { feedIndex: 5 }) {
+      stops: allStopsList(condition: { feedIndex: 7 }) {
         stopId
         stopDesc
         stopLat

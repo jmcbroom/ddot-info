@@ -116,7 +116,7 @@ export default ({ data }) => {
 export const query = graphql`
   query($stopId: String!) {
     postgres {
-      stop: stopByFeedIndexAndStopId(stopId: $stopId, feedIndex: 5) {
+      stop: stopByFeedIndexAndStopId(stopId: $stopId, feedIndex: 7) {
         stopId
         stopName
         stopDesc

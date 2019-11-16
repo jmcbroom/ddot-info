@@ -84,13 +84,13 @@ const IndexPage = ({ data }) => {
 export const query = graphql`
   {
     postgres {
-      routes: allRoutesList(condition: { feedIndex: 5 }) {
+      routes: allRoutesList(condition: { feedIndex: 7 }) {
         short: routeShortName
         long: routeLongName
         color: routeColor
         routeId
       }
-      stops: allStopsList(condition: { feedIndex: 5 }) {
+      stops: allStopsList(condition: { feedIndex: 7 }) {
         stopId
         stopDesc
         routes: routeShapesList {
