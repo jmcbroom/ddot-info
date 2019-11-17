@@ -136,8 +136,8 @@ const routes = [{
         days_per_week: ['Monday', 'Sunday'],
         directions: ["eastbound", "westbound"],
         between: ['Warren & Conner', 'Clark & Fort'],
-        via: ['Junction', 'Epworth', 'Joy', 'Harper', 'St. Jean'],
-        description: "Connects various neighborhoods between Jefferson & Lycaste and Clark & Fort. The main streets served are St Jean, Shoemaker, Harper, Owen, Clairmount, Epworth and Junction.",
+        via: ['Junction', 'Epworth', 'Joy', 'Harper'],
+        description: "Connects various neighborhoods between Conner & Warren and Clark & Fort. The main streets served are St Jean, Shoemaker, Harper, Owen, Clairmount, Epworth and Junction.",
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2016/January/11Clairmount.pdf"],
         services: {
             "Monday-Friday": {
@@ -717,7 +717,7 @@ const routes = [{
             westbound: [8910, 444, 446, 737, 448, 449, 451, 452, 454, 429]
         },
         days_per_week: ['Monday', 'Sunday'],
-        between: ['Rosa Parks TC', 'Redford Plaza'],
+        between: ['Fort & Scotten', 'Michigan & Wyoming'],
         via: ['Lafayette', 'W. Grand Blvd.', 'Joy Rd.'],
         pdf: ["http://www.detroitmi.gov/Portals/0/docs/deptoftransportation/pdfs/2017/September2017Schedules/27Joy.pdf"],
         description: "A west side route that connects Detroit from Telegraph & W Chicago (Redford Plaza) to Downtown Rosa Parks Transit Center. The main streets served are Joy Rd, W Lafayette and W Grand Blvd.",

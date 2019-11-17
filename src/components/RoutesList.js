@@ -15,7 +15,7 @@ const RoutesList = ({ routes }) => {
   };
   return (
     <div style={gridStyle}>
-      {routes.map(r => (
+      {routes.sort((a, b) => parseInt(b.short) < parseInt(a.short)).map(r => (
         <RouteLink key={r.short} id={r.short} routeId={r.routeId} background='#eee' icons />
       ))}
     </div>
@@ -23,3 +23,4 @@ const RoutesList = ({ routes }) => {
 };
 
 export default RoutesList;
+ 
